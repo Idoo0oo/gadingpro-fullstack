@@ -1,10 +1,36 @@
-import React from "react";
+// src/components/ProjectsSection.jsx
+import React, { useState, useEffect } from "react"; // Add useState, useEffect
 import { Container, Row, Col, Badge } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { projects } from "../data"; // Pastikan path data sudah benar
+// Remove import { projects } from "../data";
 
 const ProjectsSection = ({ handleShowModal }) => {
   const navigate = useNavigate();
+  const [projects, setProjects] = useState([]); // State for projects
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        // Fetch only a limited number of projects for the homepage section
+        const response = await fetch('http://localhost:5000/public/projects?_limit=6'); // Fetch 6 projects for example
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        setProjects(data.slice(0, 6)); // Ensure only top 6 are used
+      } catch (err) {
+        setError(err.message);
+        // Fallback to local data if API fails, or just show error
+        // setProjects(projects_fallback_from_local_data); // You can keep a local fallback if desired
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProjects();
+  }, []);
 
   // Helper function to determine badge background color
   const getStatusBadgeColor = (status) => {
@@ -23,6 +49,14 @@ const ProjectsSection = ({ handleShowModal }) => {
         return "bg-secondary"; // Default abu-abu untuk status lain
     }
   };
+
+  if (loading) {
+    return <section className="projects py-5 bg-light text-center">Loading latest projects...</section>;
+  }
+
+  if (error) {
+    return <section className="projects py-5 bg-light text-center text-danger">Error loading projects: {error}</section>;
+  }
 
   return (
     <section id="project" className="projects py-5 bg-light">

@@ -1,3 +1,4 @@
+// src/pages/ProjectsPage.jsx
 import { useState, useEffect, useMemo, useCallback } from 'react'; // Add useCallback
 import AOS from 'aos';
 import 'aos/dist/aos.css';
@@ -41,7 +42,7 @@ const ProjectsPage = () => {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/projects'); // Replace with your backend URL
+        const response = await fetch('http://localhost:5000/public/projects'); // <<< UBAH URL INI
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -82,7 +83,6 @@ const ProjectsPage = () => {
     setSearchTerm('');
     setSelectedCategory('Semua');
     setSelectedLocation('Semua Lokasi');
-    setSelectedPriceRange('Semua Harga');
     setSortBy('newest');
   }, []);
 

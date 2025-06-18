@@ -1,3 +1,4 @@
+// src/components/BranchesComponent.jsx
 import { useState, useEffect } from 'react'; // Add useEffect
 import { MapPin, Phone, Instagram, ChevronsUpDown } from 'lucide-react';
 
@@ -12,7 +13,7 @@ const BranchesComponent = () => {
   useEffect(() => {
     const fetchBranches = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/branches'); // Replace with your backend URL
+        const response = await fetch('http://localhost:5000/public/branches'); // <<< UBAH URL INI
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
