@@ -43,7 +43,7 @@ const ProjectsHero = ({ totalProjects, totalLocations }) => {
               Semua <span style={{ color: '#ff6b35' }}>Projects</span>
             </h1>
           </div>
-          <p className="lead fs-4 mb-5 mx-auto" style={{ maxWidth: '800px', lineHeight: '1.6', opacity: 0.9 }}>
+          <p className="lead mb-5 mx-auto" style={{ maxWidth: '800px', lineHeight: '1.6', opacity: 0.9 }}>
             Jelajahi koleksi lengkap project properti terbaik kami.
             Dari hunian modern hingga investasi premium, temukan yang sesuai dengan impian Anda.
           </p>

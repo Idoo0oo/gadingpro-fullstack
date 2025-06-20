@@ -26,9 +26,9 @@ const BrochureCard = ({ project, index }) => {
           style={{ height: '220px', objectFit: 'cover' }}
         />
         <div className="position-absolute top-0 end-0 m-3">
-          <Badge bg={getStatusBadgeColor(project.status)} className="px-3 py-2 rounded-pill">
+          <span className={`badge ${getStatusBadgeColor(project.status)} px-3 py-2 shadow`}>
             {project.status}
-          </Badge>
+          </span>
         </div>
         <div className="position-absolute bottom-0 start-0 m-3">
           <Badge bg="white" text="orange" className="fw-bold px-3 py-2 rounded-pill shadow-sm">

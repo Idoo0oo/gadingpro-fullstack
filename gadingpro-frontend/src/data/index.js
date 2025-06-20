@@ -2,6 +2,8 @@ import People1 from "../assets/img/testimonial/people-1.jpg";
 import People2 from "../assets/img/testimonial/people-2.jpg";
 import People3 from "../assets/img/testimonial/people-3.jpg";
 
+import 'bootstrap-icons/font/bootstrap-icons.css';
+
 export const navLinks = [
   {
     id: 1,
@@ -259,45 +261,45 @@ export const testimonial = [
 export const dataSwiper = [
   {
     id: 1,
-    desc: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolor, saepe a. Quod eos non, dolores sapiente dicta quam esse reprehenderit explicabo vitae nesciunt ut laborum harum, vel optio corporis voluptatem?",
-    image: People1,
-    name: "People 1",
-    skill: "UI UX Designer",
+    desc: "Proses mencari rumah impian saya jadi sangat mudah berkat GadingPro. Timnya responsif dan sangat membantu dalam menemukan properti yang sesuai budget dan lokasi. Sangat direkomendasikan!",
+    image: People1, // Asumsi People1 adalah import gambar
+    name: "Andi Wijaya",
+    skill: "Pembeli Rumah",
   },
   {
     id: 2,
-    desc: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolor, saepe a. Quod eos non, dolores sapiente dicta quam esse reprehenderit explicabo vitae nesciunt ut laborum harum, vel optio corporis voluptatem?",
-    image: People2,
-    name: "People 2",
-    skill: "Flutter Developer",
+    desc: "Saya terkesan dengan pilihan proyek yang beragam dan informasinya sangat detail. Fitur brosur sangat membantu saya membuat keputusan. Pelayanan GadingPro luar biasa!",
+    image: People2, // Asumsi People2 adalah import gambar
+    name: "Budi Santoso",
+    skill: "Investor Properti",
   },
   {
     id: 3,
-    desc: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolor, saepe a. Quod eos non, dolores sapiente dicta quam esse reprehenderit explicabo vitae nesciunt ut laborum harum, vel optio corporis voluptatem?",
-    image: People3,
-    name: "People 3",
-    skill: "Web Developer",
+    desc: "Dari awal hingga serah terima kunci, GadingPro memberikan pendampingan terbaik. Mereka sangat profesional dan transparan. Saya sangat puas dengan hunian baru saya.",
+    image: People3, // Asumsi People3 adalah import gambar
+    name: "Citra Dewi",
+    skill: "Klien GadingPro",
   },
   {
     id: 4,
-    desc: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolor, saepe a. Quod eos non, dolores sapiente dicta quam esse reprehenderit explicabo vitae nesciunt ut laborum harum, vel optio corporis voluptatem?",
-    image: People1,
-    name: "People 4",
-    skill: "UI UX Designer",
+    desc: "Meskipun sibuk, saya bisa menemukan properti yang pas di GadingPro. Antarmuka websitenya user-friendly dan data yang disajikan sangat akurat. Terima kasih GadingPro!",
+    image: People1, // Asumsi People1 adalah import gambar
+    name: "Dini Anggraini",
+    skill: "Profesional Muda",
   },
   {
     id: 5,
-    desc: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolor, saepe a. Quod eos non, dolores sapiente dicta quam esse reprehenderit explicabo vitae nesciunt ut laborum harum, vel optio corporis voluptatem?",
-    image: People2,
-    name: "People 5",
-    skill: "Flutter Developer",
+    desc: "Saya sangat terbantu dengan adanya daftar cabang GadingPro yang lengkap. Bisa langsung datang dan berkonsultasi secara langsung. Stafnya ramah dan penjelasannya mudah dimengerti.",
+    image: People2, // Asumsi People2 adalah import gambar
+    name: "Eko Prasetyo",
+    skill: "Pencari Hunian Keluarga",
   },
   {
     id: 6,
-    desc: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolor, saepe a. Quod eos non, dolores sapiente dicta quam esse reprehenderit explicabo vitae nesciunt ut laborum harum, vel optio corporis voluptatem?",
-    image: People3,
-    name: "People 6",
-    skill: "Web Developer",
+    desc: "Pilihan apartemen di GadingPro sangat bervariasi dan modern. Saya mendapatkan penawaran terbaik dan proses KPR juga dibantu. Layanan purna jualnya juga top!",
+    image: People3, // Asumsi People3 adalah import gambar
+    name: "Fitriani",
+    skill: "Pembeli Apartemen",
   },
 ];
 
@@ -305,50 +307,50 @@ export const faq = [
   {
     id: 1,
     eventKey: 0,
-    title: "Apa itu GadingPro?",
-    desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodoconsequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id estlaborum.",
+    title: "Apa itu GadingPro dan layanan apa saja yang ditawarkan?",
+    desc: "GadingPro adalah platform properti terkemuka yang menyediakan informasi komprehensif mengenai berbagai jenis properti, mulai dari rumah, apartemen, townhouse, hingga kondominium. Kami membantu Anda menemukan hunian impian dengan detail lengkap, lokasi strategis, dan fasilitas terkini.",
   },
   {
     id: 2,
     eventKey: 1,
     title: "Bagaimana cara mencari properti di GadingPro?",
-    desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodoconsequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id estlaborum.",
+    desc: "Anda dapat mencari properti melalui halaman Projects kami. Gunakan filter pencarian berdasarkan lokasi, kategori, tipe properti, rentang harga, atau gunakan kolom pencarian bebas untuk menemukan properti yang sesuai dengan kriteria Anda.",
   },
   {
     id: 3,
     eventKey: 2,
-    title: "Apa saja jenis properti yang tersedia di GadingPro?",
-    desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodoconsequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id estlaborum.",
+    title: "Apakah saya bisa mengunduh brosur properti secara langsung?",
+    desc: "Ya, Anda bisa! Kunjungi halaman Get Brochure kami. Di sana Anda dapat melihat daftar brosur proyek yang tersedia dan mengunduhnya secara langsung dalam format PDF untuk informasi lebih detail.",
   },
   {
     id: 4,
     eventKey: 3,
-    title: "Apakah Ada Grup Diskusi?",
-    desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodoconsequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id estlaborum.",
+    title: "Bagaimana jika saya ingin informasi lebih lanjut atau tertarik dengan suatu properti?",
+    desc: "Anda dapat mengisi formulir permintaan brosur atau formulir kontak yang tersedia di halaman detail proyek atau halaman Contact Us. Tim kami akan segera menghubungi Anda untuk memberikan informasi yang dibutuhkan atau menjadwalkan kunjungan.",
   },
   {
     id: 5,
     eventKey: 4,
-    title: "Apakah dapat di Akses Selamanya?",
-    desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodoconsequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id estlaborum.",
+    title: "Di mana saja lokasi cabang GadingPro berada?",
+    desc: "Kami memiliki berbagai kantor cabang yang tersebar di kota-kota besar di seluruh Indonesia. Anda dapat melihat daftar lengkap alamat, nomor telepon, dan lokasi di Google Maps di halaman 'About' kami untuk menemukan cabang terdekat.",
   },
   {
     id: 6,
     eventKey: 5,
-    title: "Apakah ada Mentornya?",
-    desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodoconsequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id estlaborum.",
+    title: "Apakah GadingPro menyediakan layanan konsultasi KPR?",
+    desc: "Meskipun kami tidak menyediakan KPR secara langsung, kami memiliki kalkulator simulasi KPR di halaman Projects kami untuk membantu Anda mendapatkan gambaran awal estimasi cicilan. Kami juga dapat merekomendasikan mitra perbankan terpercaya.",
   },
   {
     id: 7,
     eventKey: 6,
-    title: "Apakah Saya Boleh Mendownload Videonya?",
-    desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodoconsequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id estlaborum.",
+    title: "Properti apa saja yang tersedia di GadingPro?",
+    desc: "Kami menawarkan beragam jenis properti seperti Cluster, Perumahan, Apartemen, Townhouse, Kondominium, Estate, dan Studio, dengan berbagai status mulai dari Ready Stock, Launching, Pre-Launching, hingga Under Construction.",
   },
   {
     id: 8,
     eventKey: 7,
-    title: "Apakah boleh ganti Kelas ketika sudah Membeli?",
-    desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodoconsequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id estlaborum.",
+    title: "Bagaimana GadingPro memastikan informasi properti akurat?",
+    desc: "Kami bekerja sama langsung dengan pengembang terpercaya dan secara berkala memperbarui data properti untuk memastikan informasi yang kami sajikan akurat dan relevan. Tim kami juga melakukan verifikasi data secara berkala.",
   },
 ];
 

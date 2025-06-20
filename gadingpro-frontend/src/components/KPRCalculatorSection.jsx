@@ -193,7 +193,7 @@ const KPRCalculatorSection = () => {
                           </div>
                         </div>
 
-                        <div className="result-card bg-orange-light p-3 rounded-3 mb-3">
+                        <div className="result-card bg-light p-3 rounded-3 mb-3">
                           <div className="d-flex justify-content-between align-items-center">
                             <span className="text-muted">
                               Angsuran per Bulan

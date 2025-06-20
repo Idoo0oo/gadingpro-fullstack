@@ -59,6 +59,12 @@ const TestimonialSection = () => {
               {dataSwiper.map((data) => (
                 <SwiperSlide key={data.id} className="shadow-sm">
                   <div className="testimonial-card p-4 bg-white rounded-3 h-100">
+                    {/* Bintang Emas ditambahkan di sini */}
+                    <div className="rating mb-3">
+                      {[...Array(5)].map((_, i) => (
+                        <i key={i} className="bi bi-star-fill text-warning me-1"></i>
+                      ))}
+                    </div>
                     <p className="desc mb-4">{data.desc}</p>
                     <div className="d-flex align-items-center">
                       <div className="people me-3">
