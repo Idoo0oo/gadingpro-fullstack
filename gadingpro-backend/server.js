@@ -19,8 +19,8 @@ const JWT_SECRET = process.env.JWT_SECRET;
 const allowedOrigins = [
   'http://localhost:5173', // Untuk pengembangan lokal frontend
   'http://localhost:3001', // Untuk pengembangan lokal admin panel
-  'https://ff86-118-137-88-147.ngrok-free.app', // GANTI DENGAN URL NGROK FRONTEND SAAT INI
-  'https://c4ec-118-137-88-147.ngrok-free.app' // GANTI DENGAN URL NGROK ADMIN PANEL SAAT INI
+  'https://gadingpro.netlify.app',
+  'https://gadingpro-admin.netlify.app'
 ];
 
 // Middleware
