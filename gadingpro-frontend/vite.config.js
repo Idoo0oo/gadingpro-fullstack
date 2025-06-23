@@ -5,6 +5,7 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   server: { 
-    allowedHosts: ['8c29-118-137-88-147.ngrok-free.app'],
+    host: true, // Ini akan membuat Vite mendengarkan di semua alamat IP yang tersedia
+    allowedHosts: true
   }
 })

@@ -16,9 +16,28 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 const JWT_SECRET = process.env.JWT_SECRET;
 
+const allowedOrigins = [
+  'http://localhost:5173', // Untuk pengembangan lokal frontend
+  'http://localhost:3001', // Untuk pengembangan lokal admin panel
+  'https://ff86-118-137-88-147.ngrok-free.app', // GANTI DENGAN URL NGROK FRONTEND SAAT INI
+  'https://c4ec-118-137-88-147.ngrok-free.app' // GANTI DENGAN URL NGROK ADMIN PANEL SAAT INI
+];
+
 // Middleware
 app.use(cors({
-  exposedHeaders: ['X-Total-Count'] // Penting: Mengizinkan browser membaca header ini
+  origin: function (origin, callback) {
+    // izinkan permintaan tanpa origin (seperti dari aplikasi seluler atau curl)
+    // atau jika origin ada di daftar allowedOrigins
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Izinkan metode HTTP yang relevan
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Total-Count'], // Pastikan Authorization juga diizinkan
+  exposedHeaders: ['X-Total-Count'], // Penting untuk react-admin pagination
+  credentials: true // Jika Anda mengirim cookie atau header otorisasi
 }));
 app.use(express.json());
 
