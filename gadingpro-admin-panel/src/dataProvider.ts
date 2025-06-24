@@ -3,7 +3,18 @@ import { stringify } from 'query-string';
 import { fetchUtils } from 'react-admin';
 import type { DataProvider, PaginationPayload, SortPayload } from 'react-admin';
 
-const apiUrl = 'http://localhost:5000/api';
+const currentOrigin = window.location.origin;
+let backendBaseUrl: string;
+
+if (currentOrigin.includes('.devtunn.ms') || currentOrigin.includes('.vercel.app')) {
+  const backendPort = import.meta.env.VITE_APP_BACKEND_PORT;
+  backendBaseUrl = currentOrigin.replace(/-\d+\.(devtunn\.ms|vercel\.app)/, `-${backendPort}.$1`);
+} else {
+  backendBaseUrl = `http://localhost:${import.meta.env.VITE_APP_BACKEND_PORT}`;
+}
+
+// Menggunakan variabel lingkungan dari Vite
+const apiUrlBase = `${backendBaseUrl}${import.meta.env.VITE_APP_API_BASE_PATH}`;
 
 const httpClient = (url: string, options: fetchUtils.Options = {}) => {
     const token = localStorage.getItem('token');
@@ -39,39 +50,24 @@ const dataProvider: DataProvider = {
         delete customFilters.id;
         Object.assign(query, customFilters);
 
-        const url = `${apiUrl}/${resource}?${stringify(query)}`;
+        const url = `${apiUrlBase}/${resource}?${stringify(query)}`;
         
-        console.log('DEBUG: dataProvider trying to fetch URL:', url);
+        // console.log('DEBUG: dataProvider trying to fetch URL:', url); // Hapus log ini di produksi
 
         return httpClient(url).then(({ headers, json }) => {
-            // --- DEBUG LOGS BARU ---
-            console.log('DEBUG: Raw X-Total-Count header:', headers.get('x-total-count'));
-            console.log('DEBUG: Raw JSON response:', json);
-
-            // Sederhanakan parsing total count untuk kasus hanya angka
-            const totalCount = parseInt(headers.get('x-total-count') || '0', 10);
-            
-            console.log('DEBUG: Parsed Total Count:', totalCount);
-            console.log('DEBUG: Sample Data (first item):', json && json.length > 0 ? json[0] : 'No data');
-            // --- AKHIR DEBUG LOGS BARU ---
-
+           const totalCount = parseInt(headers.get('x-total-count') || '0', 10);
             return {
                 data: json,
-                total: totalCount, // Gunakan totalCount yang sudah disederhanakan
+                total: totalCount,
             };
         });
     },
 
-    getOne: (resource, params) =>
-        httpClient(`${apiUrl}/${resource}/${params.id}`).then(({ json }) => ({
-            data: json,
-        })),
-
+     getOne: (resource, params) =>
+        httpClient(`${apiUrlBase}/${resource}/${params.id}`).then(({ json }) => ({ data: json })),
     getMany: (resource, params) => {
-        const query = {
-            id: params.ids, // Array of IDs
-        };
-        const url = `${apiUrl}/${resource}?${stringify(query)}`;
+        const query = { id: params.ids };
+        const url = `${apiUrlBase}/${resource}?${stringify(query)}`;
         return httpClient(url).then(({ json }) => ({ data: json }));
     },
 
@@ -90,55 +86,27 @@ const dataProvider: DataProvider = {
         // Add other custom filters from React Admin if needed
         Object.assign(query, params.filter);
 
-        const url = `${apiUrl}/${resource}?${stringify(query)}`;
-
-        return httpClient(url).then(({ headers, json }) => ({
-            data: json,
-            total: parseInt(headers.get('x-total-count')?.split('/').pop() || '0', 10),
-        }));
+        const url = `${apiUrlBase}/${resource}?${stringify(query)}`;
+        return httpClient(url).then(({ headers, json }) => ({ data: json, total: parseInt(headers.get('x-total-count') || '0', 10) }));
     },
 
     update: (resource, params) =>
-        httpClient(`${apiUrl}/${resource}/${params.id}`, {
-            method: 'PUT',
-            body: JSON.stringify(params.data),
-        }).then(({ json }) => ({ data: json })),
+        httpClient(`${apiUrlBase}/${resource}/${params.id}`, { method: 'PUT', body: JSON.stringify(params.data) }).then(({ json }) => ({ data: json })),
 
     updateMany: (resource, params) => {
-        const query = {
-            id: params.ids,
-        };
-        // Note: updateMany might not be directly supported by a simple REST API
-        // You might need to loop through params.ids and send multiple PUT requests,
-        // or implement a custom bulk update endpoint in your backend.
-        // For simplicity, let's assume the backend can handle a filter by IDs in PUT for now.
-        // If not, React Admin will fallback to multiple single updates.
-        return httpClient(`${apiUrl}/${resource}?${stringify(query)}`, {
-            method: 'PUT',
-            body: JSON.stringify(params.data),
-        }).then(({ json }) => ({ data: json }));
+        return Promise.all(params.ids.map(id => httpClient(`${apiUrlBase}/${resource}/${id}`, { method: 'PUT', body: JSON.stringify(params.data) }))).then(() => ({ data: params.ids }));
     },
 
     create: (resource, params) =>
-        httpClient(`${apiUrl}/${resource}`, {
-            method: 'POST',
-            body: JSON.stringify(params.data),
-        }).then(({ json }) => ({
-            data: json,
-        })),
+        httpClient(`${apiUrlBase}/${resource}`, { method: 'POST', body: JSON.stringify(params.data) }).then(({ json }) => ({ data: json })),
 
     delete: (resource, params) =>
-        httpClient(`${apiUrl}/${resource}/${params.id}`, {
-            method: 'DELETE',
-        }).then(({ json }) => ({ data: json })),
+        httpClient(`${apiUrlBase}/${resource}/${params.id}`, { method: 'DELETE' }).then(({ json }) => ({ data: json })),
 
-    deleteMany: (resource, params) => {
-        const query = {
-            id: params.ids, // Array of IDs
-        };
-        return httpClient(`${apiUrl}/${resource}?${stringify(query)}`, {
-            method: 'DELETE',
-        }).then(() => ({ data: params.ids })); // React Admin expects the deleted IDs back
+   deleteMany: (resource, params) => {
+        const query = { id: params.ids };
+        const url = `${apiUrlBase}/${resource}?${stringify(query)}`;
+        return httpClient(url, { method: 'DELETE' }).then(() => ({ data: params.ids }));
     },
 };
 

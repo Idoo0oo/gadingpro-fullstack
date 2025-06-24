@@ -1,4 +1,8 @@
+// gadingpro-fullstack/gadingpro-frontend/src/App.jsx
 import { Routes, Route } from "react-router-dom";
+import { useEffect } from 'react'; // Import useEffect
+import AOS from 'aos'; // Import AOS
+import 'aos/dist/aos.css'; // Import AOS CSS
 
 import NavbarComponent from "./components/NavbarComponent";
 import FooterComponent from "./components/FooterComponent";
@@ -12,6 +16,16 @@ import ContactPage from './pages/ContactPage';
 import ScrollToTop from "./components/ScrollToTop";
 
 function App() {
+  // Inisialisasi AOS sekali di sini
+  useEffect(() => {
+    AOS.init({
+      duration: 600,
+      easing: 'ease-out-sine',
+      once: true,
+      offset: 100,
+    });
+  }, []);
+
   return <div>
       <NavbarComponent />
       <ScrollToTop />

@@ -7,5 +7,6 @@ export default defineConfig({
   server: { 
     host: true, // Ini akan membuat Vite mendengarkan di semua alamat IP yang tersedia
     allowedHosts: true
-  }
+  },
+  envPrefix: 'VITE_', 
 })

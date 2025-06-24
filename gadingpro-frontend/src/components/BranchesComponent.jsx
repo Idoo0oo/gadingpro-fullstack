@@ -1,21 +1,41 @@
-// src/components/BranchesComponent.jsx
-import { useState, useEffect } from 'react'; // Add useEffect
+// gadingpro-fullstack/gadingpro-frontend/src/components/BranchesComponent.jsx
+import { useState, useEffect } from 'react';
 import { MapPin, Phone, Instagram, ChevronsUpDown } from 'lucide-react';
 
 const BranchesComponent = () => {
   const [showAll, setShowAll] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
-  const [branches, setBranches] = useState([]); // State to hold branches fetched from API
+  const [branches, setBranches] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Fetch branches from backend
   useEffect(() => {
     const fetchBranches = async () => {
       try {
-        const response = await fetch('http://localhost:5000/public/branches'); // <<< UBAH URL INI
+        // --- START PERUBAHAN UTAMA DI SINI ---
+        const currentOrigin = window.location.origin; // e.g., http://localhost:5173 atau https://70x90zx-5173.devtunn.ms
+        let backendBaseUrl;
+
+        // Deteksi jika kita berada di lingkungan devtunnels atau Vercel Preview
+        if (currentOrigin.includes('.devtunn.ms') || currentOrigin.includes('.vercel.app')) {
+          const backendPort = import.meta.env.VITE_APP_BACKEND_PORT; // Ambil port backend dari .env
+          // Ganti angka port di URL origin saat ini dengan port backend
+          // Regex ini cocok dengan angka port apapun dan domain .devtunn.ms atau .vercel.app
+          backendBaseUrl = currentOrigin.replace(/-\d+\.(devtunn\.ms|vercel\.app)/, `-${backendPort}.$1`);
+        } else {
+          // Jika tidak di devtunnels, asumsikan localhost
+          backendBaseUrl = `http://localhost:${import.meta.env.VITE_APP_BACKEND_PORT}`;
+        }
+        
+        // Gabungkan base URL backend dengan path API spesifik
+        const apiUrl = `${backendBaseUrl}${import.meta.env.VITE_APP_API_BASE_PATH}/branches`;
+        // --- AKHIR PERUBAHAN UTAMA ---
+
+        const response = await fetch(apiUrl);
         if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+          // Jika respons bukan OK, coba baca error sebagai teks
+          const errorText = await response.text();
+          throw new Error(`HTTP error! status: ${response.status} - ${errorText.substring(0, 100)}...`); // Log awal respons HTML
         }
         const data = await response.json();
         setBranches(data);
@@ -30,7 +50,6 @@ const BranchesComponent = () => {
   }, []);
 
 
-  // Filter branches based on search term
   const filteredBranches = branches.filter(branch =>
     branch.city.toLowerCase().includes(searchTerm.toLowerCase()) ||
     branch.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -61,7 +80,6 @@ const BranchesComponent = () => {
           </p>
         </div>
 
-        {/* Search Bar */}
         <div className="mb-4">
           <div className="input-group" style={{ maxWidth: '500px', margin: '0 auto' }}>
             <input
@@ -117,25 +135,29 @@ const BranchesComponent = () => {
                     </div>
 
                     <div className="d-flex" style={{ gap: '8px' }}>
-                      <a
-                        href={branch.googleMaps}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="btn btn-outline-orange btn-sm flex-grow-1 d-flex align-items-center justify-content-center py-1 px-2"
-                      >
-                        <i className="fa-solid fa-location-dot me-2"></i>
-                        Google Maps
-                      </a>
+                      {branch.googleMaps && (
+                        <a
+                          href={branch.googleMaps}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="btn btn-outline-orange btn-sm flex-grow-1 d-flex align-items-center justify-content-center py-1 px-2"
+                        >
+                          <i className="fa-solid fa-location-dot me-2"></i>
+                          Google Maps
+                        </a>
+                      )}
 
-                      <a
-                        href={branch.instagram}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="btn btn-orange btn-sm flex-grow-1 d-flex align-items-center justify-content-center py-1 px-2"
-                      >
-                        <i className="fa-brands fa-instagram me-2"></i>
-                        Instagram
-                      </a>
+                      {branch.instagram && (
+                        <a
+                          href={branch.instagram}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="btn btn-orange btn-sm flex-grow-1 d-flex align-items-center justify-content-center py-1 px-2"
+                        >
+                          <i className="fa-brands fa-instagram me-2"></i>
+                          Instagram
+                        </a>
+                      )}
                     </div>
                   </div>
                 </div>

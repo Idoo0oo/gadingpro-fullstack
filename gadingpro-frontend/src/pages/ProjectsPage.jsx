@@ -1,32 +1,16 @@
-// src/pages/ProjectsPage.jsx
-import { useState, useEffect, useMemo, useCallback } from 'react'; // Add useCallback
-import AOS from 'aos';
-import 'aos/dist/aos.css';
+// gadingpro-fullstack/gadingpro-frontend/src/pages/ProjectsPage.jsx
+import { useState, useEffect, useMemo, useCallback } from 'react';
 
-// Remove this line as data will come from API
-// import { projectsAll } from '../data/index';
-
-// Import components
 import ProjectsHero from '../components/ProjectsHero';
 import ProjectsContent from '../components/ProjectsContent';
 import ProjectDetailModal from '../components/ProjectDetailModal';
 import FaqComponent from '../components/FaqComponent';
 
 const ProjectsPage = () => {
-  useEffect(() => {
-    AOS.init({
-      duration: 600,
-      easing: 'ease-out-sine',
-      once: true,
-      offset: 100,
-    });
-  }, []);
-
-  const [projectsAll, setProjectsAll] = useState([]); // State to hold projects fetched from API
+  const [projectsAll, setProjectsAll] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // State for filters
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('Semua');
   const [selectedLocation, setSelectedLocation] = useState('Semua Lokasi');
@@ -34,15 +18,30 @@ const ProjectsPage = () => {
   const [sortBy, setSortBy] = useState('newest');
   const [viewMode, setViewMode] = useState('grid');
 
-  // State for Modal
   const [showModal, setShowModal] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
 
-  // Fetch projects from backend
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const response = await fetch('http://localhost:5000/public/projects'); // <<< UBAH URL INI
+        // --- START PERUBAHAN DI SINI ---
+        const currentOrigin = window.location.origin; // e.g., http://localhost:5173 atau https://70x90zx-5173.devtunn.ms
+        let backendBaseUrl;
+
+        // Deteksi jika kita berada di lingkungan devtunnels atau Vercel Preview
+        if (currentOrigin.includes('.devtunn.ms') || currentOrigin.includes('.vercel.app')) {
+          const backendPort = import.meta.env.VITE_APP_BACKEND_PORT; // Ambil port backend dari .env
+          // Ganti angka port di URL origin saat ini dengan port backend
+          backendBaseUrl = currentOrigin.replace(/-\d+\.(devtunn\.ms|vercel\.app)/, `-${backendPort}.$1`);
+        } else {
+          // Jika tidak di devtunnels, asumsikan localhost
+          backendBaseUrl = `http://localhost:${import.meta.env.VITE_APP_BACKEND_PORT}`;
+        }
+        
+        const apiUrl = `${backendBaseUrl}${import.meta.env.VITE_APP_API_BASE_PATH}/projects`;
+        // --- AKHIR PERUBAHAN ---
+
+        const response = await fetch(apiUrl);
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -58,16 +57,14 @@ const ProjectsPage = () => {
     fetchProjects();
   }, []);
 
-  // Helper function to parse price
-  const parsePrice = (priceString) => {
-    // Handle cases where price might be undefined or null from backend
+  const parsePrice = useCallback((priceString) => {
     if (!priceString) return 0;
     const numStr = priceString.replace(/[^\d.,]/g, '').replace(',', '.');
     const num = parseFloat(numStr);
     if (priceString.includes('Miliar')) return num * 1000;
     if (priceString.includes('Juta')) return num;
     return num;
-  };
+  }, []);
 
   const handleOpenModal = useCallback((project) => {
     setSelectedProject(project);
@@ -83,16 +80,16 @@ const ProjectsPage = () => {
     setSearchTerm('');
     setSelectedCategory('Semua');
     setSelectedLocation('Semua Lokasi');
+    setSelectedPriceRange('Semua Harga');
     setSortBy('newest');
   }, []);
 
-  // Filter and sort projects
   const filteredProjects = useMemo(() => {
     let filtered = projectsAll.filter((project) => {
       const matchesSearch =
         project.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         project.location.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        (project.developer && project.developer.toLowerCase().includes(searchTerm.toLowerCase())); // Check if developer exists
+        (project.developer && project.developer.toLowerCase().includes(searchTerm.toLowerCase()));
 
       const matchesCategory = selectedCategory === 'Semua' || project.category === selectedCategory;
 
@@ -107,13 +104,13 @@ const ProjectsPage = () => {
             matchesPrice = projectPrice < 1000;
             break;
           case 'Rp 1 - 2 Miliar':
-            matchesPrice = projectPrice >= 1000 && projectPrice <= 2000;
+            matchesPrice = projectPrice >= 1000 && projectPrice < 2000;
             break;
           case 'Rp 2 - 3 Miliar':
-            matchesPrice = projectPrice >= 2000 && projectPrice <= 3000;
+            matchesPrice = projectPrice >= 2000 && projectPrice < 3000;
             break;
           case '> Rp 3 Miliar':
-            matchesPrice = projectPrice > 3000;
+            matchesPrice = projectPrice >= 3000;
             break;
           default:
             matchesPrice = true;
@@ -125,7 +122,7 @@ const ProjectsPage = () => {
     filtered.sort((a, b) => {
       switch (sortBy) {
         case 'newest':
-          return (b.completionYear || 0) - (a.completionYear || 0); // Handle undefined completionYear
+          return (b.completionYear || 0) - (a.completionYear || 0);
         case 'oldest':
           return (a.completionYear || 0) - (b.completionYear || 0);
         case 'price-low':
@@ -142,7 +139,6 @@ const ProjectsPage = () => {
     return filtered;
   }, [projectsAll, searchTerm, selectedCategory, selectedLocation, selectedPriceRange, sortBy, parsePrice]);
 
-  // Calculate stats
   const stats = useMemo(() => {
     if (loading || error) {
       return {
@@ -167,14 +163,22 @@ const ProjectsPage = () => {
       }
     });
 
-    const avgPrice = validProjectsForAvg > 0 ? totalPrices / validProjectsForAvg : 0;
-    const averagePrice = avgPrice >= 1000 ? `Rp ${(avgPrice / 1000).toFixed(1)} M` : (avgPrice > 0 ? `Rp ${avgPrice.toFixed(0)} Jt` : 'N/A');
+    let averagePriceFormatted = 'N/A';
+    if (validProjectsForAvg > 0) {
+      const avgPrice = totalPrices / validProjectsForAvg;
+      if (avgPrice >= 1000) {
+        averagePriceFormatted = `Rp ${(avgPrice / 1000).toFixed(1)} M`;
+      } else {
+        averagePriceFormatted = `Rp ${avgPrice.toFixed(0)} Jt`;
+      }
+    }
+
 
     return {
       totalProjects: projectsAll.length,
       totalLocations,
       completedProjects,
-      averagePrice,
+      averagePrice: averagePriceFormatted,
     };
   }, [projectsAll, loading, error, parsePrice]);
 

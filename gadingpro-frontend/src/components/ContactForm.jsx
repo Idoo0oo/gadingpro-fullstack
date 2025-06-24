@@ -1,5 +1,5 @@
-// src/components/ContactForm.jsx
-import React, { useState } from 'react'; // Pastikan useState di-import
+// gadingpro-fullstack/gadingpro-frontend/src/components/ContactForm.jsx
+import React, { useState } from 'react';
 import { Container, Row, Col, Form, Button, Alert } from 'react-bootstrap';
 import { Send, User, Mail, Phone, MessageSquare } from 'lucide-react';
 import AOS from 'aos';
@@ -32,7 +32,7 @@ const ContactForm = () => {
     setError(null); // Hapus error sebelumnya
 
     try {
-      const response = await fetch('http://localhost:5000/api/inquiry', { // Endpoint API backend Anda
+      const response = await fetch(`<span class="math-inline">\{backendBaseUrl\}</span>{import.meta.env.VITE_APP_API_BASE_PATH}/inquiry`, { // Tambahkan window.location.origin 
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

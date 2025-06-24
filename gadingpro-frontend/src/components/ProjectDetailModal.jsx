@@ -2,8 +2,11 @@
 
 import React, { useEffect } from 'react';
 import { Modal, Button, Row, Col, Badge } from 'react-bootstrap'; // Import komponen dari react-bootstrap
+import { useNavigate } from 'react-router-dom'; // Import useNavigate untuk navigasi dari modal
 
 const ProjectDetailModal = ({ project, showModal, handleCloseModal }) => {
+  const navigate = useNavigate(); // Inisialisasi useNavigate
+
   // Efek untuk menutup modal saat tombol 'Escape' ditekan
   useEffect(() => {
     const handleEsc = (event) => {
@@ -33,8 +36,7 @@ const ProjectDetailModal = ({ project, showModal, handleCloseModal }) => {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body className="px-4 pb-4">
-        {/* selectedProject diganti project sesuai prop */}
-        {project && (
+        {project && ( // Menggunakan 'project' langsung
           <div className="property-detail">
             {/* Header Section */}
             <div className="property-header mb-4">
@@ -57,8 +59,12 @@ const ProjectDetailModal = ({ project, showModal, handleCloseModal }) => {
                       bg={
                         project.status === "Ready Stock"
                           ? "success"
-                          : project.status === "Pre Launching"
+                          : project.status === "Pre-Launching" // Pastikan konsisten dengan backend/seed
                           ? "warning"
+                          : project.status === "Launching"
+                          ? "primary"
+                          : project.status === "Under Construction"
+                          ? "info"
                           : "secondary"
                       }
                       className="px-3 py-2 fs-6"
@@ -174,7 +180,7 @@ const ProjectDetailModal = ({ project, showModal, handleCloseModal }) => {
                 </div>
 
                 {/* Features (Spesifikasi Teknis) */}
-                {project.features && (
+                {project.features && Object.keys(project.features).length > 0 && ( // Pastikan features ada dan tidak kosong
                   <div className="property-features mb-4">
                     <h5 className="fw-bold mb-3">
                       <i className="fa-solid fa-cog text-orange me-2"></i>
@@ -207,7 +213,7 @@ const ProjectDetailModal = ({ project, showModal, handleCloseModal }) => {
                     Fasilitas
                   </h5>
                   <div className="facilities-list">
-                    {project.facilities.map((facility, index) => (
+                    {project.facilities && project.facilities.map((facility, index) => ( // Pastikan facilities ada
                       <div
                         key={index}
                         className="facility-item d-flex align-items-center mb-2"
@@ -225,7 +231,15 @@ const ProjectDetailModal = ({ project, showModal, handleCloseModal }) => {
                     Tertarik dengan properti ini?
                   </h6>
                   <div className="d-grid gap-2">
-                    <Button variant="orange" size="sm" className="fw-medium">
+                    <Button
+                      variant="orange"
+                      size="sm"
+                      className="fw-medium"
+                      onClick={() => {
+                        handleCloseModal();
+                        navigate("/contact-us");
+                      }}
+                    >
                       <i className="fa-solid fa-phone me-2"></i>
                       Hubungi Sales
                     </Button>

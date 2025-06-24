@@ -1,3 +1,4 @@
+// gadingpro-fullstack/gadingpro-frontend/src/data/index.js
 import People1 from "../assets/img/testimonial/people-1.jpg";
 import People2 from "../assets/img/testimonial/people-2.jpg";
 import People3 from "../assets/img/testimonial/people-3.jpg";
@@ -28,6 +29,8 @@ export const navLinks = [
 ];
 
 export const projects = [
+  // Pertahankan ini jika masih digunakan sebagai data fallback atau data spesifik homepage yang tidak selalu sama dengan API.
+  // Jika tidak, Anda bisa menghapus seluruh array 'projects' ini juga.
   {
     id: 1,
     name: "Griya Harmoni Residence",
@@ -133,7 +136,7 @@ export const projects = [
       water: "PDAM + Sumur Bor",
       flooring: "Parket + Granit",
       ceiling: "Plafon Gypsum Mewah",
-      structure: "Beton Bertulang Premium"
+      structure: "Beton Bertulang Premium + Steel Frame"
     }
   },
   {
@@ -325,7 +328,7 @@ export const faq = [
   {
     id: 4,
     eventKey: 3,
-    title: "Bagaimana jika saya ingin informasi lebih lanjut atau tertarik dengan suatu properti?",
+    title: "Bagaimana jika saya ingin informasi lebih tentang  suatu properti?",
     desc: "Anda dapat mengisi formulir permintaan brosur atau formulir kontak yang tersedia di halaman detail proyek atau halaman Contact Us. Tim kami akan segera menghubungi Anda untuk memberikan informasi yang dibutuhkan atau menjadwalkan kunjungan.",
   },
   {
@@ -423,255 +426,8 @@ export const projectByLocation = [
   }
 ];
 
-export const projectsAll = [
-  {
-    id: 1,
-    name: "Grand Orchid Residence",
-    location: "Bekasi, Jawa Barat",
-    price: "Rp 850 Juta",
-    status: "Ready Stock",
-    brochureLink: "/assets/brochures/modern-home.pdf",
-    image: "https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg?auto=compress&cs=tinysrgb&w=800",
-    // --- TAMBAHKAN ARRAY IMAGES DI SINI ---
-    images: [
-      "https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg?auto=compress&cs=tinysrgb&w=800", // Gambar utama
-      "https://images.pexels.com/photos/206172/pexels-photo-206172.jpeg?auto=compress&cs=tinysrgb&w=800",
-      "https://images.pexels.com/photos/259649/pexels-photo-259649.jpeg?auto=compress&cs=tinysrgb&w=800",
-      "https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?auto=compress&cs=tinysrgb&w=800"
-    ],
-    // --- AKHIR TAMBAH ---
-    bedrooms: 3,
-    bathrooms: 2,
-    garage: 1,
-    landSize: 84,
-    buildingSize: 60,
-    facilities: ["Swimming Pool", "Playground", "Security 24/7", "Masjid", "Taman"],
-    category: "Cluster",
-    type: "Rumah",
-    developer: "Orchid Property",
-    completionYear: 2024,
-    description: "Hunian modern dengan desain minimalis di kawasan strategis Bekasi"
-  },
-  {
-    id: 2,
-    name: "Emerald Park Village",
-    location: "Tangerang, Banten",
-    price: "Rp 1.2 Miliar",
-    status: "Launching",
-    brochureLink: "/assets/brochures/modern-home.pdf",
-    image: "https://images.pexels.com/photos/1396122/pexels-photo-1396122.jpeg?auto=compress&cs=tinysrgb&w=800",
-    // --- TAMBAHKAN ARRAY IMAGES DI SINI ---
-    images: [
-      "https://images.pexels.com/photos/1396122/pexels-photo-1396122.jpeg?auto=compress&cs=tinysrgb&w=800",
-      "https://images.pexels.com/photos/101808/pexels-photo-101808.jpeg?auto=compress&cs=tinysrgb&w=800",
-      "https://images.pexels.com/photos/259588/pexels-photo-259588.jpeg?auto=compress&cs=tinysrgb&w=800",
-      "https://images.pexels.com/photos/276724/pexels-photo-276724.jpeg?auto=compress&cs=tinysrgb&w=800"
-    ],
-    // --- AKHIR TAMBAH ---
-    bedrooms: 4,
-    bathrooms: 3,
-    garage: 2,
-    landSize: 120,
-    buildingSize: 90,
-    facilities: ["Club House", "Jogging Track", "CCTV", "Posyandu", "Mini Market"],
-    category: "Perumahan",
-    type: "Rumah",
-    developer: "Emerald Developer",
-    completionYear: 2025,
-    description: "Perumahan premium dengan konsep green living dan fasilitas lengkap"
-  },
-  {
-    id: 3,
-    name: "Sunset Heights Apartment",
-    location: "Jakarta Selatan, DKI Jakarta",
-    price: "Rp 2.5 Miliar",
-    status: "Pre-Launching",
-    brochureLink: "/assets/brochures/modern-home.pdf",
-    image: "https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg?auto=compress&cs=tinysrgb&w=800",
-    // --- TAMBAHKAN ARRAY IMAGES DI SINI ---
-    images: [
-      "https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg?auto=compress&cs=tinysrgb&w=800",
-      "https://images.pexels.com/photos/279746/pexels-photo-279746.jpeg?auto=compress&cs=tinysrgb&w=800",
-      "https://images.pexels.com/photos/164522/pexels-photo-164522.jpeg?auto=compress&cs=tinysrgb&w=800",
-      "https://images.pexels.com/photos/271816/pexels-photo-271816.jpeg?auto=compress&cs=tinysrgb&w=800"
-    ],
-    // --- AKHIR TAMBAH ---
-    bedrooms: 2,
-    bathrooms: 2,
-    garage: 1,
-    landSize: 0,
-    buildingSize: 75,
-    facilities: ["Sky Garden", "Gym", "Concierge", "Ballroom", "Business Center"],
-    category: "Apartemen",
-    type: "Apartemen",
-    developer: "Sunset Development",
-    completionYear: 2026,
-    description: "Apartemen mewah dengan pemandangan kota yang menakjubkan"
-  },
-  {
-    id: 4,
-    name: "Pine Valley Townhouse",
-    location: "Bogor, Jawa Barat",
-    price: "Rp 1.8 Miliar",
-    status: "Ready Stock",
-    brochureLink: "/assets/brochures/modern-home.pdf",
-    image: "https://images.pexels.com/photos/1370704/pexels-photo-1370704.jpeg?auto=compress&cs=tinysrgb&w=800",
-    // --- TAMBAHKAN ARRAY IMAGES DI SINI ---
-    images: [
-      "https://images.pexels.com/photos/1370704/pexels-photo-1370704.jpeg?auto=compress&cs=tinysrgb&w=800",
-      "https://images.pexels.com/photos/101808/pexels-photo-101808.jpeg?auto=compress&cs=tinysrgb&w=800", // Contoh lain
-      "https://images.pexels.com/photos/259588/pexels-photo-259588.jpeg?auto=compress&cs=tinysrgb&w=800", // Contoh lain
-      "https://images.pexels.com/photos/276724/pexels-photo-276724.jpeg?auto=compress&cs=tinysrgb&w=800"
-    ],
-    // --- AKHIR TAMBAH ---
-    bedrooms: 3,
-    bathrooms: 3,
-    garage: 2,
-    landSize: 150,
-    buildingSize: 120,
-    facilities: ["Private Garden", "Home Automation", "Solar Panel", "Rain Water Harvesting"],
-    category: "Townhouse",
-    type: "Rumah",
-    developer: "Pine Valley Corp",
-    completionYear: 2024,
-    description: "Townhouse eksklusif dengan teknologi smart home dan konsep eco-friendly"
-  },
-  {
-    id: 5,
-    name: "Lotus Garden Residence",
-    location: "Depok, Jawa Barat",
-    price: "Rp 950 Juta",
-    status: "Under Construction",
-    brochureLink: "/assets/brochures/modern-home.pdf",
-    image: "https://images.pexels.com/photos/280222/pexels-photo-280222.jpeg?auto=compress&cs=tinysrgb&w=800",
-    // --- TAMBAHKAN ARRAY IMAGES DI SINI ---
-    images: [
-      "https://images.pexels.com/photos/280222/pexels-photo-280222.jpeg?auto=compress&cs=tinysrgb&w=800",
-      "https://images.pexels.com/photos/206172/pexels-photo-206172.jpeg?auto=compress&cs=tinysrgb&w=800",
-      "https://images.pexels.com/photos/259649/pexels-photo-259649.jpeg?auto=compress&cs=tinysrgb&w=800"
-    ],
-    // --- AKHIR TAMBAH ---
-    bedrooms: 3,
-    bathrooms: 2,
-    garage: 1,
-    landSize: 96,
-    buildingSize: 72,
-    facilities: ["Central Park", "Children Playground", "Klinik", "Food Court", "ATM Center"],
-    category: "Cluster",
-    type: "Rumah",
-    developer: "Lotus Property",
-    completionYear: 2025,
-    description: "Hunian nyaman dengan akses mudah ke berbagai fasilitas publik"
-  },
-  {
-    id: 6,
-    name: "Golden Bay Residence",
-    location: "Bekasi, Jawa Barat",
-    price: "Rp 1.1 Miliar",
-    status: "Ready Stock",
-    brochureLink: "/assets/brochures/modern-home.pdf",
-    image: "https://images.pexels.com/photos/1475938/pexels-photo-1475938.jpeg?auto=compress&cs=tinysrgb&w=800",
-    // --- TAMBAHKAN ARRAY IMAGES DI SINI ---
-    images: [
-      "https://images.pexels.com/photos/1475938/pexels-photo-1475938.jpeg?auto=compress&cs=tinysrgb&w=800",
-      "https://images.pexels.com/photos/101808/pexels-photo-101808.jpeg?auto=compress&cs=tinysrgb&w=800",
-      "https://images.pexels.com/photos/259588/pexels-photo-259588.jpeg?auto=compress&cs=tinysrgb&w=800"
-    ],
-    // --- AKHIR TAMBAH ---
-    bedrooms: 4,
-    bathrooms: 3,
-    garage: 2,
-    landSize: 105,
-    buildingSize: 85,
-    facilities: ["Waterpark", "Tennis Court", "Badminton Court", "Sauna", "Spa"],
-    category: "Perumahan",
-    type: "Rumah",
-    developer: "Golden Developer",
-    completionYear: 2024,
-    description: "Perumahan mewah dengan fasilitas rekreasi yang lengkap"
-  },
-  {
-    id: 7,
-    name: "Azure Sky Condominium",
-    location: "Jakarta Pusat, DKI Jakarta",
-    price: "Rp 3.2 Miliar",
-    status: "Launching",
-    brochureLink: "/assets/brochures/modern-home.pdf",
-    image: "https://images.pexels.com/photos/1029599/pexels-photo-1029599.jpeg?auto=compress&cs=tinysrgb&w=800",
-    // --- TAMBAHKAN ARRAY IMAGES DI SINI ---
-    images: [
-      "https://images.pexels.com/photos/1029599/pexels-photo-1029599.jpeg?auto=compress&cs=tinysrgb&w=800",
-      "https://images.pexels.com/photos/279746/pexels-photo-279746.jpeg?auto=compress&cs=tinysrgb&w=800",
-      "https://images.pexels.com/photos/164522/pexels-photo-164522.jpeg?auto=compress&cs=tinysrgb&w=800"
-    ],
-    // --- AKHIR TAMBAH ---
-    bedrooms: 3,
-    bathrooms: 2,
-    garage: 1,
-    landSize: 0,
-    buildingSize: 120,
-    facilities: ["Infinity Pool", "Sky Lounge", "Valet Parking", "Private Lift", "Wine Cellar"],
-    category: "Kondominium",
-    type: "Apartemen",
-    developer: "Azure Development",
-    completionYear: 2026,
-    description: "Kondominium super premium dengan layanan hotel berbintang lima"
-  },
-  {
-    id: 8,
-    name: "Harmony Hills Estate",
-    location: "Tangerang Selatan, Banten",
-    price: "Rp 1.6 Miliar",
-    status: "Pre-Launching",
-    brochureLink: "/assets/brochures/modern-home.pdf",
-    image: "https://images.pexels.com/photos/2121121/pexels-photo-2121121.jpeg?auto=compress&cs=tinysrgb&w=800",
-    // --- TAMBAHKAN ARRAY IMAGES DI SINI ---
-    images: [
-      "https://images.pexels.com/photos/2121121/pexels-photo-2121121.jpeg?auto=compress&cs=tinysrgb&w=800",
-      "https://images.pexels.com/photos/101808/pexels-photo-101808.jpeg?auto=compress&cs=tinysrgb&w=800",
-      "https://images.pexels.com/photos/259588/pexels-photo-259588.jpeg?auto=compress&cs=tinysrgb&w=800"
-    ],
-    // --- AKHIR TAMBAH ---
-    bedrooms: 4,
-    bathrooms: 3,
-    garage: 2,
-    landSize: 200,
-    buildingSize: 150,
-    facilities: ["Golf Course", "Horse Riding", "Lake View", "Helipad", "Wine Tasting Room"],
-    category: "Estate",
-    type: "Rumah",
-    developer: "Harmony Group",
-    completionYear: 2027,
-    description: "Estate mewah dengan pemandangan danau dan fasilitas rekreasi eksklusif"
-  },
-  {
-    id: 9,
-    name: "Urban Loft Studios",
-    location: "Jakarta Barat, DKI Jakarta",
-    price: "Rp 750 Juta",
-    status: "Ready Stock",
-    brochureLink: "/assets/brochures/modern-home.pdf",
-    image: "https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?auto=compress&cs=tinysrgb&w=800",
-    // --- TAMBAHKAN ARRAY IMAGES DI SINI ---
-    images: [
-      "https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?auto=compress&cs=tinysrgb&w=800",
-      "https://images.pexels.com/photos/279746/pexels-photo-279746.jpeg?auto=compress&cs=tinysrgb&w=800",
-      "https://images.pexels.com/photos/164522/pexels-photo-164522.jpeg?auto=compress&cs=tinysrgb&w=800"
-    ],
-    // --- AKHIR TAMBAH ---
-    bedrooms: 1,
-    bathrooms: 1,
-    garage: 1,
-    landSize: 0,
-    buildingSize: 45,
-    facilities: ["Co-working Space", "Rooftop Garden", "Coffee Shop", "Art Gallery", "Music Studio"],
-    category: "Studio",
-    type: "Apartemen",
-    developer: "Urban Living Co",
-    completionYear: 2024,
-    description: "Studio apartment modern untuk young professional dengan gaya hidup urban"
-  }
-];
+// Array projectsAll dihapus, karena data ini akan diambil dari API.
+// export const projectsAll = [...]; 
 
 export const projectCategories = [
   "Semua",

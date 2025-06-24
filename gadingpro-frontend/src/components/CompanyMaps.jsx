@@ -1,18 +1,21 @@
-// src/components/CompanyMaps.jsx
+// gadingpro-fullstack/gadingpro-frontend/src/components/CompanyMaps.jsx
 import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { MapPin } from "lucide-react";
 import AOS from "aos";
 
 const CompanyMaps = () => {
-  // Ganti dengan API Key Google Maps Anda
-  const Maps_API_KEY = "YOUR_Maps_API_KEY"; // <<< GANTI INI DENGAN API KEY ANDA
+  // Ganti dengan API Key Google Maps Anda jika diperlukan, atau gunakan URL embed statis
+  // const Maps_API_KEY = import.meta.env.VITE_APP_MAPS_API_KEY; // <<< Ambil dari environment variable
   // Ganti dengan alamat atau koordinat perusahaan Anda
-  const companyAddress =
-    "Jalan Raya Tajur Halang No. 123, Tajur Halang, Bogor, Jawa Barat, Indonesia";
-  const embedSrc = `https://www.google.com/maps/embed/v1/place?key=${Maps_API_KEY}&q=${encodeURIComponent(
-    companyAddress
-  )}`;
+  const companyAddress = "Jalan Raya Tajur Halang No. 123, Tajur Halang, Bogor, Jawa Barat, Indonesia";
+  
+  // Menggunakan URL Google Maps Embed API
+  // Anda bisa menggunakan iframe dari Google Maps Embed API (yang tidak memerlukan API Key jika hanya embed)
+  // Atau jika ingin lebih dinamis dan interaktif, gunakan library React Google Maps.
+  // Untuk tujuan embed sederhana, URL ini cukup.
+  const embedSrc = `https://www.google.com/maps/embed/v1/place?key=${import.meta.env.VITE_APP_MAPS_API_KEY}&q=${encodeURIComponent(companyAddress)}`;
+
 
   return (
     <section className="py-5 bg-light" data-aos="fade-up">
@@ -32,9 +35,10 @@ const CompanyMaps = () => {
               style={{ height: "500px", width: "100%" }}
             >
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d191.72520286104114!2d106.63171559572218!3d-6.2381293984282!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69fb9bbe4644eb%3A0x105deb59d34505e5!2sGadingPro%20Gading%20Serpong!5e1!3m2!1sid!2sid!4v1750048891617!5m2!1sid!2sid"
+                src={embedSrc} // Menggunakan variabel embedSrc
                 width="100%"
                 height="100%"
+                style={{ border: 0 }} // Border 0 untuk iframe
                 allowFullScreen=""
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"

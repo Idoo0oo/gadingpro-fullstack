@@ -1,4 +1,4 @@
-// src/components/RequestBrochureForm.jsx
+// gadingpro-fullstack/gadingpro-frontend/src/components/RequestBrochureForm.jsx
 import React, { useState } from 'react';
 import { Container, Row, Col, Form, Button, Alert } from 'react-bootstrap';
 import { Send, Mail, User, Phone } from 'lucide-react';
@@ -7,7 +7,7 @@ import AOS from 'aos';
 
 const RequestBrochureForm = () => {
   const [submissionStatus, setSubmissionStatus] = useState(null); // 'success', 'error', 'submitting', null
-  const [error, setError] = useState(null); // <--- TAMBAHKAN BARIS INI
+  const [error, setError] = useState(null); // State untuk menyimpan pesan error
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -28,7 +28,7 @@ const RequestBrochureForm = () => {
     setError(null); // Clear previous errors
 
     try {
-      const response = await fetch('http://localhost:5000/api/inquiry', { // Your backend API endpoint
+      const response = await fetch(`<span class="math-inline">\{window\.location\.origin\}</span>{import.meta.env.VITE_APP_API_URL}/inquiry`, { // Tambahkan window.location.origin
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
