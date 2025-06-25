@@ -24,7 +24,6 @@ if (!JWT_SECRET) {
 
 const allowedOrigins = [
   'http://localhost:5173', // Untuk pengembangan lokal frontend
-  'http://localhost:3001', // Untuk pengembangan lokal admin panel
   'https://gadingpro.netlify.app',
   'https://gadingpro-admin.netlify.app',
   // Tambahkan regex atau pola untuk devtunnels.ms

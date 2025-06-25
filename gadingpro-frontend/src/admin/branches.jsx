@@ -2,7 +2,7 @@
 import { List, Datagrid, TextField, UrlField,
          Create, SimpleForm, TextInput } from 'react-admin'; // Tambahkan Create, SimpleForm, TextInput
 
-export const BranchList = (props: any) => (
+export const BranchList = (props) => (
     <List {...props}>
         <Datagrid rowClick="edit">
             <TextField source="id" />
@@ -17,7 +17,7 @@ export const BranchList = (props: any) => (
 );
 
 // --- Tambahkan komponen BranchCreate di sini ---
-export const BranchCreate = (props: any) => (
+export const BranchCreate = (props) => (
     <Create {...props}>
         <SimpleForm>
             <TextInput source="city" required />

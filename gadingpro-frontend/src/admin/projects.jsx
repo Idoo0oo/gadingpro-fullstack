@@ -1,9 +1,9 @@
-// gadingpro-admin-panel/src/projects.tsx
-import { List, Datagrid, TextField, ImageField,
-         Create, SimpleForm, TextInput, NumberInput, SelectInput, ArrayInput, SimpleFormIterator } from 'react-admin'; // Tambahkan Create, SimpleForm, TextInput, dll.
+// Konversi dari projects.tsx (hapus semua ': any')
+import { List, Datagrid, TextField, ImageField, Create, SimpleForm, TextInput, NumberInput, SelectInput, ArrayInput, SimpleFormIterator } from 'react-admin';
 
-export const ProjectList = (props: any) => (
+export const ProjectList = (props) => (
     <List {...props}>
+        {/* Konten tidak berubah */}
         <Datagrid rowClick="edit">
             <TextField source="id" />
             <TextField source="name" />
@@ -20,9 +20,9 @@ export const ProjectList = (props: any) => (
     </List>
 );
 
-// --- Tambahkan komponen ProjectCreate di sini ---
-export const ProjectCreate = (props: any) => (
+export const ProjectCreate = (props) => (
     <Create {...props}>
+        {/* Konten tidak berubah */}
         <SimpleForm>
             <TextInput source="name" required />
             <TextInput source="location" required />
@@ -36,7 +36,6 @@ export const ProjectCreate = (props: any) => (
             ]} required />
             <TextInput source="brochureLink" label="Brochure Link URL" />
             <TextInput source="image" label="Main Image URL" required />
-            {/* ArrayInput untuk multiple images (URL) */}
             <ArrayInput source="images" label="Additional Image URLs">
                 <SimpleFormIterator>
                     <TextInput source="" label="Image URL" />
@@ -47,7 +46,6 @@ export const ProjectCreate = (props: any) => (
             <NumberInput source="garage" />
             <NumberInput source="landSize" />
             <NumberInput source="buildingSize" />
-            {/* ArrayInput untuk facilities */}
             <ArrayInput source="facilities" label="Facilities">
                 <SimpleFormIterator>
                     <TextInput source="" label="Facility Name" />
@@ -69,7 +67,6 @@ export const ProjectCreate = (props: any) => (
             <TextInput source="developer" />
             <NumberInput source="completionYear" />
             <TextInput source="description" multiline fullWidth />
-            {/* Input untuk fitur (objek) */}
             <TextInput source="features.electricity" label="Features: Electricity" />
             <TextInput source="features.water" label="Features: Water" />
             <TextInput source="features.flooring" label="Features: Flooring" />

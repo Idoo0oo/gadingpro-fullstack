@@ -1,7 +1,7 @@
 // gadingpro-admin-panel/src/inquiries.tsx
 import { List, Datagrid, TextField, EmailField, DateField } from 'react-admin';
 
-export const InquiryList = (props: any) => (
+export const InquiryList = (props) => (
     <List {...props}>
         <Datagrid rowClick="edit">
             <TextField source="id" />
