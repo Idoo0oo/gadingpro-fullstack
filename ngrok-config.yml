@@ -1,0 +1,10 @@
+version: "2"
+authtoken: 2ycXl8svV3oWbCG3gHQM8Yo25Zd_7kkMquQukDqXC8qBBQQwy
+
+tunnels:
+  gadingpro-backend:
+    proto: http
+    addr: 5000
+  gadingpro-frontend:
+    proto: http
+    addr: 5173

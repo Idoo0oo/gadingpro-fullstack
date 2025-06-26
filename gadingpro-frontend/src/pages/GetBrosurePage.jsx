@@ -24,13 +24,21 @@ const GetBrochurePage = () => {
 
   useEffect(() => {
     const fetchProjects = async () => {
+      setLoading(true);
+      setError(null);
       try {
-
         const backendUrl = import.meta.env.VITE_BACKEND_URL;
-        
         const apiUrl = `${backendUrl}/public/projects`;
 
-        const response = await fetch(apiUrl);
+        // ========================================================
+        // ==> TAMBAHKAN HEADER DI SINI <==
+        const response = await fetch(apiUrl, {
+          headers: {
+            'ngrok-skip-browser-warning': 'true'
+          }
+        });
+        // ========================================================
+        
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -44,7 +52,7 @@ const GetBrochurePage = () => {
     };
 
     fetchProjects();
-  }, []);
+}, []);
 
   if (loading) {
     return (

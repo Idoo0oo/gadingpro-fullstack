@@ -12,26 +12,35 @@ const ProjectsSection = ({ handleShowModal }) => {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-      const backendUrl = import.meta.env.VITE_BACKEND_URL;
-        
-      const apiUrl = `${backendUrl}/public/projects?_limit=6`;
+        const backendUrl = import.meta.env.VITE_BACKEND_URL;
+        const apiUrl = `${backendUrl}/public/projects?_limit=3`;
 
-        const response = await fetch(apiUrl);
+        // Menambahkan header untuk melewati halaman peringatan Ngrok
+        const response = await fetch(apiUrl, {
+          headers: {
+            "ngrok-skip-browser-warning": "true",
+          },
+        });
         if (!response.ok) {
-          // Jika respons bukan OK, coba baca error sebagai teks
-          // Ini akan membantu kita melihat respons 500 yang tidak valid JSON
-          const errorResponseText = await response.text(); 
-          throw new Error(`HTTP error! Status: ${response.status}. Details: ${errorResponseText.substring(0, 200)}`); 
+          const errorResponseText = await response.text();
+          throw new Error(
+            `HTTP error! Status: ${
+              response.status
+            }. Details: ${errorResponseText.substring(0, 200)}`
+          );
         }
         const data = await response.json();
         setProjects(data);
-      } catch (err) {
-        setError(err.message);
+        } catch (error) {
+        console.error("Error fetching projects for homepage:", error);
+        setError(error.message); // Set state error
       } finally {
+        // =================================================================
+        // ==> INI PERBAIKAN KUNCINYA: HENTIKAN LOADING DI SINI <==
         setLoading(false);
+        // =================================================================
       }
     };
-
     fetchProjects();
   }, []);
 
@@ -53,11 +62,19 @@ const ProjectsSection = ({ handleShowModal }) => {
   };
 
   if (loading) {
-    return <section className="projects py-5 bg-light text-center">Memuat proyek terbaru...</section>;
+    return (
+      <section className="projects py-5 bg-light text-center">
+        Memuat proyek terbaru...
+      </section>
+    );
   }
 
   if (error) {
-    return <section className="projects py-5 bg-light text-center text-danger">Error memuat proyek: {error}</section>;
+    return (
+      <section className="projects py-5 bg-light text-center text-danger">
+        Error memuat proyek: {error}
+      </section>
+    );
   }
 
   return (
@@ -93,7 +110,9 @@ const ProjectsSection = ({ handleShowModal }) => {
                   />
                   <div className="position-absolute top-0 end-0 m-3">
                     <span
-                      className={`badge ${getStatusBadgeColor(project.status)} px-3 py-2 rounded-pill`}
+                      className={`badge ${getStatusBadgeColor(
+                        project.status
+                      )} px-3 py-2 rounded-pill`}
                     >
                       {project.status}
                     </span>
@@ -111,9 +130,7 @@ const ProjectsSection = ({ handleShowModal }) => {
                     <small className="text-muted">{project.location}</small>
                   </div>
 
-                  <h5 className="card-title fw-bold mb-3">
-                    {project.name}
-                  </h5>
+                  <h5 className="card-title fw-bold mb-3">{project.name}</h5>
 
                   <div className="project-features mb-3">
                     <div className="row g-2">
@@ -165,17 +182,22 @@ const ProjectsSection = ({ handleShowModal }) => {
 
                   <div className="project-facilities mb-3">
                     <div className="d-flex flex-wrap gap-1">
-                      {project.facilities && project.facilities.slice(0, 3).map((facility, index) => (
-                        <span
-                          key={index}
-                          className="badge bg-orange-light text-orange px-2 py-1 rounded-pill"
-                        >
-                          <small>{facility}</small>
-                        </span>
-                      ))}
+                      {project.facilities &&
+                        project.facilities
+                          .slice(0, 3)
+                          .map((facility, index) => (
+                            <span
+                              key={index}
+                              className="badge bg-orange-light text-orange px-2 py-1 rounded-pill"
+                            >
+                              <small>{facility}</small>
+                            </span>
+                          ))}
                       {project.facilities && project.facilities.length > 3 && (
                         <span className="badge bg-light text-muted px-2 py-1 rounded-pill">
-                          <small>+{project.facilities.length - 3} lainnya</small>
+                          <small>
+                            +{project.facilities.length - 3} lainnya
+                          </small>
                         </span>
                       )}
                     </div>

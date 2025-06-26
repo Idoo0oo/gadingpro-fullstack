@@ -23,27 +23,53 @@ const ProjectsPage = () => {
 
   useEffect(() => {
     const fetchProjects = async () => {
+      console.log("1. Memulai fetchProjects..."); // Log Awal
+      setLoading(true);
+      setError(null);
+
       try {
         const backendUrl = import.meta.env.VITE_BACKEND_URL;
-        
         const apiUrl = `${backendUrl}/public/projects`;
+        console.log("2. URL yang akan di-fetch:", apiUrl); // Log URL
 
-        const response = await fetch(apiUrl);
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+        const response = await fetch(apiUrl, {
+  headers: {
+    'ngrok-skip-browser-warning': 'true'
+  }
+});
+
+        // Mencetak info PENTING dari respons
+        console.log("3. Respons diterima dari server. Status:", response.status);
+        console.log("4. Content-Type Header:", response.headers.get('Content-Type'));
+
+        // Cek jika Content-Type BUKAN JSON, meskipun status OK
+        if (response.ok && !response.headers.get('Content-Type')?.includes('application/json')) {
+            const text = await response.text();
+            console.error("5a. Status OK, tapi Konten BUKAN JSON. Isinya:", text.substring(0, 500));
+            throw new Error('Server returned HTML instead of JSON, even with a 200 OK status.');
         }
+
+        if (!response.ok) {
+          const errorText = await response.text();
+          console.error("5b. Respons TIDAK OK. Isi teks:", errorText.substring(0, 500));
+          throw new Error(`Server error! Status: ${response.status}`);
+        }
+
         const data = await response.json();
+        console.log("6. Data JSON berhasil di-parse."); // Log Sukses
         setProjectsAll(data);
+
       } catch (err) {
+        console.error("7. Terjadi ERROR di dalam blok try-catch:", err); // Log Error Fatal
         setError(err.message);
       } finally {
+        console.log("8. Proses fetch selesai (finally block)."); // Log Akhir
         setLoading(false);
       }
     };
 
     fetchProjects();
-  }, []);
-
+}, []);
   const parsePrice = useCallback((priceString) => {
     if (!priceString) return 0;
     const numStr = priceString.replace(/[^\d.,]/g, '').replace(',', '.');

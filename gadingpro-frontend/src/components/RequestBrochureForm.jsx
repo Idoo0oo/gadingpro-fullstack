@@ -25,16 +25,20 @@ const RequestBrochureForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmissionStatus('submitting');
-    setError(null); // Clear previous errors
+    setError(null);
 
     try {
       const backendUrl = import.meta.env.VITE_BACKEND_URL;
       const response = await fetch(`${backendUrl}/api/inquiry`, {
-            method: 'POST',
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          // ========================================================
+          // ==> TAMBAHKAN HEADER DI SINI JUGA <==
+          'ngrok-skip-browser-warning': 'true'
+          // ========================================================
         },
-        body: JSON.stringify({ ...formData, type: 'brochure' }), // Add type
+        body: JSON.stringify({ ...formData, type: 'brochure' }),
       });
 
       if (!response.ok) {
@@ -43,13 +47,13 @@ const RequestBrochureForm = () => {
       }
 
       setSubmissionStatus('success');
-      setFormData({ name: '', email: '', phone: '', message: '' }); // Clear form
+      setFormData({ name: '', email: '', phone: '', message: '' });
     } catch (err) {
       setSubmissionStatus('error');
       setError(err.message);
       console.error('Form submission error:', err);
     }
-  };
+};
 
   return (
     <section className="py-5 bg-light" data-aos="fade-up">

@@ -11,28 +11,31 @@ const BranchesComponent = () => {
 
   useEffect(() => {
     const fetchBranches = async () => {
+      setLoading(true);
       try {
         const backendUrl = import.meta.env.VITE_BACKEND_URL;
-
         const apiUrl = `${backendUrl}/public/branches`;
 
-        const response = await fetch(apiUrl);
+        // Menambahkan header untuk melewati halaman peringatan Ngrok
+        const response = await fetch(apiUrl, {
+          headers: {
+            'ngrok-skip-browser-warning': 'true'
+          }
+        });
+
         if (!response.ok) {
-          // Jika respons bukan OK, coba baca error sebagai teks
-          const errorText = await response.text();
-          throw new Error(`HTTP error! status: ${response.status} - ${errorText.substring(0, 100)}...`); // Log awal respons HTML
+          throw new Error('Network response was not ok.');
         }
         const data = await response.json();
         setBranches(data);
-      } catch (err) {
-        setError(err.message);
+      } catch (error) {
+        console.error("Failed to fetch branches:", error);
       } finally {
         setLoading(false);
       }
     };
-
     fetchBranches();
-  }, []);
+}, []);
 
 
   const filteredBranches = branches.filter(branch =>

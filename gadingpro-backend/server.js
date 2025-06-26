@@ -26,9 +26,6 @@ const allowedOrigins = [
   'http://localhost:5173', // Untuk pengembangan lokal frontend
   'https://gadingpro.netlify.app',
   'https://gadingpro-admin.netlify.app',
-  // Tambahkan regex atau pola untuk devtunnels.ms
-  // Ini akan mengizinkan semua subdomain dari devtunnels.ms
-  // Perhatian: Ini bisa sangat permisif. Untuk produksi, hindari wildcard jika memungkinkan.
   /https:\/\/[a-zA-Z0-9-]+\.(devtunnels\.ms|vscode\.dev|github\.dev)/,
   /https:\/\/.*\.ngrok-free\.app/
 ];
@@ -53,7 +50,7 @@ app.use(cors({
     }
   },
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'ngrok-skip-browser-warning'],
   exposedHeaders: ['X-Total-Count'],
   credentials: true
 }));
