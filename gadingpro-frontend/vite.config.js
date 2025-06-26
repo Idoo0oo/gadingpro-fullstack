@@ -9,9 +9,5 @@ export default defineConfig({
     host: true, // Ini akan membuat Vite mendengarkan di semua alamat IP yang tersedia
     allowedHosts: true
   },
-  envPrefix: 'VITE_', 
-
-  define: {
-    'process.env.VITE_BACKEND_URL': JSON.stringify('http://localhost:5000')
-  }
+  envPrefix: 'VITE_',
 })

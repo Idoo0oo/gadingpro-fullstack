@@ -29,7 +29,8 @@ const allowedOrigins = [
   // Tambahkan regex atau pola untuk devtunnels.ms
   // Ini akan mengizinkan semua subdomain dari devtunnels.ms
   // Perhatian: Ini bisa sangat permisif. Untuk produksi, hindari wildcard jika memungkinkan.
-  /https:\/\/[a-zA-Z0-9-]+\.(devtunnels\.ms|vscode\.dev|github\.dev)/ // Menambahkan pola untuk devtunnels.ms dan vscode.dev/github.dev
+  /https:\/\/[a-zA-Z0-9-]+\.(devtunnels\.ms|vscode\.dev|github\.dev)/,
+  /https:\/\/.*\.ngrok-free\.app/
 ];
 
 app.use(cors({

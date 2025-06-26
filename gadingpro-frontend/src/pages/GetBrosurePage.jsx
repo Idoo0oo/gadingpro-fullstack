@@ -25,17 +25,10 @@ const GetBrochurePage = () => {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const currentOrigin = window.location.origin;
-        let backendBaseUrl;
 
-        if (currentOrigin.includes('.devtunn.ms') || currentOrigin.includes('.vercel.app')) {
-          const backendPort = import.meta.env.VITE_APP_BACKEND_PORT;
-          backendBaseUrl = currentOrigin.replace(/-\d+\.(devtunn\.ms|vercel\.app)/, `-${backendPort}.$1`);
-        } else {
-          backendBaseUrl = `http://localhost:${import.meta.env.VITE_APP_BACKEND_PORT}`;
-        }
+        const backendUrl = import.meta.env.VITE_BACKEND_URL;
         
-        const apiUrl = `${backendBaseUrl}${import.meta.env.VITE_APP_API_BASE_PATH}/projects`;
+        const apiUrl = `${backendUrl}/public/projects`;
 
         const response = await fetch(apiUrl);
         if (!response.ok) {

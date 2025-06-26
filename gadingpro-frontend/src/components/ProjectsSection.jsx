@@ -12,24 +12,9 @@ const ProjectsSection = ({ handleShowModal }) => {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        // --- START BLOK LOGIKA URL DINAMIS ---
-        const currentOrigin = window.location.origin; // e.g., http://localhost:5173 atau https://70x90zx-5173.devtunn.ms
-        let backendBaseUrl;
-
-        // Deteksi jika kita berada di lingkungan devtunnels atau Vercel Preview
-        if (currentOrigin.includes('.devtunn.ms') || currentOrigin.includes('.vercel.app')) {
-          const backendPort = import.meta.env.VITE_APP_BACKEND_PORT; // Ambil port backend dari .env
-          // Regex ini mengganti angka port di URL origin saat ini dengan port backend
-          // Contoh: https://70x90zx-5173.devtunn.ms -> https://70x90zx-5000.devtunn.ms
-          backendBaseUrl = currentOrigin.replace(/-\d+\.(devtunn\.ms|vercel\.app)$/, `-${backendPort}.$1`);
-        } else {
-          // Jika tidak di devtunnels, asumsikan localhost
-          backendBaseUrl = `http://localhost:${import.meta.env.VITE_APP_BACKEND_PORT}`;
-        }
+      const backendUrl = import.meta.env.VITE_BACKEND_URL;
         
-        // Gabungkan base URL backend dengan path API spesifik
-        const apiUrl = `${backendBaseUrl}${import.meta.env.VITE_APP_API_BASE_PATH}/projects?_limit=6`;
-        // --- AKHIR BLOK LOGIKA URL DINAMIS ---
+      const apiUrl = `${backendUrl}/public/projects?_limit=6`;
 
         const response = await fetch(apiUrl);
         if (!response.ok) {
@@ -39,7 +24,7 @@ const ProjectsSection = ({ handleShowModal }) => {
           throw new Error(`HTTP error! Status: ${response.status}. Details: ${errorResponseText.substring(0, 200)}`); 
         }
         const data = await response.json();
-        setProjects(data.slice(0, 6));
+        setProjects(data);
       } catch (err) {
         setError(err.message);
       } finally {

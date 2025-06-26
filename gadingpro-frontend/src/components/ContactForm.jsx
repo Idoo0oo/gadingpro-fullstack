@@ -32,8 +32,9 @@ const ContactForm = () => {
     setError(null); // Hapus error sebelumnya
 
     try {
-      const response = await fetch(`<span class="math-inline">\{backendBaseUrl\}</span>{import.meta.env.VITE_APP_API_BASE_PATH}/inquiry`, { // Tambahkan window.location.origin 
-        method: 'POST',
+      const backendUrl = import.meta.env.VITE_BACKEND_URL;
+      const response = await fetch(`${backendUrl}/api/inquiry`, {
+            method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },

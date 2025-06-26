@@ -28,8 +28,9 @@ const RequestBrochureForm = () => {
     setError(null); // Clear previous errors
 
     try {
-      const response = await fetch(`<span class="math-inline">\{window\.location\.origin\}</span>{import.meta.env.VITE_APP_API_URL}/inquiry`, { // Tambahkan window.location.origin
-        method: 'POST',
+      const backendUrl = import.meta.env.VITE_BACKEND_URL;
+      const response = await fetch(`${backendUrl}/api/inquiry`, {
+            method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },

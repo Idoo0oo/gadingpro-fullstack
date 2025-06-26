@@ -1,7 +1,7 @@
 import { fetchUtils } from 'react-admin';
 
 // Mengatur URL API backend secara dinamis
-const apiUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000';
+const apiUrl = import.meta.env.VITE_BACKEND_URL;
 
 // Fungsi helper untuk menambahkan token otentikasi ke setiap request
 const httpClient = (url, options = {}) => {

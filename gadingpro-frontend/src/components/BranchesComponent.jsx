@@ -12,24 +12,9 @@ const BranchesComponent = () => {
   useEffect(() => {
     const fetchBranches = async () => {
       try {
-        // --- START PERUBAHAN UTAMA DI SINI ---
-        const currentOrigin = window.location.origin; // e.g., http://localhost:5173 atau https://70x90zx-5173.devtunn.ms
-        let backendBaseUrl;
+        const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
-        // Deteksi jika kita berada di lingkungan devtunnels atau Vercel Preview
-        if (currentOrigin.includes('.devtunn.ms') || currentOrigin.includes('.vercel.app')) {
-          const backendPort = import.meta.env.VITE_APP_BACKEND_PORT; // Ambil port backend dari .env
-          // Ganti angka port di URL origin saat ini dengan port backend
-          // Regex ini cocok dengan angka port apapun dan domain .devtunn.ms atau .vercel.app
-          backendBaseUrl = currentOrigin.replace(/-\d+\.(devtunn\.ms|vercel\.app)/, `-${backendPort}.$1`);
-        } else {
-          // Jika tidak di devtunnels, asumsikan localhost
-          backendBaseUrl = `http://localhost:${import.meta.env.VITE_APP_BACKEND_PORT}`;
-        }
-        
-        // Gabungkan base URL backend dengan path API spesifik
-        const apiUrl = `${backendBaseUrl}${import.meta.env.VITE_APP_API_BASE_PATH}/branches`;
-        // --- AKHIR PERUBAHAN UTAMA ---
+        const apiUrl = `${backendUrl}/public/branches`;
 
         const response = await fetch(apiUrl);
         if (!response.ok) {
