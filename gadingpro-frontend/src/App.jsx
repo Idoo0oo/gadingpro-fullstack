@@ -19,7 +19,6 @@ const AboutPage = lazy(() => import('./pages/AboutPage'));
 const ProjectsPage = lazy(() => import('./pages/ProjectsPage'));
 const GetBrosurePage = lazy(() => import('./pages/GetBrosurePage'));
 const ContactPage = lazy(() => import('./pages/ContactPage'));
-const AdminPage = lazy(() => import('./pages/AdminPage'));
 
 // Komponen fallback untuk Suspense
 const LoadingSpinner = () => (
@@ -52,7 +51,7 @@ function App() {
           <Route path="/projects" element={<ProjectsPage />} />
           <Route path="/get-brosure" element={<GetBrosurePage />} />
           <Route path="/contact-us" element={<ContactPage />} />
-          <Route path="/admin/*" element={<AdminPage />} />
+
         </Routes>
       </Suspense>
       <FooterComponent />

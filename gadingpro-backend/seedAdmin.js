@@ -1,37 +1,41 @@
 // gadingpro-backend/seedAdmin.js
-require('dotenv').config();
-const sequelize = require('./config/database');
-const User = require('./models/User'); // Pastikan User model diimport
 
-async function createAdminUser() {
+require('dotenv').config();
+const User = require('./models/User'); // Cukup import User, sequelize akan di-handle oleh model
+const sequelize = require('./config/database');
+
+async function createAdmin() {
   const adminUsername = 'admin';
-  const adminPassword = 'password123'; // GANTI DENGAN PASSWORD YANG KUAT!
+  const adminPassword = 'admin123'; 
 
   try {
-    // Pastikan tabel User sudah ada
-    await sequelize.sync({ alter: true });
-    console.log('User table synchronized.');
+    // Sinkronisasi untuk memastikan tabel 'Users' ada
+    await sequelize.sync();
+    console.log('Database and User table have been synchronized.');
 
+    // Cek apakah admin sudah ada
     const existingAdmin = await User.findOne({ where: { username: adminUsername } });
+
     if (existingAdmin) {
-      console.log(`Admin user '${adminUsername}' already exists.`);
-      return;
+      console.log(`Admin user '${adminUsername}' already exists. No action taken.`);
+    } else {
+      // Buat admin baru dengan password plain text
+      // Model 'User' akan secara otomatis mengenkripsi password ini berkat hook 'beforeCreate'
+      await User.create({
+        username: adminUsername,
+        password: adminPassword,
+      });
+      console.log(`Admin user '${adminUsername}' was created successfully!`);
     }
 
-    const newAdmin = await User.create({
-      username: adminUsername,
-      password: adminPassword, // Password akan di-hash oleh hook di model
-      role: 'admin'
-    });
-
-    console.log(`Admin user '${adminUsername}' created successfully! (ID: ${newAdmin.id})`);
-
-  } catch (err) {
-    console.error('Error creating admin user:', err);
+  } catch (error) {
+    console.error('An error occurred while seeding the admin user:', error);
   } finally {
+    // Tutup koneksi database setelah selesai
     await sequelize.close();
-    console.log('Database connection closed.');
+    console.log('Database connection has been closed.');
   }
 }
 
-createAdminUser();
+// Panggil fungsi untuk menjalankan proses seeder
+createAdmin();
