@@ -1,27 +1,29 @@
-// gadingpro-admin/src/MyAppBar.jsx
-import * as React from 'react';
-import { AppBar, TitlePortal } from 'react-admin';
-import { Box, Typography } from '@mui/material';
+// gadingpro-admin/src/MyAppBar.jsx (Versi shadcn/ui)
+import { TitlePortal } from 'react-admin';
+import { Box, Typography } from '@mui/material'; // Kita masih butuh Box untuk layouting
 
 const MyAppBar = () => (
-    <AppBar color="primary" sx={{
-        background: 'linear-gradient(to right, #434343 0%, black 100%)' // Gradien abu-abu gelap
-    }}>
-        <TitlePortal />
-        <Box flex="1" />
-        <Box
-            component="img"
-            sx={{
-                height: 40,
-                mr: 0,
-            }}
-            alt="GadingPro Logo"
-            src="https://agents-events-prod.storage.googleapis.com/wp-content/uploads/sites/20/2024/03/20035510/Gading-Pro-Logo.png"
-        />
-        <Typography variant="h6" color="inherit" id="react-admin-title" sx={{
-            letterSpacing: '0.5px'
-        }} />
-    </AppBar>
+    // Header utama menggunakan div dengan class Tailwind
+    <header className="fixed top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <div className="container flex h-14 max-w-screen-2xl items-center px-4">
+            {/* Portal untuk judul halaman React Admin */}
+            <div className="mr-4 hidden md:flex">
+                <TitlePortal />
+            </div>
+
+            {/* Spacer */}
+            <Box flex="1" />
+
+            {/* Logo */}
+            <div className="flex items-center space-x-2">
+                 <img
+                    src="https://agents-events-prod.storage.googleapis.com/wp-content/uploads/sites/20/2024/03/20035510/Gading-Pro-Logo.png"
+                    alt="GadingPro Logo"
+                    className="h-8" // Menggunakan class Tailwind
+                />
+            </div>
+        </div>
+    </header>
 );
 
 export default MyAppBar;

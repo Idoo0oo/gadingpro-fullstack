@@ -1,9 +1,15 @@
-// gadingpro-admin/src/MyLoginPage.jsx
+// gadingpro-admin/src/MyLoginPage.jsx (Versi shadcn/ui)
+
 import * as React from 'react';
 import { useState } from 'react';
 import { useLogin, useNotify } from 'react-admin';
-import { Avatar, Button, Box, Card, CardContent, Container, TextField, Typography, CircularProgress } from '@mui/material';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import { Loader2 } from 'lucide-react'; // Impor ikon spinner
+
+// Impor komponen dari shadcn/ui yang sudah diinstal
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 
 const MyLoginPage = () => {
     const [username, setUsername] = useState('');
@@ -15,73 +21,64 @@ const MyLoginPage = () => {
     const handleSubmit = e => {
         e.preventDefault();
         setLoading(true);
-        login({ username, password }).catch(() => {
-            notify('Invalid username or password', { type: 'warning' });
-            setLoading(false);
-        });
+        login({ username, password })
+            .catch(() => {
+                notify('Invalid username or password', { type: 'warning' });
+            })
+            .finally(() => {
+                setLoading(false);
+            });
     };
 
     return (
-        <Container component="main" maxWidth="xs">
-            <Box
-                sx={{
-                    marginTop: 8,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                }}
-            >
-                <Card sx={{ minWidth: 350, boxShadow: 3, borderRadius: 2 }}>
-                    <CardContent sx={{ p: 4 }}>
-                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                            <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-                                <LockOutlinedIcon />
-                            </Avatar>
-                            <Typography component="h1" variant="h5">
-                                GadingPro Admin
-                            </Typography>
-                        </Box>
-                        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-                            <TextField
-                                margin="normal"
-                                required
-                                fullWidth
-                                id="username"
-                                label="Username"
-                                name="username"
-                                autoComplete="username"
-                                autoFocus
-                                value={username}
-                                onChange={e => setUsername(e.target.value)}
-                                disabled={loading}
-                            />
-                            <TextField
-                                margin="normal"
-                                required
-                                fullWidth
-                                name="password"
-                                label="Password"
-                                type="password"
-                                id="password"
-                                autoComplete="current-password"
-                                value={password}
-                                onChange={e => setPassword(e.target.value)}
-                                disabled={loading}
-                            />
-                            <Button
-                                type="submit"
-                                fullWidth
-                                variant="contained"
-                                sx={{ mt: 3, mb: 2 }}
-                                disabled={loading}
-                            >
-                                {loading ? <CircularProgress size={24} color="inherit" /> : 'Sign In'}
+        <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900">
+            <Card className="w-full max-w-sm">
+                <CardHeader className="text-center">
+                    <img
+                        src="https://agents-events-prod.storage.googleapis.com/wp-content/uploads/sites/20/2024/03/20035510/Gading-Pro-Logo.png"
+                        alt="GadingPro Logo"
+                        className="w-32 mx-auto mb-4"
+                    />
+                    <CardTitle className="text-2xl font-bold">Admin Login</CardTitle>
+                    <CardDescription>Enter your credentials to access the dashboard.</CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <form onSubmit={handleSubmit}>
+                        <div className="grid gap-4">
+                            <div className="grid gap-2">
+                                <Label htmlFor="username">Username</Label>
+                                <Input
+                                    id="username"
+                                    type="text"
+                                    placeholder="admin"
+                                    required
+                                    value={username}
+                                    onChange={e => setUsername(e.target.value)}
+                                    disabled={loading}
+                                />
+                            </div>
+                            <div className="grid gap-2">
+                                <Label htmlFor="password">Password</Label>
+                                <Input
+                                    id="password"
+                                    type="password"
+                                    required
+                                    value={password}
+                                    onChange={e => setPassword(e.target.value)}
+                                    disabled={loading}
+                                />
+                            </div>
+                            <Button type="submit" className="w-full" disabled={loading}>
+                                {loading && (
+                                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                )}
+                                Sign In
                             </Button>
-                        </Box>
-                    </CardContent>
-                </Card>
-            </Box>
-        </Container>
+                        </div>
+                    </form>
+                </CardContent>
+            </Card>
+        </div>
     );
 };
 

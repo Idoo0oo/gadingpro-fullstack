@@ -13,7 +13,7 @@ const httpClient = (url, options = {}) => {
     return fetchUtils.fetchJson(url, options);
 };
 
-export const dataProvider = {
+export const baseDataProvider = {
     getList: (resource, params) => {
         const { page, perPage } = params.pagination;
         const { field, order } = params.sort;
@@ -106,16 +106,16 @@ export const dataProvider = {
     delete: (resource, params) =>
         httpClient(`${apiUrl}/api/${resource}/${params.id}`, {
             method: 'DELETE',
-        }).then(({ json }) => ({ data: json ? json : { id: params.id } })),
+        }).then(() => ({ data: { id: params.id } })), // <-- Kembalikan ID record yang dihapus
 
-    deleteMany: (resource, params) => {
-        const query = {
-            filter: JSON.stringify({ id: params.ids }),
-        };
-        return httpClient(`${apiUrl}/api/${resource}?${new URLSearchParams(query).toString()}`, {
-            method: 'DELETE',
-        }).then(({ json }) => ({ data: json?.data || params.ids }));
-    },
+    deleteMany: (resource, params) =>
+        Promise.all(
+            params.ids.map(id =>
+                httpClient(`${apiUrl}/api/${resource}/${id}`, {
+                    method: 'DELETE',
+                })
+            )
+        ).then(() => ({ data: params.ids })), // <-- Kembalikan array ID yang dihapus
 };
 
-export default dataProvider;
+export default baseDataProvider;

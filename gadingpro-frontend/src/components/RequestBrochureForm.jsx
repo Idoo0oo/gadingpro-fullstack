@@ -29,7 +29,7 @@ const RequestBrochureForm = () => {
 
     try {
       const backendUrl = import.meta.env.VITE_BACKEND_URL;
-      const response = await fetch(`${backendUrl}/api/inquiry`, {
+      const response = await fetch(`${backendUrl}/public/inquiry`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
