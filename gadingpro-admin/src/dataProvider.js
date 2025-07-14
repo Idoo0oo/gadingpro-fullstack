@@ -13,6 +13,51 @@ const httpClient = (url, options = {}) => {
     return fetchUtils.fetchJson(url, options);
 };
 
+/**
+ * --- PENAMBAHAN FUNGSI KONVERSI GAMBAR ---
+ * Mengubah file menjadi format base64
+ * @param {File} file 
+ */
+const convertFileToBase64 = file =>
+    new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(file.rawFile);
+    });
+
+/**
+ * --- PENAMBAHAN FUNGSI UNTUK MENANGANI UPLOAD ---
+ * @param {Object} params
+ */
+const addUploadCapabilities = async (params) => {
+    // Untuk gambar utama (image)
+    if (params.data.image && params.data.image.rawFile instanceof File) {
+        const base64 = await convertFileToBase64(params.data.image);
+        params.data.image = base64;
+    }
+
+    // Untuk gambar galeri (images) yang bisa lebih dari satu
+    if (params.data.images && params.data.images.length) {
+        // Filter hanya file baru yang perlu di-upload
+        const newImages = params.data.images.filter(
+            p => p.rawFile instanceof File
+        );
+        // Pertahankan gambar lama (yang sudah berupa URL/string)
+        const formerImages = params.data.images.filter(
+            p => !(p.rawFile instanceof File)
+        );
+
+        const base64NewImages = await Promise.all(
+            newImages.map(convertFileToBase64)
+        );
+
+        params.data.images = [...formerImages.map(p => p.src || p), ...base64NewImages];
+    }
+    
+    return params;
+};
+
 export const baseDataProvider = {
     getList: (resource, params) => {
         const { page, perPage } = params.pagination;
@@ -89,19 +134,23 @@ export const baseDataProvider = {
         });
     },
 
-    create: (resource, params) =>
-        httpClient(`${apiUrl}/api/${resource}`, {
+    create: async (resource, params) => {
+        const processedParams = await addUploadCapabilities(params);
+        return httpClient(`${apiUrl}/api/${resource}`, {
             method: 'POST',
-            body: JSON.stringify(params.data),
+            body: JSON.stringify(processedParams.data),
         }).then(({ json }) => ({
-            data: { ...params.data, id: json.id },
-        })),
+            data: { ...processedParams.data, id: json.id },
+        }));
+    },
 
-    update: (resource, params) =>
-        httpClient(`${apiUrl}/api/${resource}/${params.id}`, {
+    update: async (resource, params) => {
+        const processedParams = await addUploadCapabilities(params);
+        return httpClient(`${apiUrl}/api/${resource}/${params.id}`, {
             method: 'PUT',
-            body: JSON.stringify(params.data),
-        }).then(({ json }) => ({ data: json })),
+            body: JSON.stringify(processedParams.data),
+        }).then(({ json }) => ({ data: json }));
+    },
 
     delete: (resource, params) =>
         httpClient(`${apiUrl}/api/${resource}/${params.id}`, {

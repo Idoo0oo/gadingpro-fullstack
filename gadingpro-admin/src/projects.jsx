@@ -1,30 +1,47 @@
-// gadingpro-admin/src/projects.jsx (Dengan gaya shadcn/ui)
-import { List, Datagrid, TextField, ImageField, EditButton, DeleteButton, Create, SimpleForm, TextInput, NumberInput, SelectInput, ArrayInput, SimpleFormIterator } from 'react-admin';
-import { Button } from '@/components/ui/button';
+// gadingpro-admin/src/projects.jsx (FIX FINAL)
+import {
+    List,
+    Datagrid,
+    TextField,
+    ImageField,
+    EditButton,
+    DeleteButton,
+    Create,
+    Edit,
+    SimpleForm,
+    TextInput, // <-- TextInput tetap di sini
+    NumberInput,
+    SelectInput,
+    ArrayInput,
+    SimpleFormIterator,
+    ImageInput,
+    Filter,
+    SearchInput,
+    required
+    // HAPUS RichTextInput dari sini
+} from 'react-admin';
 
-// Definisikan gaya untuk Datagrid
+// Impor RichTextInput HANYA dari sini
+import { RichTextInput } from 'ra-input-rich-text'; 
+
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+
+// Style untuk datagrid (tidak perlu diubah)
 const datagridStyles = {
     '& .RaDatagrid-headerCell': {
         backgroundColor: 'hsl(var(--muted))',
         color: 'hsl(var(--muted-foreground))',
         fontWeight: 600,
-        fontSize: '0.8rem',
-        borderBottom: '1px solid hsl(var(--border))',
     },
     '& .RaDatagrid-rowCell': {
         borderBottom: '1px solid hsl(var(--border))',
-        padding: '12px 16px',
     },
-    '& .RaDatagrid-row': {
-        '&:last-child .RaDatagrid-rowCell': {
-            borderBottom: 'none',
-        },
-        '&:hover': {
-            backgroundColor: 'hsl(var(--accent))',
-        },
+    '& .RaDatagrid-row:hover': {
+        backgroundColor: 'hsl(var(--accent))',
     },
 };
 
+// Tombol aksi (tidak perlu diubah)
 const ActionsCell = () => (
     <div className="flex gap-2">
         <EditButton />
@@ -32,81 +49,114 @@ const ActionsCell = () => (
     </div>
 );
 
-const inputSx = {
-    backgroundColor: 'hsl(var(--background))',
-    border: '1px solid hsl(var(--input))',
-    borderRadius: 'calc(var(--radius) - 2px)',
-    '& .MuiInputBase-input': {
-        padding: '8px 12px',
-    },
-    '&.Mui-focused': {
-        borderColor: 'hsl(var(--ring))',
-        boxShadow: '0 0 0 2px hsl(var(--ring) / 0.2)',
-    },
-};
+// Form yang bisa digunakan kembali untuk Create dan Edit
+const ProjectForm = () => (
+    <SimpleForm>
+        <Card className="w-full mb-6">
+            <CardHeader>
+                <CardTitle>Informasi Utama</CardTitle>
+            </CardHeader>
+            <CardContent>
+                <TextInput source="name" validate={[required()]} fullWidth label="Nama Proyek"/>
+                <TextInput source="location" validate={[required()]} fullWidth label="Lokasi"/>
+                <TextInput source="price" validate={[required()]} fullWidth label="Harga (misal: Rp 1.2 Miliar)"/>
+                <SelectInput source="status" validate={[required()]} choices={[
+                    { id: 'Ready Stock', name: 'Ready Stock' },
+                    { id: 'Launching', name: 'Launching' },
+                    { id: 'Pre-Launching', name: 'Pre-Launching' },
+                    { id: 'Sold Out', name: 'Sold Out' },
+                    { id: 'Under Construction', name: 'Under Construction' },
+                ]} fullWidth />
+                <TextInput source="developer" fullWidth label="Nama Pengembang"/>
+            </CardContent>
+        </Card>
 
+        <Card className="w-full mb-6">
+             <CardHeader>
+                <CardTitle>Gambar & Brosur</CardTitle>
+            </CardHeader>
+             <CardContent>
+                <ImageInput source="image" label="Gambar Utama (Upload)" accept="image/*">
+                    <ImageField source="src" title="title" />
+                </ImageInput>
+                <ImageInput source="images" label="Gambar Galeri Tambahan (Upload)" multiple accept="image/*">
+                    <ImageField source="src" title="title" />
+                </ImageInput>
+                <TextInput source="brochureLink" label="Link URL Brosur (Opsional)" fullWidth />
+             </CardContent>
+        </Card>
+        
+        <Card className="w-full mb-6">
+            <CardHeader>
+                <CardTitle>Detail & Spesifikasi</CardTitle>
+            </CardHeader>
+            <CardContent>
+                 <RichTextInput source="description" label="Deskripsi Proyek" fullWidth />
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+                    <NumberInput source="bedrooms" label="Kamar Tidur"/>
+                    <NumberInput source="bathrooms" label="Kamar Mandi"/>
+                    <NumberInput source="garage" label="Garasi"/>
+                    <NumberInput source="landSize" label="Luas Tanah (m²)"/>
+                    <NumberInput source="buildingSize" label="Luas Bangunan (m²)"/>
+                    <NumberInput source="completionYear" label="Tahun Selesai"/>
+                </div>
+                 <SelectInput source="category" choices={[
+                    { id: 'Cluster', name: 'Cluster' },
+                    { id: 'Perumahan', name: 'Perumahan' },
+                    { id: 'Apartemen', name: 'Apartemen' },
+                ]} fullWidth />
+                <SelectInput source="type" choices={[
+                    { id: 'Rumah', name: 'Rumah' },
+                    { id: 'Apartemen', name: 'Apartemen' },
+                ]} fullWidth />
+            </CardContent>
+        </Card>
 
-export const ProjectList = () => (
-    <List>
+        <Card className="w-full mb-6">
+             <CardHeader>
+                <CardTitle>Fasilitas & Fitur</CardTitle>
+            </CardHeader>
+             <CardContent>
+                <ArrayInput source="facilities" label="Fasilitas">
+                    <SimpleFormIterator inline>
+                        <TextInput source="" label="Nama Fasilitas" />
+                    </SimpleFormIterator>
+                </ArrayInput>
+                 <TextInput source="features.electricity" label="Fitur: Listrik" fullWidth />
+                 <TextInput source="features.water" label="Fitur: Sumber Air" fullWidth />
+             </CardContent>
+        </Card>
+    </SimpleForm>
+);
+
+const ProjectFilter = (props) => (
+    <Filter {...props}>
+        <SearchInput source="q" alwaysOn placeholder="Cari proyek..."/>
+    </Filter>
+);
+
+export const ProjectList = (props) => (
+    <List {...props} filters={<ProjectFilter />}>
         <Datagrid rowClick="edit" sx={datagridStyles}>
             <TextField source="id" />
-            <TextField source="name" />
+            <TextField source="name" label="Nama Proyek"/>
             <TextField source="location" />
             <TextField source="price" />
             <TextField source="status" />
-            <ImageField source="image" title="image" />
             <TextField source="category" />
-            <TextField source="type" />
-            <ActionsCell /> {/* Tombol aksi */}
+            <ActionsCell />
         </Datagrid>
     </List>
 );
-// Kita akan menata form di langkah berikutnya
+
 export const ProjectCreate = (props) => (
     <Create {...props}>
-        <SimpleForm>
-            <TextInput source="name" required fullWidth sx={inputSx} />
-            <TextInput source="location" required fullWidth sx={inputSx} />
-            <TextInput source="price" required fullWidth sx={inputSx} />
-            <SelectInput source="status" choices={[
-                { id: 'Ready Stock', name: 'Ready Stock' },
-                { id: 'Launching', name: 'Launching' },
-                { id: 'Pre-Launching', name: 'Pre-Launching' },
-                { id: 'Sold Out', name: 'Sold Out' },
-                { id: 'Under Construction', name: 'Under Construction' },
-            ]} required fullWidth sx={inputSx} />
-            <TextInput source="brochureLink" label="Brochure Link URL" fullWidth sx={inputSx} />
-            <TextInput source="image" label="Main Image URL" required fullWidth sx={inputSx} />
-            <ArrayInput source="images" label="Additional Image URLs" sx={inputSx}>
-                <SimpleFormIterator>
-                    <TextInput source="" label="Image URL" fullWidth sx={inputSx} />
-                </SimpleFormIterator>
-            </ArrayInput>
-            <NumberInput source="bedrooms" fullWidth sx={inputSx} />
-            <NumberInput source="bathrooms" fullWidth sx={inputSx} />
-            <NumberInput source="garage" fullWidth sx={inputSx} />
-            <NumberInput source="landSize" fullWidth sx={inputSx} />
-            <NumberInput source="buildingSize" fullWidth sx={inputSx} />
-            <ArrayInput source="facilities" label="Facilities">
-                <SimpleFormIterator>
-                    <TextInput source="" label="Facility Name" fullWidth sx={inputSx} />
-                </SimpleFormIterator>
-            </ArrayInput>
-            <SelectInput source="category" choices={[
-                { id: 'Cluster', name: 'Cluster' },
-                { id: 'Perumahan', name: 'Perumahan' },
-                { id: 'Apartemen', name: 'Apartemen' },
-            ]} fullWidth sx={inputSx} />
-            <SelectInput source="type" choices={[
-                { id: 'Rumah', name: 'Rumah' },
-                { id: 'Apartemen', name: 'Apartemen' },
-            ]} fullWidth sx={inputSx} />
-            <TextInput source="developer" fullWidth sx={inputSx} />
-            <NumberInput source="completionYear" fullWidth sx={inputSx} />
-            <TextInput source="description" multiline fullWidth sx={inputSx} />
-            {/* Fitur akan kita styling juga */}
-            <TextInput source="features.electricity" label="Features: Electricity" fullWidth sx={inputSx} />
-            <TextInput source="features.water" label="Features: Water" fullWidth sx={inputSx} />
-        </SimpleForm>
+        <ProjectForm />
     </Create>
+);
+
+export const ProjectEdit = (props) => (
+    <Edit {...props}>
+        <ProjectForm />
+    </Edit>
 );

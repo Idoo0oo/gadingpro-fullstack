@@ -23,8 +23,13 @@ if (!JWT_SECRET) {
   process.exit(1);
 }
 
+const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
+const adminUrl = process.env.ADMIN_URL || 'http://localhost:3000';
+
 // Konfigurasi CORS Anda sudah bagus
 const allowedOrigins = [
+    frontendUrl,
+    adminUrl,
   'http://localhost:5173',
   'http://localhost:3000',
   /https:\/\/[a-zA-Z0-9-]+\.(devtunnels\.ms|vscode\.dev|github\.dev)/,
@@ -48,7 +53,9 @@ app.use(cors({
   exposedHeaders: ['Content-Range'],
   credentials: true
 }));
-app.use(express.json());
+
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
 // Sinkronisasi Database
 sequelize.sync({ alter: true })
@@ -136,43 +143,31 @@ app.post('/api/login', async (req, res, next) => {
 
 // --- Projects API (Protected) ---
 app.get('/api/projects', authenticateToken, async (req, res, next) => {
-    // ---- START DEBUG LOG ----
-    console.log('\n================================================');
-    console.log('--- REQUEST RECEIVED FOR /api/projects ---');
-    console.log('Timestamp:', new Date().toLocaleTimeString());
-    console.log('Original req.query:', req.query); // Log #1: Melihat parameter mentah dari frontend
-    // ---- END DEBUG LOG ----
-
     try {
         const { _sort = 'id', _order = 'ASC', _start = 0, _end = 9, filter = '{}' } = req.query;
-        
-        const start = parseInt(_start);
-        const end = parseInt(_end);
-        // Ini adalah perhitungan yang seharusnya sudah benar
-        const limit = end - start + 1;
-
-        // ---- START DEBUG LOG ----
-        console.log('Parsed Pagination Values:'); // Log #2: Melihat hasil perhitungan kita
-        console.log(`  _start (offset) = ${start}`);
-        console.log(`  _end = ${end}`);
-        console.log(`  Calculated Limit = ${limit}`);
-        // ---- END DEBUG LOG ----
-
+        const start = parseInt(_start, 10);
+        const limit = parseInt(_end, 10) - start + 1;
         const filters = JSON.parse(filter);
 
+        let whereClause = {};
+        if (filters.q) {
+            const searchQuery = `%${filters.q}%`;
+            whereClause = {
+                [Op.or]: [
+                    { name: { [Op.like]: searchQuery } },
+                    { location: { [Op.like]: searchQuery } },
+                    { developer: { [Op.like]: searchQuery } },
+                    { category: { [Op.like]: searchQuery } }
+                ]
+            };
+        }
+
         const { count, rows } = await Project.findAndCountAll({
-            where: filters,
+            where: whereClause, // Gunakan klausa where di sini
             order: [[_sort, _order]],
             offset: start,
             limit: limit
         });
-
-        // ---- START DEBUG LOG ----
-        console.log('Database Query Result:'); // Log #3: Melihat hasil dari database
-        console.log(`  Rows returned: ${rows.length}`);
-        console.log(`  Total count from DB: ${count}`);
-        console.log('================================================\n');
-        // ---- END DEBUG LOG ----
 
         res.header('Content-Range', `items ${start}-${start + rows.length - 1}/${count}`);
         res.json(formatForReactAdmin(rows));
@@ -216,43 +211,31 @@ app.delete('/api/projects/:id', authenticateToken, async (req, res, next) => {
 
 // --- Branches API (Protected) ---
 app.get('/api/branches', authenticateToken, async (req, res, next) => {
-    // ---- START DEBUG LOG ----
-    console.log('\n================================================');
-    console.log('--- REQUEST RECEIVED FOR /api/branches ---');
-    console.log('Timestamp:', new Date().toLocaleTimeString());
-    console.log('Original req.query:', req.query);
-    // ---- END DEBUG LOG ----
-
     try {
         const { _sort = 'id', _order = 'ASC', _start = 0, _end = 9, filter = '{}' } = req.query;
-        
-        const start = parseInt(_start);
-        const end = parseInt(_end);
-        const limit = end - start + 1; // Perhitungan yang benar
-
-        // ---- START DEBUG LOG ----
-        console.log('Parsed Pagination Values:');
-        console.log(`  _start (offset) = ${start}`);
-        console.log(`  _end = ${end}`);
-        console.log(`  Calculated Limit = ${limit}`);
-        // ---- END DEBUG LOG ----
-
+        const start = parseInt(_start, 10);
+        const limit = parseInt(_end, 10) - start + 1;
         const filters = JSON.parse(filter);
 
+        let whereClause = {};
+        if (filters.q) {
+            const searchQuery = `%${filters.q}%`;
+            whereClause = {
+                [Op.or]: [
+                    { name: { [Op.like]: searchQuery } },
+                    { city: { [Op.like]: searchQuery } },
+                    { address: { [Op.like]: searchQuery } }
+                ]
+            };
+        }
+
         const { count, rows } = await Branch.findAndCountAll({
-            where: filters,
+            where: whereClause, // Gunakan klausa where di sini
             order: [[_sort, _order]],
             offset: start,
             limit: limit
         });
-
-        // ---- START DEBUG LOG ----
-        console.log('Database Query Result:');
-        console.log(`  Rows returned: ${rows.length}`);
-        console.log(`  Total count from DB: ${count}`);
-        console.log('================================================\n');
-        // ---- END DEBUG LOG ----
-
+        
         res.header('Content-Range', `items ${start}-${start + rows.length - 1}/${count}`);
         res.json(formatForReactAdmin(rows));
     } catch (err) {
@@ -269,44 +252,61 @@ app.get('/api/branches/:id', authenticateToken, async (req, res, next) => {
     }
 });
 
+app.post('/api/branches', authenticateToken, async (req, res, next) => {
+    try {
+        const newBranch = await Branch.create(req.body);
+        res.status(201).json(formatForReactAdmin(newBranch));
+    } catch (err) {
+        next(err);
+    }
+});
+
+app.put('/api/branches/:id', authenticateToken, async (req, res, next) => {
+    try {
+        await Branch.update(req.body, { where: { id: req.params.id } });
+        const updatedBranch = await Branch.findByPk(req.params.id);
+        res.json(formatForReactAdmin(updatedBranch));
+    } catch (err) {
+        next(err);
+    }
+});
+
+app.delete('/api/branches/:id', authenticateToken, async (req, res, next) => {
+    try {
+        await Branch.destroy({ where: { id: req.params.id } });
+        res.status(204).send();
+    } catch (err) {
+        next(err);
+    }
+});
+
 // --- Inquiries API (Protected) ---
 app.get('/api/inquiries', authenticateToken, async (req, res, next) => {
-    // ---- START DEBUG LOG ----
-    console.log('\n================================================');
-    console.log('--- REQUEST RECEIVED FOR /api/inquiries ---');
-    console.log('Timestamp:', new Date().toLocaleTimeString());
-    console.log('Original req.query:', req.query);
-    // ---- END DEBUG LOG ----
-
     try {
         const { _sort = 'id', _order = 'DESC', _start = 0, _end = 9, filter = '{}' } = req.query;
-        
-        const start = parseInt(_start);
-        const end = parseInt(_end);
-        const limit = end - start + 1; // Perhitungan yang benar
-
-        // ---- START DEBUG LOG ----
-        console.log('Parsed Pagination Values:');
-        console.log(`  _start (offset) = ${start}`);
-        console.log(`  _end = ${end}`);
-        console.log(`  Calculated Limit = ${limit}`);
-        // ---- END DEBUG LOG ----
-
+        const start = parseInt(_start, 10);
+        const limit = parseInt(_end, 10) - start + 1;
         const filters = JSON.parse(filter);
 
+        let whereClause = {};
+        if (filters.q) {
+            const searchQuery = `%${filters.q}%`;
+            whereClause = {
+                [Op.or]: [
+                    { name: { [Op.like]: searchQuery } },
+                    { email: { [Op.like]: searchQuery } },
+                    { phone: { [Op.like]: searchQuery } },
+                    { message: { [Op.like]: searchQuery } }
+                ]
+            };
+        }
+
         const { count, rows } = await Inquiry.findAndCountAll({
-            where: filters,
+            where: whereClause, // Gunakan klausa where di sini
             order: [[_sort, _order]],
             offset: start,
             limit: limit
         });
-
-        // ---- START DEBUG LOG ----
-        console.log('Database Query Result:');
-        console.log(`  Rows returned: ${rows.length}`);
-        console.log(`  Total count from DB: ${count}`);
-        console.log('================================================\n');
-        // ---- END DEBUG LOG ----
 
         res.header('Content-Range', `items ${start}-${start + rows.length - 1}/${count}`);
         res.json(formatForReactAdmin(rows));

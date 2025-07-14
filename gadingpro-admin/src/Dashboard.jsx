@@ -3,7 +3,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { useGetList } from "react-admin";
-import { Lightbulb } from "lucide-react";
 
 const Dashboard = () => {
     // Ambil 5 proyek terbaru (diurutkan berdasarkan ID terbaru)
@@ -16,6 +15,11 @@ const Dashboard = () => {
     const { data: inquiries, isLoading: isLoadingInquiries } = useGetList('inquiries', {
         pagination: { page: 1, perPage: 5 },
         sort: { field: 'createdAt', order: 'DESC' },
+    });
+
+    const { data: branches, isLoading: isLoadingBranches } = useGetList('branches', {
+        pagination: { page: 1, perPage: 5 },
+        sort: { field: 'id', order: 'DESC' },
     });
 
     return (
@@ -84,6 +88,37 @@ const Dashboard = () => {
                                             <TableCell className="font-medium">{inquiry.name}</TableCell>
                                             <TableCell><Badge variant="secondary">{inquiry.type}</Badge></TableCell>
                                             <TableCell>{new Date(inquiry.createdAt).toLocaleDateString()}</TableCell>
+                                        </TableRow>
+                                    ))
+                                )}
+                            </TableBody>
+                        </Table>
+                    </CardContent>
+                </Card>
+            </div>
+             <div className="mt-4">
+                <Card>
+                    <CardHeader>
+                        <CardTitle>Cabang Terbaru Ditambahkan</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <Table>
+                            <TableHeader>
+                                <TableRow>
+                                    <TableHead>Nama Cabang</TableHead>
+                                    <TableHead>Kota</TableHead>
+                                    <TableHead>Alamat</TableHead>
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                                {isLoadingBranches ? (
+                                    <TableRow><TableCell colSpan={3}>Loading...</TableCell></TableRow>
+                                ) : (
+                                    branches?.map(branch => (
+                                        <TableRow key={branch.id}>
+                                            <TableCell className="font-medium">{branch.name}</TableCell>
+                                            <TableCell>{branch.city}</TableCell>
+                                            <TableCell>{branch.address}</TableCell>
                                         </TableRow>
                                     ))
                                 )}

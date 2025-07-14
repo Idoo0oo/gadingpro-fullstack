@@ -1,5 +1,5 @@
 // gadingpro-admin-panel/src/inquiries.tsx
-import { List, Datagrid, TextField, EmailField, DateField, ShowButton, DeleteButton } from 'react-admin';
+import { List, Datagrid, TextField, EmailField, DateField, ShowButton, DeleteButton, Filter, SearchInput } from 'react-admin';
 
 const datagridStyles = {
     '& .RaDatagrid-headerCell': {
@@ -30,8 +30,14 @@ const ActionsCell = () => (
     </div>
 );
 
-export const InquiryList = () => (
-    <List>
+const InquiryFilter = (props) => (
+    <Filter {...props}>
+        <SearchInput source="q" alwaysOn placeholder="Cari pesan..."/>
+    </Filter>
+);
+
+export const InquiryList = (props) => (
+    <List {...props} filters={<InquiryFilter />}>
         <Datagrid rowClick="show" sx={datagridStyles}>
             <TextField source="id" />
             <TextField source="name" />
@@ -39,7 +45,7 @@ export const InquiryList = () => (
             <TextField source="phone" />
             <TextField source="type" />
             <DateField source="createdAt" showTime />
-            <ActionsCell /> {/* Tombol aksi */}
+            <ActionsCell />
         </Datagrid>
     </List>
 );

@@ -1,5 +1,5 @@
 // gadingpro-admin/src/App.jsx
-import { Admin, Resource, EditGuesser } from 'react-admin';
+import { Admin, Resource } from 'react-admin';
 import BusinessIcon from '@mui/icons-material/Business';
 import ApartmentIcon from '@mui/icons-material/Apartment';
 import MailIcon from '@mui/icons-material/Mail';
@@ -13,8 +13,8 @@ import MyLayout from './MyLayout';
 import Dashboard from './Dashboard'; // Dashboard baru
 
 // Import komponen resource
-import { ProjectList, ProjectCreate } from './projects';
-import { BranchList, BranchCreate } from './branches';
+import { ProjectList, ProjectCreate, ProjectEdit } from './projects';
+import { BranchList, BranchCreate, BranchEdit } from './branches';
 import { InquiryList } from './inquiries';
 import { InquiryShow } from './inquiriesShow';
 
@@ -33,7 +33,7 @@ function App() {
         name="projects"
         list={ProjectList}
         create={ProjectCreate}
-        edit={EditGuesser}
+        edit={ProjectEdit} // <-- Ganti EditGuesser menjadi ProjectEdit
         icon={ApartmentIcon}
         options={{ label: 'Projects' }}
       />
@@ -41,16 +41,18 @@ function App() {
         name="branches"
         list={BranchList}
         create={BranchCreate}
-        edit={EditGuesser}
+        edit={BranchEdit} // <-- Ganti EditGuesser menjadi BranchEdit
         icon={BusinessIcon}
         options={{ label: 'Cabang' }}
       />
       <Resource
         name="inquiries"
         list={InquiryList}
-        show={InquiryShow}
+        show={InquiryShow} // <-- Show tetap ada untuk melihat detail
         icon={MailIcon}
         options={{ label: 'Pesan Masuk' }}
+        create={null} // Pesan masuk tidak bisa dibuat dari admin
+        edit={null}   // dan tidak bisa diedit
       />
     </Admin>
   );
