@@ -57,7 +57,7 @@ const ContactInfo = () => {
                   <MapPin size={36} />
                 </div>
                 <Card.Title className="fs-5 fw-bold text-dark mb-2">Alamat</Card.Title>
-                <Card.Text className="text-secondary text-center mb-0">Jalan Raya Tajur Halang No. 123, Bogor</Card.Text>
+                <Card.Text className="text-secondary text-center mb-0">Jl. Klp Gading Sel Blok BH10 No.30</Card.Text>
               </Card.Body>
             </Card>
           </Col>
