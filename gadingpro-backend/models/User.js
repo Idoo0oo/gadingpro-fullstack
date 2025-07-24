@@ -28,9 +28,9 @@ const User = sequelize.define('User', {
     allowNull: true, // Boleh kosong
   },
   profilePicture: {
-    type: 'MEDIUMTEXT', // Tipe data untuk menyimpan base64 image
-    allowNull: true,
-  },
+  type: DataTypes.TEXT('medium'), // UBAH BARIS INI
+  allowNull: true,
+},
 }, {
   tableName: 'users', // Nama tabel di database
   hooks: {

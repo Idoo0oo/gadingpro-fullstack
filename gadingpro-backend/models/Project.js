@@ -14,9 +14,9 @@ const Project = sequelize.define('Project', {
   price: DataTypes.STRING,
   status: DataTypes.STRING,
   brochureLink: DataTypes.STRING,
-  image: 'MEDIUMTEXT',
+  image: DataTypes.TEXT('medium'),
   images: {
-    type: 'MEDIUMTEXT', // <<< UBAH DARI DataTypes.STRING MENJADI DataTypes.TEXT
+    type: DataTypes.TEXT('medium'),
     get() {
       const rawValue = this.getDataValue('images');
       return rawValue ? JSON.parse(rawValue) : [];
