@@ -3,6 +3,8 @@ require('dotenv').config();
 const sequelize = require('./config/database');
 const Project = require('./models/Project');
 const Branch = require('./models/Branch');
+const User = require('./models/User');
+const Inquiry = require('./models/Inquiry');
 
 const projectsAll = [
   {
@@ -623,18 +625,38 @@ const branches = [
 
 async function seedDatabase() {
   try {
-    await sequelize.sync({ force: true }); // DANGER: This will drop tables!
-    console.log('Database synchronized and tables dropped/recreated.');
+    // force: true akan menghapus SEMUA tabel dan membuatnya ulang sesuai model terbaru
+    await sequelize.sync({ force: true });
+    console.log('Database synchronized and all tables dropped/recreated.');
 
-    // Insert Projects
+    // 1. Insert Projects
     await Project.bulkCreate(projectsAll);
     console.log(`${projectsAll.length} Projects inserted.`);
 
-    // Insert Branches
+    // 2. Insert Branches
     await Branch.bulkCreate(branches);
     console.log(`${branches.length} Branches inserted.`);
 
+    // --- BAGIAN BARU: Insert Admin User ---
+    const adminUsername = 'admin';
+    const adminPassword = 'admin123';
+    
+    const existingAdmin = await User.findOne({ where: { username: adminUsername } });
+
+    if (!existingAdmin) {
+        await User.create({
+            username: adminUsername,
+            password: adminPassword,
+            role: 'admin' // Pastikan role-nya 'admin'
+        });
+        console.log(`Admin user '${adminUsername}' was created successfully!`);
+    } else {
+        console.log(`Admin user '${adminUsername}' already exists.`);
+    }
+    // --- AKHIR BAGIAN BARU ---
+
     console.log('Database seeding complete!');
+
   } catch (err) {
     console.error('Database seeding error:', err);
   } finally {

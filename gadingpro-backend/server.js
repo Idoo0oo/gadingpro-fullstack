@@ -23,6 +23,9 @@ if (!JWT_SECRET) {
   process.exit(1);
 }
 
+Project.belongsTo(User, { foreignKey: 'creatorId', as: 'creator' });
+User.hasMany(Project, { foreignKey: 'creatorId' });
+
 const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
 const adminUrl = process.env.ADMIN_URL || 'http://localhost:3000';
 
@@ -58,7 +61,7 @@ app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
 // Sinkronisasi Database
-sequelize.sync({ alter: true })
+sequelize.sync()
   .then(() => console.log('All models were synchronized successfully.'))
   .catch(err => console.error('Unable to synchronize models:', err));
 
@@ -92,7 +95,15 @@ const formatForReactAdmin = (data) => {
 // Rute Publik (Untuk Website Frontend, tidak perlu token)
 app.get('/public/projects', async (req, res, next) => {
     try {
-        const projects = await Project.findAll();
+        // --- PERUBAHAN DI SINI ---
+        const projects = await Project.findAll({
+            include: [{
+                model: User,
+                as: 'creator', // Alias untuk relasi
+                attributes: ['username', 'phone', 'profilePicture'] // Ambil data ini dari user
+            }]
+        });
+        // --- AKHIR PERUBAHAN ---
         res.json(projects);
     } catch (err) {
         next(err);
@@ -130,8 +141,12 @@ app.post('/api/login', async (req, res, next) => {
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) return res.status(401).json({ message: 'Invalid credentials' });
     
-    // DIPERBAIKI: Menggunakan variabel JWT_SECRET yang konsisten
-    const token = jwt.sign({ id: user.id, username: user.username }, JWT_SECRET, { expiresIn: '8h' });
+    // --- PERUBAHAN DI SINI: Tambahkan 'role' ke dalam token ---
+    const token = jwt.sign(
+      { id: user.id, username: user.username, role: user.role }, // Tambahkan role
+      JWT_SECRET, 
+      { expiresIn: '8h' }
+    );
     res.json({ token });
   } catch (error) {
     next(error);
@@ -149,21 +164,24 @@ app.get('/api/projects', authenticateToken, async (req, res, next) => {
         const limit = parseInt(_end, 10) - start + 1;
         const filters = JSON.parse(filter);
 
-        let whereClause = {};
+        let whereClause = {}; // Inisialisasi whereClause
+
+        // --- LOGIKA PERAN DITERAPKAN DI SINI ---
+        if (req.user.role === 'agent') {
+            whereClause.creatorId = req.user.id; // Agent hanya bisa lihat proyek miliknya
+        }
+        // Admin bisa lihat semua, jadi tidak perlu kondisi tambahan untuk admin
+
         if (filters.q) {
             const searchQuery = `%${filters.q}%`;
-            whereClause = {
-                [Op.or]: [
-                    { name: { [Op.like]: searchQuery } },
-                    { location: { [Op.like]: searchQuery } },
-                    { developer: { [Op.like]: searchQuery } },
-                    { category: { [Op.like]: searchQuery } }
-                ]
-            };
+            whereClause[Op.or] = [ // Gabungkan dengan filter pencarian
+                { name: { [Op.like]: searchQuery } },
+                { location: { [Op.like]: searchQuery } },
+            ];
         }
 
         const { count, rows } = await Project.findAndCountAll({
-            where: whereClause, // Gunakan klausa where di sini
+            where: whereClause, // Terapkan kondisi di sini
             order: [[_sort, _order]],
             offset: start,
             limit: limit
@@ -185,7 +203,12 @@ app.get('/api/projects/:id', authenticateToken, async (req, res, next) => {
 });
 app.post('/api/projects', authenticateToken, async (req, res, next) => {
     try {
-        const newProject = await Project.create(req.body);
+        // --- TAMBAHKAN creatorId saat membuat proyek ---
+        const projectData = {
+            ...req.body,
+            creatorId: req.user.id // Ambil ID dari token
+        };
+        const newProject = await Project.create(projectData);
         res.status(201).json(formatForReactAdmin(newProject));
     } catch (err) {
         next(err);
@@ -324,6 +347,72 @@ app.get('/api/inquiries/:id', authenticateToken, async (req, res, next) => {
     }
 });
 
+const isAdmin = (req, res, next) => {
+  if (req.user.role !== 'admin') {
+    return res.status(403).json({ message: 'Forbidden: Admins only' });
+  }
+  next();
+};
+
+app.get('/api/users', authenticateToken, isAdmin, async (req, res, next) => {
+    try {
+        const { _sort = 'id', _order = 'ASC', _start = 0, _end = 9 } = req.query;
+        const start = parseInt(_start, 10);
+        const limit = parseInt(_end, 10) - start + 1;
+
+        const { count, rows } = await User.findAndCountAll({
+            order: [[_sort, _order]],
+            offset: start,
+            limit: limit
+        });
+        res.header('Content-Range', `items ${start}-${start + rows.length - 1}/${count}`);
+        res.json(formatForReactAdmin(rows));
+    } catch(err) {
+        next(err);
+    }
+});
+
+app.get('/api/users/:id', authenticateToken, isAdmin, async (req, res, next) => {
+    try {
+        const user = await User.findByPk(req.params.id);
+        res.json(formatForReactAdmin(user));
+    } catch(err) {
+        next(err);
+    }
+});
+
+app.post('/api/users', authenticateToken, isAdmin, async (req, res, next) => {
+    try {
+        const newUser = await User.create(req.body);
+        res.status(201).json(formatForReactAdmin(newUser));
+    } catch (err) {
+        next(err);
+    }
+});
+
+app.put('/api/users/:id', authenticateToken, isAdmin, async (req, res, next) => {
+    try {
+        // Jika password tidak diubah, jangan hash ulang
+        const data = { ...req.body };
+        if (!data.password) {
+            delete data.password;
+        }
+        await User.update(data, { where: { id: req.params.id } });
+        const updatedUser = await User.findByPk(req.params.id);
+        res.json(formatForReactAdmin(updatedUser));
+    } catch (err) {
+        next(err);
+    }
+});
+
+app.delete('/api/users/:id', authenticateToken, isAdmin, async (req, res, next) => {
+    try {
+        await User.destroy({ where: { id: req.params.id } });
+        res.status(204).send();
+    } catch (err) {
+        next(err);
+    }
+});
 
 // DIHAPUS: Blok 'raExpressMongoose' yang menyebabkan error sudah tidak ada lagi.
 

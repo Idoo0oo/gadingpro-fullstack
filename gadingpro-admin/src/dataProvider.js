@@ -54,6 +54,11 @@ const addUploadCapabilities = async (params) => {
 
         params.data.images = [...formerImages.map(p => p.src || p), ...base64NewImages];
     }
+
+    if (params.data.profilePicture && params.data.profilePicture.rawFile instanceof File) {
+        const base64 = await convertFileToBase64(params.data.profilePicture);
+        params.data.profilePicture = base64;
+    }
     
     return params;
 };

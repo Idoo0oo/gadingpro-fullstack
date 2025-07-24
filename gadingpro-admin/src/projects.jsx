@@ -18,11 +18,7 @@ import {
     Filter,
     SearchInput,
     required
-    // HAPUS RichTextInput dari sini
 } from 'react-admin';
-
-// Impor RichTextInput HANYA dari sini
-import { RichTextInput } from 'ra-input-rich-text'; 
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
@@ -91,7 +87,13 @@ const ProjectForm = () => (
                 <CardTitle>Detail & Spesifikasi</CardTitle>
             </CardHeader>
             <CardContent>
-                 <RichTextInput source="description" label="Deskripsi Proyek" fullWidth />
+                 <TextInput 
+                    source="description" 
+                    label="Deskripsi Proyek" 
+                    multiline // Ini akan membuatnya menjadi textarea
+                    fullWidth 
+                    resettable 
+                 />
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
                     <NumberInput source="bedrooms" label="Kamar Tidur"/>
                     <NumberInput source="bathrooms" label="Kamar Mandi"/>

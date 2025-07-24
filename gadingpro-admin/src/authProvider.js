@@ -1,5 +1,6 @@
 // Mengatur URL API backend secara dinamis
 const apiUrl = import.meta.env.VITE_BACKEND_URL;
+import { jwtDecode } from 'jwt-decode'; 
 
 export const authProvider = {
     // Fungsi untuk login
@@ -17,9 +18,11 @@ export const authProvider = {
                 return response.json();
             })
             .then(auth => {
-                // Simpan token dan username di localStorage
                 localStorage.setItem('token', auth.token);
-                localStorage.setItem('username', username);
+                // --- PERUBAHAN DI SINI: Decode token untuk mendapatkan role ---
+                const decodedToken = jwtDecode(auth.token);
+                localStorage.setItem('username', decodedToken.username);
+                localStorage.setItem('role', decodedToken.role); // Simpan role
             })
             .catch(() => {
                 throw new Error('Network error');
@@ -28,12 +31,11 @@ export const authProvider = {
 
     // Fungsi untuk logout
     logout: () => {
-        // Hapus token dan username dari localStorage
         localStorage.removeItem('token');
         localStorage.removeItem('username');
+        localStorage.removeItem('role'); // Hapus role saat logout
         return Promise.resolve();
     },
-
     // Fungsi untuk menangani error (misalnya saat token tidak valid)
     checkError: ({ status }) => {
         if (status === 401 || status === 403) {
@@ -50,7 +52,11 @@ export const authProvider = {
     },
 
     // Fungsi untuk mendapatkan izin/hak akses (jika ada)
-    getPermissions: () => Promise.resolve(),
+    getPermissions: () => {
+        const role = localStorage.getItem('role');
+        // Jangan melempar error jika role tidak ada, cukup kembalikan null
+        return Promise.resolve(role); 
+    },
 };
 
 export default authProvider;

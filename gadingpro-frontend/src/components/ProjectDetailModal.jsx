@@ -226,33 +226,34 @@ const ProjectDetailModal = ({ project, showModal, handleCloseModal }) => {
                 </div>
 
                 {/* Contact Section */}
-                <div className="contact-section mt-4 p-3 bg-orange-light rounded-3">
-                  <h6 className="fw-bold text-orange mb-3">
-                    Tertarik dengan properti ini?
+              {agent && ( // Tampilkan hanya jika ada data agent
+                <div className="contact-section mt-4 p-3 bg-light rounded-3 text-center">
+                  <h6 className="fw-bold text-dark mb-3">
+                    Tertarik? Hubungi Agen Kami
                   </h6>
-                  <div className="d-grid gap-2">
+                  <img 
+                    src={agent.profilePicture || 'https://via.placeholder.com/80'} // Gambar placeholder jika tidak ada foto
+                    alt={agent.username}
+                    className="rounded-circle mb-2"
+                    style={{ width: '80px', height: '80px', objectFit: 'cover' }}
+                  />
+                  <p className="fw-bold mb-0">{agent.username}</p>
+                  <p className="text-muted small">{agent.phone}</p>
+                  
+                  <div className="d-grid gap-2 mt-3">
                     <Button
-                      variant="orange"
-                      size="sm"
+                      variant="success" // Ganti warna jadi hijau untuk WhatsApp
                       className="fw-medium"
-                      onClick={() => {
-                        handleCloseModal();
-                        navigate("/contact-us");
-                      }}
-                    >
-                      <i className="fa-solid fa-phone me-2"></i>
-                      Hubungi Sales
-                    </Button>
-                    <Button
-                      variant="outline-orange"
-                      size="sm"
-                      className="fw-medium"
+                      href={`https://wa.me/${agent.phone.replace(/\D/g, '')}`} // Link langsung ke WhatsApp
+                      target="_blank"
+                      rel="noopener noreferrer"
                     >
                       <i className="fa-brands fa-whatsapp me-2"></i>
                       WhatsApp
                     </Button>
                   </div>
                 </div>
+              )}
               </Col>
             </Row>
           </div>

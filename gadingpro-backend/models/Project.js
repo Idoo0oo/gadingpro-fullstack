@@ -55,6 +55,16 @@ const Project = sequelize.define('Project', {
       this.setDataValue('features', JSON.stringify(value));
     }
   },
+  creatorId: {
+    type: DataTypes.INTEGER,
+    allowNull: null, // Bisa null jika ada proyek lama sebelum sistem ini
+    references: {
+      model: 'users', // Merujuk ke tabel 'users'
+      key: 'id',
+    },
+    onUpdate: 'CASCADE',
+    onDelete: 'SET NULL',
+  },
 }, {
   tableName: 'projects' // Nama tabel di database
 });

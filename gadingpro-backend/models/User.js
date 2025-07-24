@@ -20,8 +20,16 @@ const User = sequelize.define('User', {
     allowNull: false,
   },
   role: {
-    type: DataTypes.ENUM('admin', 'editor'),
-    defaultValue: 'editor',
+    type: DataTypes.ENUM('admin', 'agent'),
+    defaultValue: 'agent',
+  },
+  phone: {
+    type: DataTypes.STRING,
+    allowNull: true, // Boleh kosong
+  },
+  profilePicture: {
+    type: 'MEDIUMTEXT', // Tipe data untuk menyimpan base64 image
+    allowNull: true,
   },
 }, {
   tableName: 'users', // Nama tabel di database
