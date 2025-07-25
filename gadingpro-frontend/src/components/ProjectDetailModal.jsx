@@ -226,7 +226,7 @@ const ProjectDetailModal = ({ project, showModal, handleCloseModal }) => {
                 </div>
 
                 {/* Contact Section */}
-              {agent && ( // Tampilkan hanya jika ada data agent
+              {/* {agent && ( // Tampilkan hanya jika ada data agent
                 <div className="contact-section mt-4 p-3 bg-light rounded-3 text-center">
                   <h6 className="fw-bold text-dark mb-3">
                     Tertarik? Hubungi Agen Kami
@@ -253,7 +253,7 @@ const ProjectDetailModal = ({ project, showModal, handleCloseModal }) => {
                     </Button>
                   </div>
                 </div>
-              )}
+              )} */}
               </Col>
             </Row>
           </div>

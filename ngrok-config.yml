@@ -8,3 +8,8 @@ tunnels:
   gadingpro-frontend:
     proto: http
     addr: 5173
+  gadingpro-admin:    # <-- TAMBAHKAN INI
+    proto: http
+    addr: 3000 
+
+    # ngrok start --all --config=ngrok-config.yml

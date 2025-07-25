@@ -8,6 +8,8 @@ export default defineConfig({
   plugins: [react(), tailwindcss()],
   server: {
     port: 3000,
+    host: true, // Ini akan membuat Vite mendengarkan di semua alamat IP yang tersedia
+    allowedHosts: true
   },
   resolve: {
     alias: {
