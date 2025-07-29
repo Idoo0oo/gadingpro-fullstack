@@ -14,6 +14,7 @@ export const InquiryShow = (props) => (
                 <EmailField source="email" label="Email" />
                 <TextField source="phone" label="No. Telepon" />
                 <TextField source="type" label="Tipe Pesan" />
+                <TextField source="unitType" label="Tipe Unit Diminati" />
                 <TextField source="message" label="Isi Pesan" />
                 <DateField source="createdAt" label="Tanggal Diterima" showTime />
             </SimpleShowLayout>

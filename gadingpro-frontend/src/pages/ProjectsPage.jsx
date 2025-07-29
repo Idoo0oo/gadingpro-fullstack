@@ -3,7 +3,6 @@ import { useState, useEffect, useMemo, useCallback } from 'react';
 
 import ProjectsHero from '../components/ProjectsHero';
 import ProjectsContent from '../components/ProjectsContent';
-import ProjectDetailModal from '../components/ProjectDetailModal';
 import FaqComponent from '../components/FaqComponent';
 
 const ProjectsPage = () => {
@@ -17,9 +16,6 @@ const ProjectsPage = () => {
   const [selectedPriceRange, setSelectedPriceRange] = useState('Semua Harga');
   const [sortBy, setSortBy] = useState('newest');
   const [viewMode, setViewMode] = useState('grid');
-
-  const [showModal, setShowModal] = useState(false);
-  const [selectedProject, setSelectedProject] = useState(null);
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -77,16 +73,6 @@ const ProjectsPage = () => {
     if (priceString.includes('Miliar')) return num * 1000;
     if (priceString.includes('Juta')) return num;
     return num;
-  }, []);
-
-  const handleOpenModal = useCallback((project) => {
-    setSelectedProject(project);
-    setShowModal(true);
-  }, []);
-
-  const handleCloseModal = useCallback(() => {
-    setShowModal(false);
-    setSelectedProject(null);
   }, []);
 
   const resetFilters = useCallback(() => {
@@ -225,17 +211,8 @@ const ProjectsPage = () => {
         viewMode={viewMode}
         setViewMode={setViewMode}
         filteredProjects={filteredProjects}
-        handleOpenModal={handleOpenModal}
         resetFilters={resetFilters}
       />
-
-      {selectedProject && (
-        <ProjectDetailModal
-          project={selectedProject}
-          showModal={showModal}
-          handleCloseModal={handleCloseModal}
-        />
-      )}
 
       <section className="bg-white py-5">
         <div className="container">

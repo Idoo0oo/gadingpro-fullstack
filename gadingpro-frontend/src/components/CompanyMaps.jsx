@@ -22,7 +22,7 @@ const CompanyMaps = () => {
       <Container>
         <Row className="mb-5 text-center">
           <Col>
-            <h2 className="fw-bold mb-3">Lokasi Cabang Pusat Kami</h2>
+            <h2 className="fw-bold mb-3">Lokasi Kantor Pusat Kami</h2>
             <p className="text-muted mx-auto" style={{ maxWidth: "600px" }}>
               Detail Maps
             </p>

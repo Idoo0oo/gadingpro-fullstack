@@ -1,4 +1,4 @@
-// gadingpro-backend/models/Inquiry.js
+// gadingpro-backend/models/Inquiry.js (Setelah Dimodifikasi)
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
 
@@ -9,21 +9,13 @@ const Inquiry = sequelize.define('Inquiry', {
     primaryKey: true,
     allowNull: false,
   },
-  name: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  email: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  phone: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
+  name: DataTypes.STRING,
+  email: DataTypes.STRING,
+  phone: DataTypes.STRING,
   message: DataTypes.TEXT,
+  unitType: DataTypes.STRING, // <-- BARU
   type: {
-    type: DataTypes.ENUM('contact', 'brochure'),
+    type: DataTypes.ENUM('contact', 'brochure', 'whatsapp'), // <-- TAMBAHKAN 'whatsapp'
     allowNull: false,
   },
   createdAt: {
@@ -31,7 +23,7 @@ const Inquiry = sequelize.define('Inquiry', {
     defaultValue: DataTypes.NOW,
   },
 }, {
-  tableName: 'inquiries' // Nama tabel di database
+  tableName: 'inquiries'
 });
 
 module.exports = Inquiry;

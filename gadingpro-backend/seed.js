@@ -1,298 +1,217 @@
-// gadingpro-backend/seed.js
+// gadingpro-backend/seed.js (REVISI FINAL DENGAN 12 PROYEK)
 require('dotenv').config();
 const sequelize = require('./config/database');
 const Project = require('./models/Project');
+const UnitType = require('./models/UnitType');
 const Branch = require('./models/Branch');
 const User = require('./models/User');
 const Inquiry = require('./models/Inquiry');
 
-const projectsAll = [
-  {
-    name: "Grand Orchid Residence",
-    location: "Bekasi, Jawa Barat",
-    price: "Rp 850 Juta",
-    status: "Ready Stock",
-    brochureLink: "/assets/brochures/modern-home.pdf",
-    image: "https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg?auto=compress&cs=tinysrgb&w=800",
-    images: [
-      "https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg?auto=compress&cs=tinysrgb&w=800",
-      "https://images.pexels.com/photos/206172/pexels-photo-206172.jpeg?auto=compress&cs=tinysrgb&w=800",
-      "https://images.pexels.com/photos/259649/pexels-photo-259649.jpeg?auto=compress&cs=tinysrgb&w=800",
-      "https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?auto=compress&cs=tinysrgb&w=800"
-    ],
-    bedrooms: 3,
-    bathrooms: 2,
-    garage: 1,
-    landSize: 84,
-    buildingSize: 60,
-    facilities: ["Swimming Pool", "Playground", "Security 24/7", "Masjid", "Taman"],
-    category: "Cluster",
-    type: "Rumah",
-    developer: "Orchid Property",
-    completionYear: 2024,
-    description: "Hunian modern dengan desain minimalis di kawasan strategis Bekasi",
-    features: {
-      electricity: "2200 Watt",
-      water: "PDAM",
-      flooring: "Keramik 40x40",
-      ceiling: "Plafon Gypsum",
-      structure: "Beton Bertulang"
-    }
-  },
-  {
-    name: "Emerald Park Village",
-    location: "Tangerang, Banten",
-    price: "Rp 1.2 Miliar",
-    status: "Launching",
-    brochureLink: "/assets/brochures/modern-home.pdf",
-    image: "https://images.pexels.com/photos/1396122/pexels-photo-1396122.jpeg?auto=compress&cs=tinysrgb&w=800",
-    images: [
-      "https://images.pexels.com/photos/1396122/pexels-photo-1396122.jpeg?auto=compress&cs=tinysrgb&w=800",
-      "https://images.pexels.com/photos/101808/pexels-photo-101808.jpeg?auto=compress&cs=tinysrgb&w=800",
-      "https://images.pexels.com/photos/259588/pexels-photo-259588.jpeg?auto=compress&cs=tinysrgb&w=800",
-      "https://images.pexels.com/photos/276724/pexels-photo-276724.jpeg?auto=compress&cs=tinysrgb&w=800"
-    ],
-    bedrooms: 4,
-    bathrooms: 3,
-    garage: 2,
-    landSize: 120,
-    buildingSize: 90,
-    facilities: ["Club House", "Jogging Track", "CCTV", "Posyandu", "Mini Market"],
-    category: "Perumahan",
-    type: "Rumah",
-    developer: "Emerald Developer",
-    completionYear: 2025,
-    description: "Perumahan premium dengan konsep green living dan fasilitas lengkap",
-    features: {
-      electricity: "3500 Watt",
-      water: "PDAM + Sumur Bor",
-      flooring: "Granit 60x60",
-      ceiling: "Plafon Gypsum + Drop Ceiling",
-      structure: "Beton Bertulang Premium"
-    }
-  },
-  {
-    name: "Sunset Heights Apartment",
-    location: "Jakarta Selatan, DKI Jakarta",
-    price: "Rp 2.5 Miliar",
-    status: "Pre-Launching",
-    brochureLink: "/assets/brochures/modern-home.pdf",
-    image: "https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg?auto=compress&cs=tinysrgb&w=800",
-    images: [
-      "https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg?auto=compress&cs=tinysrgb&w=800",
-      "https://images.pexels.com/photos/279746/pexels-photo-279746.jpeg?auto=compress&cs=tinysrgb&w=800",
-      "https://images.pexels.com/photos/164522/pexels-photo-164522.jpeg?auto=compress&cs=tinysrgb&w=800",
-      "https://images.pexels.com/photos/271816/pexels-photo-271816.jpeg?auto=compress&cs=tinysrgb&w=800"
-    ],
-    bedrooms: 2,
-    bathrooms: 2,
-    garage: 1,
-    landSize: 0,
-    buildingSize: 75,
-    facilities: ["Sky Garden", "Gym", "Concierge", "Ballroom", "Business Center"],
-    category: "Apartemen",
-    type: "Apartemen",
-    developer: "Sunset Development",
-    completionYear: 2026,
-    description: "Apartemen mewah dengan pemandangan kota yang menakjubkan",
-    features: {
-      electricity: "2200 Watt",
-      water: "PDAM",
-      flooring: "Keramik Premium 50x50",
-      ceiling: "Plafon Gypsum",
-      structure: "Beton Bertulang"
-    }
-  },
-  {
-    name: "Pine Valley Townhouse",
-    location: "Bogor, Jawa Barat",
-    price: "Rp 1.8 Miliar",
-    status: "Ready Stock",
-    brochureLink: "/assets/brochures/modern-home.pdf",
-    image: "https://images.pexels.com/photos/1370704/pexels-photo-1370704.jpeg?auto=compress&cs=tinysrgb&w=800",
-    images: [
-      "https://images.pexels.com/photos/1370704/pexels-photo-1370704.jpeg?auto=compress&cs=tinysrgb&w=800",
-      "https://images.pexels.com/photos/101808/pexels-photo-101808.jpeg?auto=compress&cs=tinysrgb&w=800",
-      "https://images.pexels.com/photos/259588/pexels-photo-259588.jpeg?auto=compress&cs=tinysrgb&w=800",
-      "https://images.pexels.com/photos/276724/pexels-photo-276724.jpeg?auto=compress&cs=tinysrgb&w=800"
-    ],
-    bedrooms: 3,
-    bathrooms: 3,
-    garage: 2,
-    landSize: 150,
-    buildingSize: 120,
-    facilities: ["Private Garden", "Home Automation", "Solar Panel", "Rain Water Harvesting"],
-    category: "Townhouse",
-    type: "Rumah",
-    developer: "Pine Valley Corp",
-    completionYear: 2024,
-    description: "Townhouse eksklusif dengan teknologi smart home dan konsep eco-friendly",
-    features: {
-      electricity: "3500 Watt",
-      water: "PDAM + Sumur Bor",
-      flooring: "Granit 60x60",
-      ceiling: "Plafon Gypsum + Drop Ceiling",
-      structure: "Beton Bertulang Premium"
-    }
-  },
-  {
-    name: "Lotus Garden Residence",
-    location: "Depok, Jawa Barat",
-    price: "Rp 950 Juta",
-    status: "Under Construction",
-    brochureLink: "/assets/brochures/modern-home.pdf",
-    image: "https://images.pexels.com/photos/280222/pexels-photo-280222.jpeg?auto=compress&cs=tinysrgb&w=800",
-    images: [
-      "https://images.pexels.com/photos/280222/pexels-photo-280222.jpeg?auto=compress&cs=tinysrgb&w=800",
-      "https://images.pexels.com/photos/206172/pexels-photo-206172.jpeg?auto=compress&cs=tinysrgb&w=800",
-      "https://images.pexels.com/photos/259649/pexels-photo-259649.jpeg?auto=compress&cs=tinysrgb&w=800"
-    ],
-    bedrooms: 3,
-    bathrooms: 2,
-    garage: 1,
-    landSize: 96,
-    buildingSize: 72,
-    facilities: ["Central Park", "Children Playground", "Klinik", "Food Court", "ATM Center"],
-    category: "Cluster",
-    type: "Rumah",
-    developer: "Lotus Property",
-    completionYear: 2025,
-    description: "Hunian nyaman dengan akses mudah ke berbagai fasilitas publik",
-    features: {
-      electricity: "2200 Watt",
-      water: "PDAM",
-      flooring: "Keramik 40x40",
-      ceiling: "Plafon Gypsum",
-      structure: "Beton Bertulang"
-    }
-  },
-  {
-    name: "Golden Bay Residence",
-    location: "Bekasi, Jawa Barat",
-    price: "Rp 1.1 Miliar",
-    status: "Ready Stock",
-    brochureLink: "/assets/brochures/modern-home.pdf",
-    image: "https://images.pexels.com/photos/1475938/pexels-photo-1475938.jpeg?auto=compress&cs=tinysrgb&w=800",
-    images: [
-      "https://images.pexels.com/photos/1475938/pexels-photo-1475938.jpeg?auto=compress&cs=tinysrgb&w=800",
-      "https://images.pexels.com/photos/101808/pexels-photo-101808.jpeg?auto=compress&cs=tinysrgb&w=800",
-      "https://images.pexels.com/photos/259588/pexels-photo-259588.jpeg?auto=compress&cs=tinysrgb&w=800"
-    ],
-    bedrooms: 4,
-    bathrooms: 3,
-    garage: 2,
-    landSize: 105,
-    buildingSize: 85,
-    facilities: ["Waterpark", "Tennis Court", "Badminton Court", "Sauna", "Spa"],
-    category: "Perumahan",
-    type: "Rumah",
-    developer: "Golden Developer",
-    completionYear: 2024,
-    description: "Perumahan mewah dengan fasilitas rekreasi yang lengkap",
-    features: {
-      electricity: "4400 Watt",
-      water: "PDAM + Sumur Bor",
-      flooring: "Granit 60x60",
-      ceiling: "Plafon Gypsum + Drop Ceiling",
-      structure: "Beton Bertulang Premium"
-    }
-  },
-  {
-    name: "Azure Sky Condominium",
-    location: "Jakarta Pusat, DKI Jakarta",
-    price: "Rp 3.2 Miliar",
-    status: "Launching",
-    brochureLink: "/assets/brochures/modern-home.pdf",
-    image: "https://images.pexels.com/photos/1029599/pexels-photo-1029599.jpeg?auto=compress&cs=tinysrgb&w=800",
-    images: [
-      "https://images.pexels.com/photos/1029599/pexels-photo-1029599.jpeg?auto=compress&cs=tinysrgb&w=800",
-      "https://images.pexels.com/photos/279746/pexels-photo-279746.jpeg?auto=compress&cs=tinysrgb&w=800",
-      "https://images.pexels.com/photos/164522/pexels-photo-164522.jpeg?auto=compress&cs=tinysrgb&w=800"
-    ],
-    bedrooms: 3,
-    bathrooms: 2,
-    garage: 1,
-    landSize: 0,
-    buildingSize: 120,
-    facilities: ["Infinity Pool", "Sky Lounge", "Valet Parking", "Private Lift", "Wine Cellar"],
-    category: "Kondominium",
-    type: "Apartemen",
-    developer: "Azure Development",
-    completionYear: 2026,
-    description: "Kondominium super premium dengan layanan hotel berbintang lima",
-    features: {
-      electricity: "5500 Watt",
-      water: "PDAM + Filter",
-      flooring: "Marmer",
-      ceiling: "Plafon Gypsum Mewah",
-      structure: "Beton Bertulang"
-    }
-  },
-  {
-    name: "Harmony Hills Estate",
-    location: "Tangerang Selatan, Banten",
-    price: "Rp 1.6 Miliar",
-    status: "Pre-Launching",
-    brochureLink: "/assets/brochures/modern-home.pdf",
-    image: "https://images.pexels.com/photos/2121121/pexels-photo-2121121.jpeg?auto=compress&cs=tinysrgb&w=800",
-    images: [
-      "https://images.pexels.com/photos/2121121/pexels-photo-2121121.jpeg?auto=compress&cs=tinysrgb&w=800",
-      "https://images.pexels.com/photos/101808/pexels-photo-101808.jpeg?auto=compress&cs=tinysrgb&w=800",
-      "https://images.pexels.com/photos/259588/pexels-photo-259588.jpeg?auto=compress&cs=tinysrgb&w=800"
-    ],
-    bedrooms: 4,
-    bathrooms: 3,
-    garage: 2,
-    landSize: 200,
-    buildingSize: 150,
-    facilities: ["Golf Course", "Horse Riding", "Lake View", "Helipad", "Wine Tasting Room"],
-    category: "Estate",
-    type: "Rumah",
-    developer: "Harmony Group",
-    completionYear: 2027,
-    description: "Estate mewah dengan pemandangan danau dan fasilitas rekreasi eksklusif",
-    features: {
-      electricity: "6600 Watt",
-      water: "Sumur Artesis",
-      flooring: "Parket Kayu Jati",
-      ceiling: "Plafon Kayu Jati",
-      structure: "Baja Ringan + Beton Bertulang"
-    }
-  },
-  {
-    name: "Urban Loft Studios",
-    location: "Jakarta Barat, DKI Jakarta",
-    price: "Rp 750 Juta",
-    status: "Ready Stock",
-    brochureLink: "/assets/brochures/modern-home.pdf",
-    image: "https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?auto=compress&cs=tinysrgb&w=800",
-    images: [
-      "https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?auto=compress&cs=tinysrgb&w=800",
-      "https://images.pexels.com/photos/279746/pexels-photo-279746.jpeg?auto=compress&cs=tinysrgb&w=800",
-      "https://images.pexels.com/photos/164522/pexels-photo-164522.jpeg?auto=compress&cs=tinysrgb&w=800"
-    ],
-    bedrooms: 1,
-    bathrooms: 1,
-    garage: 1,
-    landSize: 0,
-    buildingSize: 45,
-    facilities: ["Co-working Space", "Rooftop Garden", "Coffee Shop", "Art Gallery", "Music Studio"],
-    category: "Studio",
-    type: "Apartemen",
-    developer: "Urban Living Co",
-    completionYear: 2024,
-    description: "Studio apartment modern untuk young professional dengan gaya hidup urban",
-    features: {
-      electricity: "1300 Watt",
-      water: "PDAM",
-      flooring: "Keramik 30x30",
-      ceiling: "Plafon Gypsum",
-      structure: "Beton Bertulang"
-    }
-  }
-];
+// Relasi antar model
+Project.hasMany(UnitType, { foreignKey: 'projectId', as: 'unitTypes' });
+UnitType.belongsTo(Project, { foreignKey: 'projectId' });
 
-const branches = [
+async function seedDatabase() {
+  try {
+    await sequelize.sync({ force: true });
+    console.log('Database synchronized. All tables were dropped and recreated.');
+
+    // 1. Buat User Admin
+    const adminUser = await User.create({
+        username: 'admin',
+        password: 'admin123',
+        phone: '081234567890',
+    });
+    console.log('Admin user created successfully.');
+
+    // 2. Data 12 Proyek dan Tipe Unit-nya
+    const projectsWithUnits = [
+      { // Proyek 1
+        project: {
+          name: "Serpong Garden Residence", developer: "PT Properti Jaya Abadi", location: "Serpong, Tangerang Selatan",
+          googleMapsUrl: "https://maps.app.goo.gl/example1", status: "Launching", brochureLink: "/assets/brochures/modern-home.pdf",
+          image: "https://images.pexels.com/photos/1396122/pexels-photo-1396122.jpeg?auto=compress&cs=tinysrgb&w=800",
+          images: ["https://images.pexels.com/photos/208736/pexels-photo-208736.jpeg", "https://images.pexels.com/photos/210617/pexels-photo-210617.jpeg", "https://images.pexels.com/photos/259588/pexels-photo-259588.jpeg"],
+          promo: "Diskon DP 10% dan bonus kanopi untuk 20 pembeli pertama!",
+          nearbyLocations: { "Gerbang Tol": "5 menit ke Gerbang Tol Serpong", "Pusat Perbelanjaan": "10 menit ke AEON Mall BSD", "Stasiun": "7 menit ke Stasiun Cisauk", "Rumah Sakit": "12 menit ke Eka Hospital" },
+          description: "Kawasan hunian modern di Serpong dengan konsep 'green living'. Menawarkan keseimbangan antara kehidupan kota yang dinamis dan ketenangan alam.",
+          creatorId: adminUser.id,
+        },
+        units: [
+          { name: "Tipe Canna", price: 850000000, bedrooms: 2, bathrooms: 2, garage: 1, landSize: 60, buildingSize: 55, images: ["https://images.pexels.com/photos/276724/pexels-photo-276724.jpeg"], specifications: { Pondasi: "Beton Bertulang", Dinding: "Bata Ringan", Plafon: "Gypsum", Lantai: "Keramik 40x40" } },
+          { name: "Tipe Belladonna", price: 1200000000, bedrooms: 3, bathrooms: 2, garage: 2, landSize: 72, buildingSize: 68, images: ["https://images.pexels.com/photos/1643383/pexels-photo-1643383.jpeg"], specifications: { Pondasi: "Beton Bertulang", Dinding: "Bata Merah", Plafon: "Gypsum & GRC", Lantai: "Granit 60x60" } },
+          { name: "Tipe Amaryllis", price: 1500000000, bedrooms: 4, bathrooms: 3, garage: 2, landSize: 90, buildingSize: 85, images: ["https://images.pexels.com/photos/2079246/pexels-photo-2079246.jpeg"], specifications: { Pondasi: "Tiang Pancang", Dinding: "Bata Merah Plester Aci", Plafon: "PVC Drop Ceiling", Lantai: "Marmer" } },
+        ]
+      },
+      { // Proyek 2
+        project: {
+          name: "Grand Galaxy City", developer: "Agung Sedayu Group", location: "Bekasi, Jawa Barat",
+          googleMapsUrl: "https://maps.app.goo.gl/example2", status: "Ready Stock", brochureLink: "/assets/brochures/modern-home.pdf",
+          image: "https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg?auto=compress&cs=tinysrgb&w=800",
+          images: ["https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg", "https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg"],
+          promo: "Free BPHTB dan Biaya KPR. Unit siap huni!",
+          nearbyLocations: { "Pusat Perbelanjaan": "3 menit ke Mall Grand Galaxy Park", "Rumah Sakit": "5 menit ke RS Hermina Galaxy", "Sekolah": "Dekat dengan Sekolah Tunas Jakasampurna" },
+          description: "Sebuah kota mandiri yang terintegrasi dengan berbagai fasilitas komersial, hiburan, dan pendidikan di jantung kota Bekasi.",
+          creatorId: adminUser.id,
+        },
+        units: [
+          { name: "Tipe Amethyst", price: 1100000000, bedrooms: 3, bathrooms: 2, garage: 1, landSize: 84, buildingSize: 70, images: ["https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg"], specifications: { Dinding: "Bata Plester Aci", Atap: "Rangka Baja Ringan", Sanitasi: "TOTO" } },
+          { name: "Tipe Sapphire", price: 1600000000, bedrooms: 4, bathrooms: 3, garage: 2, landSize: 105, buildingSize: 90, images: ["https://images.pexels.com/photos/1457842/pexels-photo-1457842.jpeg"], specifications: { Dinding: "Bata Merah", Atap: "Rangka Baja Ringan", Sanitasi: "TOTO/Setara" } },
+        ]
+      },
+      { // Proyek 3
+        project: {
+          name: "The Royal Residence", developer: "Sinarmas Land", location: "Jakarta Selatan, DKI Jakarta",
+          googleMapsUrl: "https://maps.app.goo.gl/example3", status: "Pre-Launching", brochureLink: "/assets/brochures/modern-home.pdf",
+          image: "https://images.pexels.com/photos/280222/pexels-photo-280222.jpeg?auto=compress&cs=tinysrgb&w=800",
+          images: ["https://images.pexels.com/photos/221024/pexels-photo-221024.jpeg"],
+          promo: "Early Bird Price! Dapatkan harga perdana khusus masa Pre-Launching.",
+          nearbyLocations: { "Pusat Perbelanjaan": "15 menit ke Pondok Indah Mall", "Bandara": "45 menit ke Soekarno-Hatta", "Sekolah": "Dekat Jakarta Intercultural School" },
+          description: "Hunian vertikal mewah yang menawarkan privasi dan kemewahan di lokasi paling premium di Jakarta Selatan.",
+          creatorId: adminUser.id,
+        },
+        units: [
+          { name: "Tipe Crown (2BR)", price: 3200000000, bedrooms: 2, bathrooms: 2, garage: 1, landSize: 0, buildingSize: 98, images: ["https://images.pexels.com/photos/6585756/pexels-photo-6585756.jpeg"], specifications: { Lantai: "Marmer Italia", Dapur: "Full Set by Bosch", AC: "Central Daikin" } },
+          { name: "Tipe Imperial (3BR)", price: 4500000000, bedrooms: 3, bathrooms: 3, garage: 2, landSize: 0, buildingSize: 145, images: ["https://images.pexels.com/photos/6585767/pexels-photo-6585767.jpeg"], specifications: { Lantai: "Marmer Italia", Dapur: "Full Set by Miele", AC: "Central Daikin VRV" } },
+        ]
+      },
+      { // Proyek 4
+        project: {
+          name: "Sentul Paradise Park", developer: "PT Sentul City Tbk", location: "Bogor, Jawa Barat",
+          googleMapsUrl: "https://maps.app.goo.gl/example4", status: "Under Construction",
+          image: "https://images.pexels.com/photos/2102587/pexels-photo-2102587.jpeg?auto=compress&cs=tinysrgb&w=800",
+          images: [], promo: "Cicilan DP 0% hingga 12x.",
+          nearbyLocations: { "Gerbang Tol": "10 menit ke Tol Jagorawi", "Pusat Perbelanjaan": "5 menit ke AEON Mall Sentul City", "Wisata": "Dekat JungleLand Adventure Theme Park" },
+          description: "Nikmati hidup berkualitas dengan udara sejuk dan pemandangan pegunungan. Kawasan terpadu dengan fasilitas rekreasi dan gaya hidup.",
+          creatorId: adminUser.id,
+        },
+        units: [
+          { name: "Tipe Edelweiss", price: 980000000, bedrooms: 2, bathrooms: 1, garage: 1, landSize: 72, buildingSize: 60, images: [], specifications: { Atap: "Genteng Beton", Kusen: "Aluminium" } },
+          { name: "Tipe Bougenville", price: 1350000000, bedrooms: 3, bathrooms: 2, garage: 2, landSize: 90, buildingSize: 80, images: [], specifications: { Atap: "Genteng Beton Flat", Kusen: "Aluminium" } },
+        ]
+      },
+       { // Proyek 5
+        project: {
+          name: "Citra Lake Depok", developer: "Ciputra Group", location: "Depok, Jawa Barat",
+          googleMapsUrl: "https://maps.app.goo.gl/example5", status: "Ready Stock",
+          image: "https://images.pexels.com/photos/1475938/pexels-photo-1475938.jpeg?auto=compress&cs=tinysrgb&w=800",
+          images: [], description: "Hunian dengan pemandangan danau yang menenangkan, menciptakan suasana liburan setiap hari.",
+          creatorId: adminUser.id,
+        },
+        units: [
+          { name: "Tipe Azure", price: 780000000, bedrooms: 2, bathrooms: 1, garage: 1, landSize: 60, buildingSize: 45, images: [], specifications: {} },
+          { name: "Tipe Emerald", price: 1050000000, bedrooms: 3, bathrooms: 2, garage: 1, landSize: 72, buildingSize: 62, images: [], specifications: {} },
+        ]
+      },
+      { // Proyek 6
+        project: {
+          name: "Puri Mansion Apartment", developer: "Agung Podomoro Land", location: "Jakarta Barat, DKI Jakarta",
+          googleMapsUrl: "https://maps.app.goo.gl/example6", status: "Ready Stock",
+          image: "https://images.pexels.com/photos/1571463/pexels-photo-1571463.jpeg?auto=compress&cs=tinysrgb&w=800",
+          images: [], description: "Apartemen mewah dengan 51 fasilitas outdoor & indoor, berlokasi strategis di Jakarta Barat.",
+          creatorId: adminUser.id,
+        },
+        units: [
+          { name: "Tipe Studio", price: 600000000, bedrooms: 1, bathrooms: 1, garage: 0, landSize: 0, buildingSize: 26, images: [], specifications: {} },
+          { name: "Tipe 2BR", price: 1250000000, bedrooms: 2, bathrooms: 1, garage: 0, landSize: 0, buildingSize: 49, images: [], specifications: {} },
+          { name: "Tipe 3BR", price: 1800000000, bedrooms: 3, bathrooms: 2, garage: 0, landSize: 0, buildingSize: 68, images: [], specifications: {} },
+        ]
+      },
+      { // Proyek 7
+        project: {
+          name: "Alam Sutera - Cluster Sutera Winona", developer: "Alam Sutera Realty", location: "Tangerang, Banten",
+          googleMapsUrl: "https://maps.app.goo.gl/example7", status: "Launching",
+          image: "https://images.pexels.com/photos/209296/pexels-photo-209296.jpeg?auto=compress&cs=tinysrgb&w=800",
+          images: [], description: "Cluster mewah terbaru di Alam Sutera dengan desain American Classic yang megah dan elegan.",
+          creatorId: adminUser.id,
+        },
+        units: [
+          { name: "Tipe Alder", price: 6000000000, bedrooms: 4, bathrooms: 4, garage: 2, landSize: 200, buildingSize: 250, images: [], specifications: {} },
+          { name: "Tipe Laurel", price: 8500000000, bedrooms: 5, bathrooms: 5, garage: 3, landSize: 250, buildingSize: 320, images: [], specifications: {} },
+        ]
+      },
+       { // Proyek 8
+        project: {
+          name: "Summarecon Bekasi - The SpringLake", developer: "Summarecon Agung", location: "Bekasi, Jawa Barat",
+          googleMapsUrl: "https://maps.app.goo.gl/example8", status: "Ready Stock",
+          image: "https://images.pexels.com/photos/271816/pexels-photo-271816.jpeg?auto=compress&cs=tinysrgb&w=800",
+          images: [], description: "Apartemen modern yang terhubung langsung dengan Summarecon Mall Bekasi melalui skybridge.",
+          creatorId: adminUser.id,
+        },
+        units: [
+          { name: "Tipe 1BR", price: 550000000, bedrooms: 1, bathrooms: 1, garage: 0, landSize: 0, buildingSize: 32, images: [], specifications: {} },
+          { name: "Tipe 2BR", price: 820000000, bedrooms: 2, bathrooms: 1, garage: 0, landSize: 0, buildingSize: 45, images: [], specifications: {} },
+        ]
+      },
+       { // Proyek 9
+        project: {
+          name: "Menteng Park Apartment", developer: "Agung Sedayu Group", location: "Jakarta Pusat, DKI Jakarta",
+          googleMapsUrl: "https://maps.app.goo.gl/example9", status: "Sold Out",
+          image: "https://images.pexels.com/photos/277667/pexels-photo-277667.jpeg?auto=compress&cs=tinysrgb&w=800",
+          images: [], description: "Hunian eksklusif di Cikini, Jakarta Pusat, dengan konsep Diamond in the City.",
+          creatorId: adminUser.id,
+        },
+        units: [
+          { name: "Tipe Sapphire", price: 1500000000, bedrooms: 1, bathrooms: 1, garage: 0, landSize: 0, buildingSize: 33, images: [], specifications: {} },
+          { name: "Tipe Diamond", price: 2500000000, bedrooms: 2, bathrooms: 2, garage: 0, landSize: 0, buildingSize: 60, images: [], specifications: {} },
+        ]
+      },
+       { // Proyek 10
+        project: {
+          name: "Rancamaya Golf Estate", developer: "PT Suryamas Dutamakmur Tbk", location: "Bogor, Jawa Barat",
+          googleMapsUrl: "https://maps.app.goo.gl/example10", status: "Ready Stock",
+          image: "https://images.pexels.com/photos/221540/pexels-photo-221540.jpeg?auto=compress&cs=tinysrgb&w=800",
+          images: [], description: "Kawasan hunian premium dengan lapangan golf internasional dan pemandangan Gunung Salak.",
+          creatorId: adminUser.id,
+        },
+        units: [
+          { name: "Tipe Amadeus", price: 2100000000, bedrooms: 3, bathrooms: 2, garage: 2, landSize: 200, buildingSize: 150, images: [], specifications: {} },
+          { name: "Tipe Salvador", price: 3500000000, bedrooms: 4, bathrooms: 3, garage: 2, landSize: 300, buildingSize: 220, images: [], specifications: {} },
+        ]
+      },
+      { // Proyek 11
+        project: {
+          name: "The Zora - BSD City", developer: "Sinar Mas Land & Mitsubishi Corp", location: "BSD City, Tangerang",
+          googleMapsUrl: "https://maps.app.goo.gl/example11", status: "Launching",
+          image: "https://images.pexels.com/photos/259962/pexels-photo-259962.jpeg?auto=compress&cs=tinysrgb&w=800",
+          images: [], description: "Hunian mewah berkonsep 'Beauty of Balance' yang memadukan desain, fasilitas, dan teknologi Jepang.",
+          creatorId: adminUser.id,
+        },
+        units: [
+          { name: "Tipe Kiyomi", price: 7000000000, bedrooms: 4, bathrooms: 4, garage: 2, landSize: 220, buildingSize: 300, images: [], specifications: {} },
+          { name: "Tipe Kazumi", price: 9000000000, bedrooms: 5, bathrooms: 5, garage: 3, landSize: 280, buildingSize: 380, images: [], specifications: {} },
+        ]
+      },
+      { // Proyek 12
+        project: {
+          name: "Gold Coast Apartment PIK", developer: "Agung Sedayu Group", location: "Jakarta Utara, DKI Jakarta",
+          googleMapsUrl: "https://maps.app.goo.gl/example12", status: "Ready Stock",
+          image: "https://images.pexels.com/photos/164558/pexels-photo-164558.jpeg?auto=compress&cs=tinysrgb&w=800",
+          images: [], description: "Apartemen tepi laut di Pantai Indah Kapuk dengan pemandangan laut lepas dan akses langsung ke kawasan PIK.",
+          creatorId: adminUser.id,
+        },
+        units: [
+          { name: "Tipe 2BR Sea View", price: 2800000000, bedrooms: 2, bathrooms: 2, garage: 0, landSize: 0, buildingSize: 90, images: [], specifications: {} },
+          { name: "Tipe 3BR Ocean View", price: 4200000000, bedrooms: 3, bathrooms: 2, garage: 0, landSize: 0, buildingSize: 120, images: [], specifications: {} },
+        ]
+      }
+    ];
+
+    // Proses dan masukkan data proyek & unit
+    for (const item of projectsWithUnits) {
+      const prices = item.units.map(u => u.price);
+      item.project.priceMin = Math.min(...prices);
+      item.project.priceMax = Math.max(...prices);
+
+      const createdProject = await Project.create(item.project);
+      
+      const unitsToCreate = item.units.map(unit => ({ ...unit, projectId: createdProject.id }));
+      await UnitType.bulkCreate(unitsToCreate);
+    }
+    console.log(`${projectsWithUnits.length} projects with their units have been inserted.`);
+
+    // 3. Data Cabang
+    const branches = [
   {
     city: "Jakarta",
     name: "Head Office Jakarta",
@@ -622,45 +541,24 @@ const branches = [
     googleMaps: "https://maps.google.com/?q=Jl.+Hayam+Wuruk+No.+56,+Pekalongan"
   }
 ];
-
-async function seedDatabase() {
-  try {
-    // force: true akan menghapus SEMUA tabel dan membuatnya ulang sesuai model terbaru
-    await sequelize.sync({ force: true });
-    console.log('Database synchronized and all tables dropped/recreated.');
-
-    // 1. Insert Projects
-    await Project.bulkCreate(projectsAll);
-    console.log(`${projectsAll.length} Projects inserted.`);
-
-    // 2. Insert Branches
     await Branch.bulkCreate(branches);
-    console.log(`${branches.length} Branches inserted.`);
+    console.log(`${branches.length} branches inserted.`);
 
-    // --- BAGIAN BARU: Insert Admin User ---
-    const adminUsername = 'admin';
-    const adminPassword = 'admin123';
-    
-    const existingAdmin = await User.findOne({ where: { username: adminUsername } });
+    // 4. Buat Contoh Inquiry
+    await Inquiry.bulkCreate([
+        { name: 'Budi Santoso', phone: '081122334455', message: 'Saya ingin bertanya tentang promo.', type: 'contact' },
+        { name: 'Citra Lestari', phone: '085566778899', message: 'Minta brosur untuk proyek di Serpong.', type: 'brochure' },
+        { name: 'Andi Wijaya', phone: '087711223344', unitType: 'Tipe Belladonna', message: 'Tertarik dengan Tipe Belladonna di Serpong Garden.', type: 'whatsapp' },
+    ]);
+    console.log('Sample inquiries created.');
 
-    if (!existingAdmin) {
-        await User.create({
-            username: adminUsername,
-            password: adminPassword,
-            role: 'admin' // Pastikan role-nya 'admin'
-        });
-        console.log(`Admin user '${adminUsername}' was created successfully!`);
-    } else {
-        console.log(`Admin user '${adminUsername}' already exists.`);
-    }
-    // --- AKHIR BAGIAN BARU ---
 
-    console.log('Database seeding complete!');
+    console.log('✅ Database seeding complete!');
 
   } catch (err) {
-    console.error('Database seeding error:', err);
+    console.error('❌ Database seeding error:', err);
   } finally {
-    sequelize.close();
+    await sequelize.close();
     console.log('Database connection closed.');
   }
 }

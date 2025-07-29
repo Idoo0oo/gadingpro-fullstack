@@ -1,4 +1,4 @@
-// gadingpro-backend/models/Project.js
+// gadingpro-backend/models/Project.js (Setelah Dimodifikasi)
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
 
@@ -10,12 +10,15 @@ const Project = sequelize.define('Project', {
     allowNull: false,
   },
   name: DataTypes.STRING,
+  developer: DataTypes.STRING, // <-- BARU
   location: DataTypes.STRING,
-  price: DataTypes.STRING,
+  googleMapsUrl: DataTypes.STRING, // <-- BARU (untuk lokasi Gmaps)
+  priceMin: DataTypes.BIGINT, // <-- BARU (range harga min)
+  priceMax: DataTypes.BIGINT, // <-- BARU (range harga max)
   status: DataTypes.STRING,
   brochureLink: DataTypes.STRING,
-  image: DataTypes.TEXT('medium'),
-  images: {
+  image: DataTypes.TEXT('medium'), // Banner utama proyek
+  images: { // Galeri foto proyek
     type: DataTypes.TEXT('medium'),
     get() {
       const rawValue = this.getDataValue('images');
@@ -25,48 +28,30 @@ const Project = sequelize.define('Project', {
       this.setDataValue('images', JSON.stringify(value));
     }
   },
-  bedrooms: DataTypes.INTEGER,
-  bathrooms: DataTypes.INTEGER,
-  garage: DataTypes.INTEGER,
-  landSize: DataTypes.INTEGER,
-  buildingSize: DataTypes.INTEGER,
-  facilities: {
-    type: DataTypes.TEXT, // <<< UBAH DARI DataTypes.STRING MENJADI DataTypes.TEXT
+  promo: DataTypes.TEXT, // <-- BARU (untuk promo, opsional)
+  nearbyLocations: { // <-- BARU (untuk lokasi terdekat)
+    type: DataTypes.TEXT,
     get() {
-      const rawValue = this.getDataValue('facilities');
-      return rawValue ? JSON.parse(rawValue) : [];
-    },
-    set(value) {
-      this.setDataValue('facilities', JSON.stringify(value));
-    }
-  },
-  category: DataTypes.STRING,
-  type: DataTypes.STRING,
-  developer: DataTypes.STRING,
-  completionYear: DataTypes.INTEGER,
-  description: DataTypes.TEXT,
-  features: {
-    type: DataTypes.TEXT, // <<< UBAH DARI DataTypes.STRING MENJADI DataTypes.TEXT
-    get() {
-      const rawValue = this.getDataValue('features');
+      const rawValue = this.getDataValue('nearbyLocations');
       return rawValue ? JSON.parse(rawValue) : {};
     },
     set(value) {
-      this.setDataValue('features', JSON.stringify(value));
+      this.setDataValue('nearbyLocations', JSON.stringify(value));
     }
   },
+  description: DataTypes.TEXT,
   creatorId: {
     type: DataTypes.INTEGER,
-    allowNull: null, // Bisa null jika ada proyek lama sebelum sistem ini
+    allowNull: true,
     references: {
-      model: 'users', // Merujuk ke tabel 'users'
+      model: 'users',
       key: 'id',
     },
     onUpdate: 'CASCADE',
     onDelete: 'SET NULL',
   },
 }, {
-  tableName: 'projects' // Nama tabel di database
+  tableName: 'projects'
 });
 
 module.exports = Project;

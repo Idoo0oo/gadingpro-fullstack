@@ -41,9 +41,8 @@ export const InquiryList = (props) => (
         <Datagrid rowClick="show" sx={datagridStyles}>
             <TextField source="id" />
             <TextField source="name" />
-            <EmailField source="email" />
-            <TextField source="phone" />
-            <TextField source="type" />
+            <TextField source="type" label="Tipe Pesan" />
+            <TextField source="unitType" label="Unit Diminati" /> {/* <-- BARU */}
             <DateField source="createdAt" showTime />
             <ActionsCell />
         </Datagrid>

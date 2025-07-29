@@ -12,6 +12,7 @@ const User = require('./models/User');
 const Project = require('./models/Project');
 const Branch = require('./models/Branch');
 const Inquiry = require('./models/Inquiry');
+const UnitType = require('./models/UnitType');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -25,6 +26,9 @@ if (!JWT_SECRET) {
 
 Project.belongsTo(User, { foreignKey: 'creatorId', as: 'creator' });
 User.hasMany(Project, { foreignKey: 'creatorId' });
+
+Project.hasMany(UnitType, { foreignKey: 'projectId', as: 'unitTypes' });
+UnitType.belongsTo(Project, { foreignKey: 'projectId' });
 
 const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
 const adminUrl = process.env.ADMIN_URL || 'http://localhost:3000';
@@ -130,6 +134,51 @@ app.post('/public/inquiry', async (req, res, next) => {
     }
 });
 
+app.get('/public/projects/:id', async (req, res, next) => {
+    try {
+        const project = await Project.findByPk(req.params.id, {
+            include: [{
+                model: UnitType,
+                as: 'unitTypes',
+                order: [['price', 'ASC']] // Urutkan tipe unit dari termurah
+            }]
+        });
+        if (!project) {
+            return res.status(404).json({ message: 'Project not found' });
+        }
+        res.json(project);
+    } catch (err) {
+        next(err);
+    }
+});
+
+app.get('/public/units/:id', async (req, res, next) => {
+    try {
+        const unitType = await UnitType.findByPk(req.params.id, {
+            include: [{ // Sertakan data proyek induknya
+                model: Project,
+                attributes: ['id', 'name']
+            }]
+        });
+
+        if (!unitType) {
+            return res.status(404).json({ message: 'Unit type not found' });
+        }
+
+        // Ambil tipe unit lain dari proyek yang sama
+        const otherUnitTypes = await UnitType.findAll({
+            where: {
+                projectId: unitType.projectId,
+                id: { [Op.ne]: req.params.id } // Kecualikan unit yang sedang dilihat
+            }
+        });
+
+        res.json({ unitType, otherUnitTypes });
+    } catch (err) {
+        next(err);
+    }
+});
+
 
 // Rute Otentikasi (Login)
 app.post('/api/login', async (req, res, next) => {
@@ -143,9 +192,9 @@ app.post('/api/login', async (req, res, next) => {
     
     // --- PERUBAHAN DI SINI: Tambahkan 'role' ke dalam token ---
     const token = jwt.sign(
-      { id: user.id, username: user.username, role: user.role }, // Tambahkan role
-      JWT_SECRET, 
-      { expiresIn: '8h' }
+        { id: user.id, username: user.username }, // Hapus role
+        JWT_SECRET,
+        { expiresIn: '8h' }
     );
     res.json({ token });
   } catch (error) {
@@ -163,14 +212,6 @@ app.get('/api/projects', authenticateToken, async (req, res, next) => {
         const start = parseInt(_start, 10);
         const limit = parseInt(_end, 10) - start + 1;
         const filters = JSON.parse(filter);
-
-        let whereClause = {}; // Inisialisasi whereClause
-
-        // --- LOGIKA PERAN DITERAPKAN DI SINI ---
-        if (req.user.role === 'agent') {
-            whereClause.creatorId = req.user.id; // Agent hanya bisa lihat proyek miliknya
-        }
-        // Admin bisa lihat semua, jadi tidak perlu kondisi tambahan untuk admin
 
         if (filters.q) {
             const searchQuery = `%${filters.q}%`;

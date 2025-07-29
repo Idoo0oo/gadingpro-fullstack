@@ -1,7 +1,18 @@
+// gadingpro-frontend/src/components/ProjectCard.jsx (SETELAH DIPERBAIKI)
+
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { MapPin, Bed, Bath, Car, Ruler, Home, Eye, Calendar, Building } from 'lucide-react';
 
-const ProjectCard = ({ project, index, onViewDetails }) => {
+const ProjectCard = ({ project, index }) => {
+  const navigate = useNavigate();
+  const handleViewProject = () => {
+    if (project && project.id) {
+      navigate(`/projects/${project.id}`); // 4. Arahkan ke halaman detail
+    } else {
+      console.error("Project ID is missing, cannot navigate.");
+    }
+  };
   const getStatusColor = (status) => {
     switch (status) {
       case 'Ready Stock':
@@ -57,14 +68,6 @@ const ProjectCard = ({ project, index, onViewDetails }) => {
     fontWeight: '500'
   };
 
-  const facilityTagStyle = {
-    backgroundColor: '#fff7ed',
-    color: '#ea580c',
-    borderRadius: '25px',
-    fontSize: '0.75rem',
-    fontWeight: '500'
-  };
-
   const buttonStyle = {
     background: 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)',
     border: 'none',
@@ -72,6 +75,19 @@ const ProjectCard = ({ project, index, onViewDetails }) => {
     transition: 'all 0.3s ease',
     fontWeight: '600'
   };
+
+  // Helper untuk format harga
+  const formatPriceRange = (min, max) => {
+    if (!min || !max) return "Hubungi Kami";
+    const format = (num) => {
+        if (num >= 1000000000) return `${(num / 1000000000).toFixed(1).replace('.', ',')} Miliar`;
+        if (num >= 1000000) return `${(num / 1000000)} Juta`;
+        return num.toLocaleString('id-ID');
+    };
+    if (min === max) return `Mulai Rp ${format(min)}`;
+    return `Rp ${format(min)} - ${format(max)}`;
+  };
+
 
   return (
     <div
@@ -105,25 +121,17 @@ const ProjectCard = ({ project, index, onViewDetails }) => {
           className="card-img-top card-img-hover"
           style={imageStyle}
         />
-        
-        {/* Gradient Overlay */}
         <div className="gradient-overlay" style={gradientOverlayStyle}></div>
-        
-        {/* Status Badge */}
         <div className="position-absolute top-0 end-0 m-3">
           <span className={`badge ${getStatusColor(project.status)} px-3 py-2 shadow`}>
             {project.status}
           </span>
         </div>
-        
-        {/* Price Badge */}
         <div className="position-absolute bottom-0 start-0 m-3">
           <span className="px-4 py-2 shadow" style={priceTagStyle}>
-            {project.price}
+            {formatPriceRange(project.priceMin, project.priceMax)}
           </span>
         </div>
-        
-        {/* Category Badge */}
         <div className="position-absolute top-0 start-0 m-3">
           <span className="px-3 py-2 shadow" style={categoryTagStyle}>
             {project.category}
@@ -132,22 +140,17 @@ const ProjectCard = ({ project, index, onViewDetails }) => {
       </div>
 
       {/* Content */}
-      <div className="card-body p-4">
-        {/* Location */}
+      <div className="card-body p-4 d-flex flex-column">
         <div className="d-flex align-items-center text-muted mb-3">
           <MapPin className="me-2 text-warning" size={16} />
           <small>{project.location}</small>
         </div>
-
-        {/* Title */}
         <h5 className="card-title fw-bold text-dark mb-3 hover-title" 
             style={{ transition: 'color 0.3s ease' }}
             onMouseEnter={(e) => e.target.style.color = '#ea580c'}
             onMouseLeave={(e) => e.target.style.color = '#212529'}>
           {project.name}
         </h5>
-
-        {/* Developer & Year */}
         <div className="d-flex justify-content-between align-items-center text-muted small mb-3">
           <div className="d-flex align-items-center">
             <Building className="me-1" size={16} />
@@ -158,64 +161,6 @@ const ProjectCard = ({ project, index, onViewDetails }) => {
             <span>{project.completionYear}</span>
           </div>
         </div>
-
-        {/* Specifications Grid */}
-        <div className="row g-3 mb-3">
-          <div className="col-6">
-            <div className="d-flex align-items-center">
-              <Bed className="me-2 text-warning" size={16} />
-              <small className="fw-medium">{project.bedrooms} KT</small>
-            </div>
-          </div>
-          <div className="col-6">
-            <div className="d-flex align-items-center">
-              <Bath className="me-2 text-warning" size={16} />
-              <small className="fw-medium">{project.bathrooms} KM</small>
-            </div>
-          </div>
-          <div className="col-6">
-            <div className="d-flex align-items-center">
-              <Car className="me-2 text-warning" size={16} />
-              <small className="fw-medium">{project.garage} Garasi</small>
-            </div>
-          </div>
-          <div className="col-6">
-            <div className="d-flex align-items-center">
-              <Ruler className="me-2 text-warning" size={16} />
-              <small className="fw-medium">{project.landSize} m²</small>
-            </div>
-          </div>
-        </div>
-
-        {/* Building Size */}
-        {project.buildingSize > 0 && (
-          <div className="d-flex align-items-center mb-3">
-            <Home className="me-2 text-warning" size={16} />
-            <small className="fw-medium">Bangunan: {project.buildingSize} m²</small>
-          </div>
-        )}
-
-        {/* Facilities */}
-        <div className="mb-3">
-          <div className="d-flex flex-wrap gap-2">
-            {project.facilities.slice(0, 3).map((facility, index) => (
-              <span
-                key={index}
-                className="px-3 py-1"
-                style={facilityTagStyle}
-              >
-                {facility}
-              </span>
-            ))}
-            {project.facilities.length > 3 && (
-              <span className="badge bg-light text-muted px-3 py-1">
-                +{project.facilities.length - 3} lainnya
-              </span>
-            )}
-          </div>
-        </div>
-
-        {/* Description */}
         <p className="card-text text-muted small mb-3" 
            style={{ 
              display: '-webkit-box',
@@ -227,23 +172,24 @@ const ProjectCard = ({ project, index, onViewDetails }) => {
         </p>
 
         {/* Action Button */}
-        <button 
-          className="btn text-white w-100 py-3 shadow"
-          style={buttonStyle}
-          // 2. Tambahkan onClick untuk memanggil onViewDetails
-          onClick={() => onViewDetails(project)} // <-- DIUBAH
-          onMouseEnter={(e) => {
-            e.target.style.transform = 'scale(1.05)';
-            e.target.style.background = 'linear-gradient(135deg, #ea580c 0%, #dc2626 100%)';
-          }}
-          onMouseLeave={(e) => {
-            e.target.style.transform = 'scale(1)';
-            e.target.style.background = 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)';
-          }}
-        >
-          <Eye className="me-2" size={16} />
-          Lihat Detail
-        </button>
+        <div className="mt-auto">
+            <button 
+              className="btn text-white w-100 py-3 shadow"
+              style={buttonStyle}
+              onClick={handleViewProject}
+              onMouseEnter={(e) => {
+                e.target.style.transform = 'scale(1.05)';
+                e.target.style.background = 'linear-gradient(135deg, #ea580c 0%, #dc2626 100%)';
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.transform = 'scale(1)';
+                e.target.style.background = 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)';
+              }}
+            >
+              <Eye className="me-2" size={16} />
+              Lihat Project
+            </button>
+        </div>
       </div>
     </div>
   );

@@ -19,6 +19,8 @@ const AboutPage = lazy(() => import('./pages/AboutPage'));
 const ProjectsPage = lazy(() => import('./pages/ProjectsPage'));
 const GetBrosurePage = lazy(() => import('./pages/GetBrosurePage'));
 const ContactPage = lazy(() => import('./pages/ContactPage'));
+const ProjectDetailPage = lazy(() => import('./pages/ProjectDetailPage'));
+const UnitTypeDetailPage = lazy(() => import('./pages/UnitTypeDetailPage'));
 
 // Komponen fallback untuk Suspense
 const LoadingSpinner = () => (
@@ -49,6 +51,8 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/projects" element={<ProjectsPage />} />
+          <Route path="/projects/:projectId" element={<ProjectDetailPage />} />
+          <Route path="/projects/:projectId/units/:unitId" element={<UnitTypeDetailPage />} />
           <Route path="/get-brosure" element={<GetBrosurePage />} />
           <Route path="/contact-us" element={<ContactPage />} />
 

@@ -22,7 +22,6 @@ export const authProvider = {
                 // --- PERUBAHAN DI SINI: Decode token untuk mendapatkan role ---
                 const decodedToken = jwtDecode(auth.token);
                 localStorage.setItem('username', decodedToken.username);
-                localStorage.setItem('role', decodedToken.role); // Simpan role
             })
             .catch(() => {
                 throw new Error('Network error');
@@ -33,7 +32,6 @@ export const authProvider = {
     logout: () => {
         localStorage.removeItem('token');
         localStorage.removeItem('username');
-        localStorage.removeItem('role'); // Hapus role saat logout
         return Promise.resolve();
     },
     // Fungsi untuk menangani error (misalnya saat token tidak valid)
@@ -53,8 +51,6 @@ export const authProvider = {
 
     // Fungsi untuk mendapatkan izin/hak akses (jika ada)
     getPermissions: () => {
-        const role = localStorage.getItem('role');
-        // Jangan melempar error jika role tidak ada, cukup kembalikan null
         return Promise.resolve(role); 
     },
 };
