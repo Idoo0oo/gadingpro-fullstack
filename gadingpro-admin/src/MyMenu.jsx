@@ -1,6 +1,6 @@
 // gadingpro-admin/src/MyMenu.jsx (REVISI)
 import { Menu, usePermissions } from 'react-admin';
-import { BookImage, Building2, MessageSquare, LayoutDashboard, Users } from 'lucide-react';
+import { BookImage, Building2, MessageSquare, LayoutDashboard, Users, FileText } from 'lucide-react';
 
 export const MyMenu = () => (
     <Menu>
@@ -23,6 +23,11 @@ export const MyMenu = () => (
             to="/inquiries"
             primaryText="Pesan Masuk"
             leftIcon={<MessageSquare size={18} />}
+        />
+        <Menu.Item
+            to="/articles"
+            primaryText="Artikel"
+            leftIcon={<FileText size={18} />}
         />
         <Menu.Item
             to="/users"

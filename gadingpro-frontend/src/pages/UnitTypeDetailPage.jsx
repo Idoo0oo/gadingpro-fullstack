@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { Container, Row, Col, Carousel, Button, Card, ListGroup, Breadcrumb } from 'react-bootstrap';
-import { Home, Bed, Bath, Car, ArrowLeft, RulerCombined } from 'lucide-react';
+import { Home, Bed, Bath, Car, ArrowLeft, Ruler } from 'lucide-react';
 
 const UnitTypeDetailPage = () => {
     const { projectId, unitId } = useParams();
@@ -84,7 +84,7 @@ const UnitTypeDetailPage = () => {
                                 <h5 className="fw-bold">Informasi Properti</h5>
                                 <ListGroup variant="flush">
                                     <ListGroup.Item className="d-flex justify-content-between">
-                                        <span><RulerCombined size={16} className="me-2"/>Luas Tanah</span>
+                                        <span><Ruler size={16} className="me-2"/>Luas Tanah</span>
                                         <strong>{unitType.landSize} m²</strong>
                                     </ListGroup.Item>
                                     <ListGroup.Item className="d-flex justify-content-between">

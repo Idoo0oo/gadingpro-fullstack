@@ -13,6 +13,7 @@ const Project = require('./models/Project');
 const Branch = require('./models/Branch');
 const Inquiry = require('./models/Inquiry');
 const UnitType = require('./models/UnitType');
+const Article = require('./models/Article');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -99,20 +100,87 @@ const formatForReactAdmin = (data) => {
 // Rute Publik (Untuk Website Frontend, tidak perlu token)
 app.get('/public/projects', async (req, res, next) => {
     try {
-        // --- PERUBAHAN DI SINI ---
+        const { q, category, location, priceRange, _sort, _order = 'ASC' } = req.query;
+
+        let where = {};
+        let order = [];
+
+        // Filter pencarian berdasarkan nama atau lokasi
+        if (q) {
+            where[Op.or] = [
+                { name: { [Op.like]: `%${q}%` } },
+                { location: { [Op.like]: `%${q}%` } },
+                { developer: { [Op.like]: `%${q}%` } }
+            ];
+        }
+
+        // Filter berdasarkan kategori
+        if (category && category !== 'Semua') {
+            where.category = category;
+        }
+
+        // Filter berdasarkan lokasi
+        if (location && location !== 'Semua Lokasi') {
+            where.location = { [Op.like]: `%${location}%` };
+        }
+
+        // Filter berdasarkan rentang harga
+        if (priceRange && priceRange !== 'Semua Harga') {
+            const [min, max] = priceRange.split('-').map(Number);
+            // Kita akan menyimpan harga sebagai angka di masa depan, untuk saat ini filter ini didummy
+            // Untuk implementasi nyata, Anda perlu kolom harga numerik di database.
+        }
+
+        // Pengurutan (Sorting)
+        if (_sort) {
+            // Contoh: ?_sort=price&_order=DESC
+            order.push([_sort, _order]);
+        } else {
+            order.push(['id', 'DESC']); // Default sort
+        }
+
         const projects = await Project.findAll({
+            where,
+            order,
             include: [{
                 model: User,
-                as: 'creator', // Alias untuk relasi
-                attributes: ['username', 'phone', 'profilePicture'] // Ambil data ini dari user
+                as: 'creator',
+                attributes: ['username', 'phone', 'profilePicture']
             }]
         });
-        // --- AKHIR PERUBAHAN ---
+
         res.json(projects);
     } catch (err) {
         next(err);
     }
 });
+app.get('/public/articles', async (req, res, next) => {
+    try {
+        const articles = await Article.findAll({
+            order: [['publishedDate', 'DESC']]
+        });
+        res.json(articles);
+    } catch (err) {
+        next(err);
+    }
+});
+
+app.get('/public/articles/:slug', async (req, res, next) => {
+    try {
+        const { slug } = req.params;
+        const article = await Article.findOne({ where: { slug: slug } });
+
+        if (article) {
+            res.json(article);
+        } else {
+            res.status(404).json({ message: 'Article not found' });
+        }
+    } catch (err) {
+        next(err);
+    }
+});
+
+
 app.get('/public/branches', async (req, res, next) => {
     try {
         const branches = await Branch.findAll();
@@ -455,7 +523,16 @@ app.delete('/api/users/:id', authenticateToken, isAdmin, async (req, res, next) 
     }
 });
 
-// DIHAPUS: Blok 'raExpressMongoose' yang menyebabkan error sudah tidak ada lagi.
+app.get('/api/articles', async (req, res, next) => {
+  const { count, rows } = await Article.findAndCountAll();
+  res.header('Content-Range', `articles 0-${count}/${count}`);
+  res.json(rows);
+});
+app.get('/api/users', async (req, res, next) => {
+  const { count, rows } = await User.findAndCountAll();
+  res.header('Content-Range', `users 0-${count}/${count}`);
+  res.json(rows);
+});
 
 // Middleware penanganan error global
 app.use((err, req, res, next) => {

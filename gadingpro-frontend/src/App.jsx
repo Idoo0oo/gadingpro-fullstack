@@ -17,7 +17,8 @@ import ScrollToTop from "./components/ScrollToTop";
 const HomePage = lazy(() => import('./pages/HomePage'));
 const AboutPage = lazy(() => import('./pages/AboutPage'));
 const ProjectsPage = lazy(() => import('./pages/ProjectsPage'));
-const GetBrosurePage = lazy(() => import('./pages/GetBrosurePage'));
+const ArticlesPage = lazy(() => import('./pages/ArticlesPage'));
+const ArticleDetailPage = lazy(() => import('./pages/ArticleDetailPage'));
 const ContactPage = lazy(() => import('./pages/ContactPage'));
 const ProjectDetailPage = lazy(() => import('./pages/ProjectDetailPage'));
 const UnitTypeDetailPage = lazy(() => import('./pages/UnitTypeDetailPage'));
@@ -53,7 +54,8 @@ function App() {
           <Route path="/projects" element={<ProjectsPage />} />
           <Route path="/projects/:projectId" element={<ProjectDetailPage />} />
           <Route path="/projects/:projectId/units/:unitId" element={<UnitTypeDetailPage />} />
-          <Route path="/get-brosure" element={<GetBrosurePage />} />
+          <Route path="/articles" element={<ArticlesPage />} />
+          <Route path="/articles/:slug" element={<ArticleDetailPage />} />
           <Route path="/contact-us" element={<ContactPage />} />
 
         </Routes>

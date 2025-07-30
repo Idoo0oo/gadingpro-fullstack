@@ -6,6 +6,7 @@ import ApartmentIcon from '@mui/icons-material/Apartment';
 import MailIcon from '@mui/icons-material/Mail';
 import PeopleIcon from '@mui/icons-material/People';
 import HomeWorkIcon from '@mui/icons-material/HomeWork';
+import { FileText } from 'lucide-react';
 
 // Import komponen kustom
 import { theme } from './theme';
@@ -22,6 +23,7 @@ import { UnitList, UnitCreate, UnitEdit } from './units';
 import { InquiryList } from './inquiries';
 import { InquiryShow } from './inquiriesShow'; 
 import { UserList, UserCreate, UserEdit } from './users';
+import { ArticleList, ArticleCreate, ArticleEdit } from './articles';
 
 const App = () => (
     <Admin
@@ -49,6 +51,14 @@ const App = () => (
             edit={UnitEdit}
             icon={HomeWorkIcon}
             options={{ label: 'Tipe Unit' }}
+        />
+        <Resource
+            name="articles"
+            list={ArticleList}
+            create={ArticleCreate}
+            edit={ArticleEdit}
+            icon={FileText} // Gunakan ikon yang sudah diimpor
+            options={{ label: 'Artikel' }}
         />
         <Resource
             name="branches"

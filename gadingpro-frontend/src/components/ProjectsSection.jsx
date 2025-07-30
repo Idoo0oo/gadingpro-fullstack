@@ -14,7 +14,7 @@ const ProjectsSection = () => {
     const fetchProjects = async () => {
       try {
         const backendUrl = import.meta.env.VITE_BACKEND_URL;
-        const apiUrl = `${backendUrl}/public/projects?_start=0&_end=2&_sort=id&_order=DESC`;
+        const apiUrl = `${backendUrl}/public/projects?_limit=3`;
 
         // Menambahkan header untuk melewati halaman peringatan Ngrok
         const response = await fetch(apiUrl, {

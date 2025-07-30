@@ -23,8 +23,8 @@ export const navLinks = [
   },
   {
     id: 4,
-    path: "get-brosure",
-    text: "Get Brosure",
+    path: "articles",
+    text: "Articles",
   },
 ];
 

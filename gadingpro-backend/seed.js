@@ -6,6 +6,7 @@ const UnitType = require('./models/UnitType');
 const Branch = require('./models/Branch');
 const User = require('./models/User');
 const Inquiry = require('./models/Inquiry');
+const Article = require('./models/Article');
 
 // Relasi antar model
 Project.hasMany(UnitType, { foreignKey: 'projectId', as: 'unitTypes' });
@@ -543,6 +544,35 @@ async function seedDatabase() {
 ];
     await Branch.bulkCreate(branches);
     console.log(`${branches.length} branches inserted.`);
+
+    const articles = [
+  {
+    title: "5 Tips Jitu Memilih Lokasi Rumah Ideal untuk Keluarga",
+    slug: "5-tips-memilih-lokasi-rumah-ideal",
+    category: "Tips & Trik",
+    content: "Memilih lokasi rumah adalah salah satu keputusan terbesar. Pertimbangkan aksesibilitas, fasilitas umum seperti sekolah dan rumah sakit, keamanan lingkungan, serta potensi investasi di masa depan. Jangan lupa untuk melakukan survei langsung ke beberapa lokasi pilihan Anda.",
+    imageUrl: "https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg",
+    author: "Tim GadingPro",
+  },
+  {
+    title: "Panduan Lengkap Proses KPR untuk Pembeli Rumah Pertama",
+    slug: "panduan-lengkap-kpr-untuk-pemula",
+    category: "Panduan",
+    content: "Proses KPR bisa tampak rumit, namun sebenarnya mudah jika Anda tahu langkah-langkahnya. Mulai dari melengkapi dokumen, memilih bank dengan bunga terbaik, hingga proses akad kredit. Pastikan skor kredit Anda baik untuk mempermudah persetujuan.",
+    imageUrl: "https://images.pexels.com/photos/209224/pexels-photo-209224.jpeg",
+    author: "Tim GadingPro",
+  },
+  {
+    title: "Mengenal Sertifikat Hak Milik (SHM) vs Hak Guna Bangunan (HGB)",
+    slug: "mengenal-shm-vs-hgb",
+    category: "Legalitas",
+    content: "SHM memberikan kepemilikan penuh atas tanah dan bangunan tanpa batas waktu, sedangkan HGB hanya memberikan hak untuk menggunakan lahan dalam jangka waktu tertentu. Bagi investor dan pemilik rumah, memahami perbedaan ini sangatlah krusial.",
+    imageUrl: "https://images.pexels.com/photos/221540/pexels-photo-221540.jpeg",
+    author: "Tim GadingPro",
+  }
+];
+    await Article.bulkCreate(articles);
+    console.log(`${articles.length} Articles inserted.`);
 
     // 4. Buat Contoh Inquiry
     await Inquiry.bulkCreate([
