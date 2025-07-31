@@ -16,10 +16,6 @@ const MyAppBar = () => {
                 color: 'hsl(var(--foreground))',
             }}
         >
-            {/* SidebarToggleButton akan secara otomatis menampilkan/menyembunyikan 
-              tombol hamburger berdasarkan ukuran layar.
-            */}
-            <SidebarToggleButton />
 
             {/* TitlePortal akan menampilkan judul halaman (misal: "Projects", "Dashboard") */}
             <TitlePortal />

@@ -47,6 +47,7 @@ const corsOptions = {
     origin: '*', // Izinkan permintaan dari SEMUA sumber
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     allowedHeaders: "Content-Type, Authorization, ngrok-skip-browser-warning",
+    exposedHeaders: 'Content-Range',
     preflightContinue: false,
     optionsSuccessStatus: 204
 };
@@ -271,16 +272,19 @@ app.get('/api/projects', authenticateToken, async (req, res, next) => {
         const limit = parseInt(_end, 10) - start + 1;
         const filters = JSON.parse(filter);
 
+        let whereClause = {}; 
+
         if (filters.q) {
             const searchQuery = `%${filters.q}%`;
-            whereClause[Op.or] = [ // Gabungkan dengan filter pencarian
+            whereClause[Op.or] = [ // Sekarang ini akan menambahkan properti ke objek yang sudah ada
                 { name: { [Op.like]: searchQuery } },
                 { location: { [Op.like]: searchQuery } },
+                { developer: { [Op.like]: searchQuery } } // Menambahkan developer ke pencarian
             ];
         }
 
         const { count, rows } = await Project.findAndCountAll({
-            where: whereClause, // Terapkan kondisi di sini
+            where: whereClause, // Sekarang variabel ini dijamin ada
             order: [[_sort, _order]],
             offset: start,
             limit: limit
@@ -453,61 +457,92 @@ const isAdmin = (req, res, next) => {
   next();
 };
 
-app.get('/api/users', authenticateToken, isAdmin, async (req, res, next) => {
+app.get('/api/users', authenticateToken, async (req, res, next) => {
     try {
-        const { _sort = 'id', _order = 'ASC', _start = 0, _end = 9 } = req.query;
+        const { _sort = 'id', _order = 'ASC', _start = 0, _end = 10, filter = '{}' } = req.query;
         const start = parseInt(_start, 10);
-        const limit = parseInt(_end, 10) - start + 1;
+        const limit = parseInt(_end, 10) - start;
+        const filters = JSON.parse(filter);
+        
+        let whereClause = {};
+        if (filters.q) {
+            const searchQuery = `%${filters.q}%`;
+            whereClause = {
+                [Op.or]: [
+                    { username: { [Op.like]: searchQuery } },
+                    { email: { [Op.like]: searchQuery } },
+                    { role: { [Op.like]: searchQuery } }
+                ]
+            };
+        }
 
         const { count, rows } = await User.findAndCountAll({
+            where: whereClause,
             order: [[_sort, _order]],
             offset: start,
-            limit: limit
+            limit: limit,
+            attributes: { exclude: ['password'] } // Jangan kirim password ke frontend
         });
-        res.header('Content-Range', `items ${start}-${start + rows.length - 1}/${count}`);
+
+        res.header('Content-Range', `users ${start}-${start + rows.length - 1}/${count}`);
         res.json(formatForReactAdmin(rows));
-    } catch(err) {
-        next(err);
-    }
-});
-
-app.get('/api/users/:id', authenticateToken, isAdmin, async (req, res, next) => {
-    try {
-        const user = await User.findByPk(req.params.id);
-        res.json(formatForReactAdmin(user));
-    } catch(err) {
-        next(err);
-    }
-});
-
-app.post('/api/users', authenticateToken, isAdmin, async (req, res, next) => {
-    try {
-        const newUser = await User.create(req.body);
-        res.status(201).json(formatForReactAdmin(newUser));
     } catch (err) {
         next(err);
     }
 });
 
-app.put('/api/users/:id', authenticateToken, isAdmin, async (req, res, next) => {
+// GET single user
+app.get('/api/users/:id', authenticateToken, async (req, res, next) => {
     try {
-        // Jika password tidak diubah, jangan hash ulang
-        const data = { ...req.body };
-        if (!data.password) {
-            delete data.password;
+        const user = await User.findByPk(req.params.id, {
+             attributes: { exclude: ['password'] }
+        });
+        if (!user) return res.status(404).json({ error: 'User not found' });
+        res.json(user);
+    } catch (err) {
+        next(err);
+    }
+});
+
+// CREATE a new user
+app.post('/api/users', authenticateToken, async (req, res, next) => {
+    try {
+        const { username, email, password, role } = req.body;
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const newUser = await User.create({
+            username,
+            email,
+            password: hashedPassword,
+            role
+        });
+        const { password: _, ...userWithoutPassword } = newUser.get({ plain: true });
+        res.status(201).json(userWithoutPassword);
+    } catch (err) {
+        if (err.name === 'SequelizeUniqueConstraintError') {
+            return res.status(400).json({ error: 'Username or email already exists' });
         }
-        await User.update(data, { where: { id: req.params.id } });
-        const updatedUser = await User.findByPk(req.params.id);
-        res.json(formatForReactAdmin(updatedUser));
-    } catch (err) {
         next(err);
     }
 });
 
-app.delete('/api/users/:id', authenticateToken, isAdmin, async (req, res, next) => {
+
+// UPDATE a user
+app.put('/api/users/:id', authenticateToken, async (req, res, next) => {
     try {
-        await User.destroy({ where: { id: req.params.id } });
-        res.status(204).send();
+        const { username, email, role, password } = req.body;
+        const user = await User.findByPk(req.params.id);
+        if (!user) return res.status(404).json({ error: 'User not found' });
+
+        const updatedData = { username, email, role };
+        // Jika ada password baru di request, hash dan update juga
+        if (password) {
+            updatedData.password = await bcrypt.hash(password, 10);
+        }
+
+        await user.update(updatedData);
+        
+        const { password: _, ...userWithoutPassword } = user.get({ plain: true });
+        res.json(userWithoutPassword);
     } catch (err) {
         next(err);
     }
