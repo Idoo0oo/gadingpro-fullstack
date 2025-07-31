@@ -65,7 +65,7 @@ async function seedDatabase() {
           name: "The Royal Residence", developer: "Sinarmas Land", location: "Jakarta Selatan, DKI Jakarta",
           googleMapsUrl: "https://maps.app.goo.gl/example3", status: "Pre-Launching", brochureLink: "/assets/brochures/modern-home.pdf",
           image: "https://images.pexels.com/photos/280222/pexels-photo-280222.jpeg?auto=compress&cs=tinysrgb&w=800",
-          images: ["https://images.pexels.com/photos/221024/pexels-photo-221024.jpeg"],
+          images: ["https://images.pexels.com/photos/221024/pexels-photo-221024.jpeg", "https://images.pexels.com/photos/271816/pexels-photo-271816.jpeg"],
           promo: "Early Bird Price! Dapatkan harga perdana khusus masa Pre-Launching.",
           nearbyLocations: { "Pusat Perbelanjaan": "15 menit ke Pondok Indah Mall", "Bandara": "45 menit ke Soekarno-Hatta", "Sekolah": "Dekat Jakarta Intercultural School" },
           description: "Hunian vertikal mewah yang menawarkan privasi dan kemewahan di lokasi paling premium di Jakarta Selatan.",
@@ -79,121 +79,146 @@ async function seedDatabase() {
       { // Proyek 4
         project: {
           name: "Sentul Paradise Park", developer: "PT Sentul City Tbk", location: "Bogor, Jawa Barat",
-          googleMapsUrl: "https://maps.app.goo.gl/example4", status: "Under Construction",
+          googleMapsUrl: "https://maps.app.goo.gl/example4", status: "Under Construction", brochureLink: "/assets/brochures/modern-home.pdf",
           image: "https://images.pexels.com/photos/2102587/pexels-photo-2102587.jpeg?auto=compress&cs=tinysrgb&w=800",
-          images: [], promo: "Cicilan DP 0% hingga 12x.",
+          images: ["https://images.pexels.com/photos/209296/pexels-photo-209296.jpeg", "https://images.pexels.com/photos/221540/pexels-photo-221540.jpeg"],
+          promo: "Cicilan DP 0% hingga 12x.",
           nearbyLocations: { "Gerbang Tol": "10 menit ke Tol Jagorawi", "Pusat Perbelanjaan": "5 menit ke AEON Mall Sentul City", "Wisata": "Dekat JungleLand Adventure Theme Park" },
           description: "Nikmati hidup berkualitas dengan udara sejuk dan pemandangan pegunungan. Kawasan terpadu dengan fasilitas rekreasi dan gaya hidup.",
           creatorId: adminUser.id,
         },
         units: [
-          { name: "Tipe Edelweiss", price: 980000000, bedrooms: 2, bathrooms: 1, garage: 1, landSize: 72, buildingSize: 60, images: [], specifications: { Atap: "Genteng Beton", Kusen: "Aluminium" } },
-          { name: "Tipe Bougenville", price: 1350000000, bedrooms: 3, bathrooms: 2, garage: 2, landSize: 90, buildingSize: 80, images: [], specifications: { Atap: "Genteng Beton Flat", Kusen: "Aluminium" } },
+          { name: "Tipe Edelweiss", price: 980000000, bedrooms: 2, bathrooms: 1, garage: 1, landSize: 72, buildingSize: 60, images: ["https://images.pexels.com/photos/2724749/pexels-photo-2724749.jpeg"], specifications: { Pondasi: "Batu Kali", Atap: "Genteng Beton", Kusen: "Aluminium" } },
+          { name: "Tipe Bougenville", price: 1350000000, bedrooms: 3, bathrooms: 2, garage: 2, landSize: 90, buildingSize: 80, images: ["https://images.pexels.com/photos/1454806/pexels-photo-1454806.jpeg"], specifications: { Pondasi: "Beton Bertulang", Atap: "Genteng Beton Flat", Kusen: "Aluminium" } },
         ]
       },
        { // Proyek 5
         project: {
           name: "Citra Lake Depok", developer: "Ciputra Group", location: "Depok, Jawa Barat",
-          googleMapsUrl: "https://maps.app.goo.gl/example5", status: "Ready Stock",
+          googleMapsUrl: "https://maps.app.goo.gl/example5", status: "Ready Stock", brochureLink: "/assets/brochures/modern-home.pdf",
           image: "https://images.pexels.com/photos/1475938/pexels-photo-1475938.jpeg?auto=compress&cs=tinysrgb&w=800",
-          images: [], description: "Hunian dengan pemandangan danau yang menenangkan, menciptakan suasana liburan setiap hari.",
+          images: ["https://images.pexels.com/photos/276583/pexels-photo-276583.jpeg", "https://images.pexels.com/photos/271795/pexels-photo-271795.jpeg"],
+          promo: "Subsidi biaya KPR hingga 20 Juta!",
+          nearbyLocations: { "Stasiun": "10 menit ke Stasiun Depok Baru", "Universitas": "15 menit ke Universitas Indonesia", "Gerbang Tol": "5 menit ke Gerbang Tol Cijago" },
+          description: "Hunian dengan pemandangan danau yang menenangkan, menciptakan suasana liburan setiap hari. Dilengkapi jogging track dan area komersial.",
           creatorId: adminUser.id,
         },
         units: [
-          { name: "Tipe Azure", price: 780000000, bedrooms: 2, bathrooms: 1, garage: 1, landSize: 60, buildingSize: 45, images: [], specifications: {} },
-          { name: "Tipe Emerald", price: 1050000000, bedrooms: 3, bathrooms: 2, garage: 1, landSize: 72, buildingSize: 62, images: [], specifications: {} },
+          { name: "Tipe Azure", price: 780000000, bedrooms: 2, bathrooms: 1, garage: 1, landSize: 60, buildingSize: 45, images: ["https://images.pexels.com/photos/276724/pexels-photo-276724.jpeg"], specifications: { Dinding: "Hebel", Lantai: "Keramik 40x40", Sanitasi: "American Standard" } },
+          { name: "Tipe Emerald", price: 1050000000, bedrooms: 3, bathrooms: 2, garage: 1, landSize: 72, buildingSize: 62, images: ["https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg"], specifications: { Dinding: "Bata Merah", Lantai: "Granit 60x60", Sanitasi: "TOTO" } },
         ]
       },
       { // Proyek 6
         project: {
           name: "Puri Mansion Apartment", developer: "Agung Podomoro Land", location: "Jakarta Barat, DKI Jakarta",
-          googleMapsUrl: "https://maps.app.goo.gl/example6", status: "Ready Stock",
+          googleMapsUrl: "https://maps.app.goo.gl/example6", status: "Ready Stock", brochureLink: "/assets/brochures/modern-home.pdf",
           image: "https://images.pexels.com/photos/1571463/pexels-photo-1571463.jpeg?auto=compress&cs=tinysrgb&w=800",
-          images: [], description: "Apartemen mewah dengan 51 fasilitas outdoor & indoor, berlokasi strategis di Jakarta Barat.",
+          images: ["https://images.pexels.com/photos/6585756/pexels-photo-6585756.jpeg", "https://images.pexels.com/photos/6585767/pexels-photo-6585767.jpeg"],
+          promo: "Cashback booking fee 100% dan bonus perabotan lengkap.",
+          nearbyLocations: { "Pusat Perbelanjaan": "5 menit ke Puri Indah Mall", "Gerbang Tol": "Akses langsung ke Tol JORR W2" },
+          description: "Apartemen mewah dengan 51 fasilitas outdoor & indoor, berlokasi strategis di CBD Jakarta Barat.",
           creatorId: adminUser.id,
         },
         units: [
-          { name: "Tipe Studio", price: 600000000, bedrooms: 1, bathrooms: 1, garage: 0, landSize: 0, buildingSize: 26, images: [], specifications: {} },
-          { name: "Tipe 2BR", price: 1250000000, bedrooms: 2, bathrooms: 1, garage: 0, landSize: 0, buildingSize: 49, images: [], specifications: {} },
-          { name: "Tipe 3BR", price: 1800000000, bedrooms: 3, bathrooms: 2, garage: 0, landSize: 0, buildingSize: 68, images: [], specifications: {} },
+          { name: "Tipe Studio", price: 600000000, bedrooms: 1, bathrooms: 1, garage: 0, landSize: 0, buildingSize: 26, images: ["https://images.pexels.com/photos/271816/pexels-photo-271816.jpeg"], specifications: { Lantai: "Homogeneous Tile", Dapur: "Kitchen Set by Vivere" } },
+          { name: "Tipe 2BR", price: 1250000000, bedrooms: 2, bathrooms: 1, garage: 0, landSize: 0, buildingSize: 49, images: ["https://images.pexels.com/photos/1457842/pexels-photo-1457842.jpeg"], specifications: { Lantai: "Marmer", Dapur: "Kitchen Set by Vivere" } },
+          { name: "Tipe 3BR", price: 1800000000, bedrooms: 3, bathrooms: 2, garage: 0, landSize: 0, buildingSize: 68, images: ["https://images.pexels.com/photos/1643383/pexels-photo-1643383.jpeg"], specifications: { Lantai: "Marmer & Parket", Dapur: "Kitchen Set by Vivere" } },
         ]
       },
       { // Proyek 7
         project: {
           name: "Alam Sutera - Cluster Sutera Winona", developer: "Alam Sutera Realty", location: "Tangerang, Banten",
-          googleMapsUrl: "https://maps.app.goo.gl/example7", status: "Launching",
+          googleMapsUrl: "https://maps.app.goo.gl/example7", status: "Launching", brochureLink: "/assets/brochures/modern-home.pdf",
           image: "https://images.pexels.com/photos/209296/pexels-photo-209296.jpeg?auto=compress&cs=tinysrgb&w=800",
-          images: [], description: "Cluster mewah terbaru di Alam Sutera dengan desain American Classic yang megah dan elegan.",
+          images: ["https://images.pexels.com/photos/259588/pexels-photo-259588.jpeg", "https://images.pexels.com/photos/1396122/pexels-photo-1396122.jpeg"],
+          promo: "Dapatkan Smart Home System gratis untuk setiap unit.",
+          nearbyLocations: { "Pusat Perbelanjaan": "10 menit ke Mall @ Alam Sutera", "Universitas": "Dekat Universitas Bina Nusantara" },
+          description: "Cluster mewah terbaru di Alam Sutera dengan desain American Classic yang megah dan elegan.",
           creatorId: adminUser.id,
         },
         units: [
-          { name: "Tipe Alder", price: 6000000000, bedrooms: 4, bathrooms: 4, garage: 2, landSize: 200, buildingSize: 250, images: [], specifications: {} },
-          { name: "Tipe Laurel", price: 8500000000, bedrooms: 5, bathrooms: 5, garage: 3, landSize: 250, buildingSize: 320, images: [], specifications: {} },
+          { name: "Tipe Alder", price: 6000000000, bedrooms: 4, bathrooms: 4, garage: 2, landSize: 200, buildingSize: 250, images: ["https://images.pexels.com/photos/2079246/pexels-photo-2079246.jpeg"], specifications: { Pondasi: "Tiang Pancang", Dinding: "Bata Merah", Atap: "Genteng Keramik" } },
+          { name: "Tipe Laurel", price: 8500000000, bedrooms: 5, bathrooms: 5, garage: 3, landSize: 250, buildingSize: 320, images: ["https://images.pexels.com/photos/208736/pexels-photo-208736.jpeg"], specifications: { Pondasi: "Tiang Pancang", Dinding: "Bata Merah", Atap: "Genteng Keramik Premium" } },
         ]
       },
        { // Proyek 8
         project: {
           name: "Summarecon Bekasi - The SpringLake", developer: "Summarecon Agung", location: "Bekasi, Jawa Barat",
-          googleMapsUrl: "https://maps.app.goo.gl/example8", status: "Ready Stock",
+          googleMapsUrl: "https://maps.app.goo.gl/example8", status: "Ready Stock", brochureLink: "/assets/brochures/modern-home.pdf",
           image: "https://images.pexels.com/photos/271816/pexels-photo-271816.jpeg?auto=compress&cs=tinysrgb&w=800",
-          images: [], description: "Apartemen modern yang terhubung langsung dengan Summarecon Mall Bekasi melalui skybridge.",
+          images: ["https://images.pexels.com/photos/1571463/pexels-photo-1571463.jpeg", "https://images.pexels.com/photos/276724/pexels-photo-276724.jpeg"],
+          promo: "Langsung huni, tanpa DP!",
+          nearbyLocations: { "Pusat Perbelanjaan": "Terhubung langsung via Skybridge ke Summarecon Mall Bekasi", "Transportasi": "Dekat Halte Bus TransJakarta" },
+          description: "Apartemen modern yang terhubung langsung dengan Summarecon Mall Bekasi melalui skybridge, menawarkan kemudahan gaya hidup urban.",
           creatorId: adminUser.id,
         },
         units: [
-          { name: "Tipe 1BR", price: 550000000, bedrooms: 1, bathrooms: 1, garage: 0, landSize: 0, buildingSize: 32, images: [], specifications: {} },
-          { name: "Tipe 2BR", price: 820000000, bedrooms: 2, bathrooms: 1, garage: 0, landSize: 0, buildingSize: 45, images: [], specifications: {} },
+          { name: "Tipe 1BR", price: 550000000, bedrooms: 1, bathrooms: 1, garage: 0, landSize: 0, buildingSize: 32, images: ["https://images.pexels.com/photos/2724749/pexels-photo-2724749.jpeg"], specifications: { Listrik: "1300 VA", Air: "PDAM" } },
+          { name: "Tipe 2BR", price: 820000000, bedrooms: 2, bathrooms: 1, garage: 0, landSize: 0, buildingSize: 45, images: ["https://images.pexels.com/photos/1454806/pexels-photo-1454806.jpeg"], specifications: { Listrik: "2200 VA", Air: "PDAM" } },
         ]
       },
        { // Proyek 9
         project: {
           name: "Menteng Park Apartment", developer: "Agung Sedayu Group", location: "Jakarta Pusat, DKI Jakarta",
-          googleMapsUrl: "https://maps.app.goo.gl/example9", status: "Sold Out",
+          googleMapsUrl: "https://maps.app.goo.gl/example9", status: "Sold Out", brochureLink: "/assets/brochures/modern-home.pdf",
           image: "https://images.pexels.com/photos/277667/pexels-photo-277667.jpeg?auto=compress&cs=tinysrgb&w=800",
-          images: [], description: "Hunian eksklusif di Cikini, Jakarta Pusat, dengan konsep Diamond in the City.",
+          images: ["https://images.pexels.com/photos/6585756/pexels-photo-6585756.jpeg", "https://images.pexels.com/photos/271816/pexels-photo-271816.jpeg"],
+          promo: "Unit sekunder tersedia dengan kondisi terbaik.",
+          nearbyLocations: { "Stasiun": "5 menit ke Stasiun Cikini", "Taman": "Berseberangan dengan Taman Ismail Marzuki" },
+          description: "Hunian eksklusif di Cikini, Jakarta Pusat, dengan konsep Diamond in the City. Lokasi strategis di jantung ibu kota.",
           creatorId: adminUser.id,
         },
         units: [
-          { name: "Tipe Sapphire", price: 1500000000, bedrooms: 1, bathrooms: 1, garage: 0, landSize: 0, buildingSize: 33, images: [], specifications: {} },
-          { name: "Tipe Diamond", price: 2500000000, bedrooms: 2, bathrooms: 2, garage: 0, landSize: 0, buildingSize: 60, images: [], specifications: {} },
+          { name: "Tipe Sapphire", price: 1500000000, bedrooms: 1, bathrooms: 1, garage: 0, landSize: 0, buildingSize: 33, images: ["https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg"], specifications: { AC: "Split Duct", Keamanan: "Smart Lock" } },
+          { name: "Tipe Diamond", price: 2500000000, bedrooms: 2, bathrooms: 2, garage: 0, landSize: 0, buildingSize: 60, images: ["https://images.pexels.com/photos/1643383/pexels-photo-1643383.jpeg"], specifications: { AC: "Split Duct", Keamanan: "Smart Lock & Video Intercom" } },
         ]
       },
        { // Proyek 10
         project: {
           name: "Rancamaya Golf Estate", developer: "PT Suryamas Dutamakmur Tbk", location: "Bogor, Jawa Barat",
-          googleMapsUrl: "https://maps.app.goo.gl/example10", status: "Ready Stock",
+          googleMapsUrl: "https://maps.app.goo.gl/example10", status: "Ready Stock", brochureLink: "/assets/brochures/modern-home.pdf",
           image: "https://images.pexels.com/photos/221540/pexels-photo-221540.jpeg?auto=compress&cs=tinysrgb&w=800",
-          images: [], description: "Kawasan hunian premium dengan lapangan golf internasional dan pemandangan Gunung Salak.",
+          images: ["https://images.pexels.com/photos/210617/pexels-photo-210617.jpeg", "https://images.pexels.com/photos/2102587/pexels-photo-2102587.jpeg"],
+          promo: "Gratis keanggotaan klub golf seumur hidup.",
+          nearbyLocations: { "Rekreasi": "Lapangan Golf Internasional 18-hole", "Gerbang Tol": "15 menit dari exit Tol Ciawi" },
+          description: "Kawasan hunian premium dengan lapangan golf internasional dan pemandangan Gunung Salak yang menakjubkan.",
           creatorId: adminUser.id,
         },
         units: [
-          { name: "Tipe Amadeus", price: 2100000000, bedrooms: 3, bathrooms: 2, garage: 2, landSize: 200, buildingSize: 150, images: [], specifications: {} },
-          { name: "Tipe Salvador", price: 3500000000, bedrooms: 4, bathrooms: 3, garage: 2, landSize: 300, buildingSize: 220, images: [], specifications: {} },
+          { name: "Tipe Amadeus", price: 2100000000, bedrooms: 3, bathrooms: 2, garage: 2, landSize: 200, buildingSize: 150, images: ["https://images.pexels.com/photos/2079246/pexels-photo-2079246.jpeg"], specifications: { Dinding: "Bata Merah", Lantai: "Marmer Lokal" } },
+          { name: "Tipe Salvador", price: 3500000000, bedrooms: 4, bathrooms: 3, garage: 2, landSize: 300, buildingSize: 220, images: ["https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg"], specifications: { Dinding: "Bata Merah", Lantai: "Marmer Import" } },
         ]
       },
       { // Proyek 11
         project: {
           name: "The Zora - BSD City", developer: "Sinar Mas Land & Mitsubishi Corp", location: "BSD City, Tangerang",
-          googleMapsUrl: "https://maps.app.goo.gl/example11", status: "Launching",
+          googleMapsUrl: "https://maps.app.goo.gl/example11", status: "Launching", brochureLink: "/assets/brochures/modern-home.pdf",
           image: "https://images.pexels.com/photos/259962/pexels-photo-259962.jpeg?auto=compress&cs=tinysrgb&w=800",
-          images: [], description: "Hunian mewah berkonsep 'Beauty of Balance' yang memadukan desain, fasilitas, dan teknologi Jepang.",
+          images: ["https://images.pexels.com/photos/1396132/pexels-photo-1396132.jpeg", "https://images.pexels.com/photos/208736/pexels-photo-208736.jpeg"],
+          promo: "Diskon khusus untuk pembelian melalui NUP.",
+          nearbyLocations: { "Pusat Perbelanjaan": "5 menit ke QBig BSD City", "Pendidikan": "Dekat Universitas Prasetiya Mulya" },
+          description: "Hunian mewah berkonsep 'Beauty of Balance' yang memadukan desain, fasilitas, dan teknologi Jepang.",
           creatorId: adminUser.id,
         },
         units: [
-          { name: "Tipe Kiyomi", price: 7000000000, bedrooms: 4, bathrooms: 4, garage: 2, landSize: 220, buildingSize: 300, images: [], specifications: {} },
-          { name: "Tipe Kazumi", price: 9000000000, bedrooms: 5, bathrooms: 5, garage: 3, landSize: 280, buildingSize: 380, images: [], specifications: {} },
+          { name: "Tipe Kiyomi", price: 7000000000, bedrooms: 4, bathrooms: 4, garage: 2, landSize: 220, buildingSize: 300, images: ["https://images.pexels.com/photos/1457842/pexels-photo-1457842.jpeg"], specifications: { Teknologi: "Smart Home System", Sanitasi: "Grohe & TOTO" } },
+          { name: "Tipe Kazumi", price: 9000000000, bedrooms: 5, bathrooms: 5, garage: 3, landSize: 280, buildingSize: 380, images: ["https://images.pexels.com/photos/1643383/pexels-photo-1643383.jpeg"], specifications: { Teknologi: "Smart Home System & Lift", Sanitasi: "Grohe & TOTO" } },
         ]
       },
       { // Proyek 12
         project: {
           name: "Gold Coast Apartment PIK", developer: "Agung Sedayu Group", location: "Jakarta Utara, DKI Jakarta",
-          googleMapsUrl: "https://maps.app.goo.gl/example12", status: "Ready Stock",
+          googleMapsUrl: "https://maps.app.goo.gl/example12", status: "Ready Stock", brochureLink: "/assets/brochures/modern-home.pdf",
           image: "https://images.pexels.com/photos/164558/pexels-photo-164558.jpeg?auto=compress&cs=tinysrgb&w=800",
-          images: [], description: "Apartemen tepi laut di Pantai Indah Kapuk dengan pemandangan laut lepas dan akses langsung ke kawasan PIK.",
+          images: ["https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg", "https://images.pexels.com/photos/277667/pexels-photo-277667.jpeg"],
+          promo: "Unit siap huni dengan pemandangan laut terbaik.",
+          nearbyLocations: { "Rekreasi": "Akses langsung ke kawasan PIK", "Bandara": "20 menit ke Bandara Soekarno-Hatta" },
+          description: "Apartemen tepi laut di Pantai Indah Kapuk dengan pemandangan laut lepas dan akses langsung ke kawasan PIK.",
           creatorId: adminUser.id,
         },
         units: [
-          { name: "Tipe 2BR Sea View", price: 2800000000, bedrooms: 2, bathrooms: 2, garage: 0, landSize: 0, buildingSize: 90, images: [], specifications: {} },
-          { name: "Tipe 3BR Ocean View", price: 4200000000, bedrooms: 3, bathrooms: 2, garage: 0, landSize: 0, buildingSize: 120, images: [], specifications: {} },
+          { name: "Tipe 2BR Sea View", price: 2800000000, bedrooms: 2, bathrooms: 2, garage: 0, landSize: 0, buildingSize: 90, images: ["https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg"], specifications: { Pemandangan: "Laut Lepas", Balkon: "Tersedia" } },
+          { name: "Tipe 3BR Ocean View", price: 4200000000, bedrooms: 3, bathrooms: 2, garage: 0, landSize: 0, buildingSize: 120, images: ["https://images.pexels.com/photos/1457842/pexels-photo-1457842.jpeg"], specifications: { Pemandangan: "Laut Lepas & Kota", Balkon: "Tersedia, Luas" } },
         ]
       }
     ];

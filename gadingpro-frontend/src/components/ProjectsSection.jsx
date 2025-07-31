@@ -14,7 +14,7 @@ const ProjectsSection = () => {
     const fetchProjects = async () => {
       try {
         const backendUrl = import.meta.env.VITE_BACKEND_URL;
-        const apiUrl = `${backendUrl}/public/projects?_limit=3`;
+        const apiUrl = `${backendUrl}/public/projects`;
 
         // Menambahkan header untuk melewati halaman peringatan Ngrok
         const response = await fetch(apiUrl, {
@@ -31,7 +31,7 @@ const ProjectsSection = () => {
           );
         }
         const data = await response.json();
-        setProjects(data);
+        setProjects(data.slice(0, 3));
         } catch (error) {
         console.error("Error fetching projects for homepage:", error);
         setError(error.message); // Set state error
