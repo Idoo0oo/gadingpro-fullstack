@@ -50,7 +50,7 @@ const ArticleDetailPage = () => {
             <Container className="py-5">
                 <Row className="justify-content-center">
                     <Col lg={8}>
-                        <Link to="/panduan-tips" className="btn btn-link text-muted mb-4 d-inline-flex align-items-center px-0">
+                        <Link to="/articles" className="btn btn-link text-muted mb-4 d-inline-flex align-items-center px-0">
                             <ArrowLeft size={16} className="me-2" />
                             Kembali ke Semua Artikel
                         </Link>

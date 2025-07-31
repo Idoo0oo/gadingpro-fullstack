@@ -15,6 +15,16 @@ const ProjectDetailPage = () => {
     const [showWhatsappModal, setShowWhatsappModal] = useState(false);
 
     useEffect(() => {
+        // Menambahkan kelas khusus ke body saat komponen dimuat
+        document.body.classList.add('project-detail-page-active');
+
+        // Fungsi cleanup untuk menghapus kelas saat komponen dilepas
+        return () => {
+            document.body.classList.remove('project-detail-page-active');
+        };
+    }, []);
+
+    useEffect(() => {
         const fetchProject = async () => {
             setLoading(true);
             setError('');
@@ -42,7 +52,7 @@ const ProjectDetailPage = () => {
             if (num >= 1000000) return `${(num / 1000000)} Juta`;
             return num.toLocaleString('id-ID');
         };
-        if (min === max) return `Mulai dari Rp ${format(min)}`;
+        if (min === max) return `Rp ${format(min)}`;
         return `Rp ${format(min)} - ${format(max)}`;
     };
 
@@ -59,11 +69,16 @@ const ProjectDetailPage = () => {
     if (error) return <div className="text-center py-5 page-with-navbar-padding text-danger">Error: {error}</div>;
 
     return (
-        <div className="bg-light page-with-navbar-padding">
+        <div className="project-detail-page">
             {/* --- Banner --- */}
             <section className="position-relative text-white text-center" style={{ height: '50vh', background: `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url(${project.image}) center/cover no-repeat` }}>
                 <Container className="d-flex flex-column justify-content-center h-100">
-                    <Button variant="light" onClick={() => navigate('/projects')} className="position-absolute top-0 start-0 m-3 m-lg-4 fw-medium">
+                    <Button
+                        variant="danger"
+                        onClick={() => navigate('/projects')}
+                        className="position-fixed top-0 start-0 m-3 m-lg-4 fw-medium" // Diubah ke position-fixed
+                        style={{ zIndex: 100000 }}
+                    >
                         <ArrowLeft size={16} className="me-2" />Kembali ke Proyek
                     </Button>
                     <h1 className="display-4 fw-bold">{project.name}</h1>

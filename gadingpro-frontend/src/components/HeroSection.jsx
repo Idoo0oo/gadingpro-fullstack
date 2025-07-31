@@ -1,5 +1,8 @@
+// gadingpro-frontend/src/components/HeroSection.jsx (FIXED)
 import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
+// 1. Impor gambar lokal yang sudah dioptimasi
+import heroImage from "../assets/img/project-1.webp"; 
 
 const HeroSection = () => {
   const scrollToSection = (id) => {
@@ -10,7 +13,8 @@ const HeroSection = () => {
     <header
       className="w-100 min-vh-100 d-flex align-items-center pt-lg-5"
       style={{
-        background: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('https://github.com/Idoo0oo/hero-image/blob/main/project-1.jpg?raw=true') center/cover no-repeat`,
+        // 2. Gunakan gambar yang sudah diimpor di sini
+        background: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(${heroImage}) center/cover no-repeat`,
         minHeight: "100vh",
       }}
     >

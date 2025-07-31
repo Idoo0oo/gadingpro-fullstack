@@ -1,5 +1,5 @@
 version: "2"
-authtoken: YOUR_NGROK_TOKEN
+authtoken: 30JunzmG2Ou7AaR2LcPfLh2wntY_5XHQe6K3WjdL1LsB6MgWU
 
 tunnels:
   gadingpro-backend:
@@ -8,3 +8,6 @@ tunnels:
   gadingpro-frontend:
     proto: http
     addr: 5173
+  gadingpro-admin:
+    proto: http
+    addr: 3000

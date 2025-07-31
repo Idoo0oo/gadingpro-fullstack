@@ -1534,4 +1534,16 @@ html {
     /* Contoh: Tinggi navbar 60px + sedikit ruang ekstra 20px = 80px */
     padding-top: 80px; 
 }
+
+.navbar-logo {
+  height: 50px; /* Ukuran default untuk desktop */
+  transition: height 0.3s ease; /* Animasi perubahan ukuran yang halus */
+}
+
+/* Aturan ini hanya akan aktif pada layar dengan lebar 991px atau kurang (tablet dan mobile) */
+@media (max-width: 991.98px) {
+  .navbar-logo {
+    height: 40px; /* Ukuran logo yang lebih pas untuk mobile */
+  }
+}
 /* COBA COBA */

@@ -1,4 +1,4 @@
-// gadingpro-fullstack/gadingpro-frontend/src/pages/ProjectsPage.jsx
+// gadingpro-fullstack/gadingpro-frontend/src/pages/ProjectsPage.jsx (FIXED)
 import { useState, useEffect, useMemo, useCallback } from 'react';
 
 import ProjectsHero from '../components/ProjectsHero';
@@ -19,60 +19,37 @@ const ProjectsPage = () => {
 
   useEffect(() => {
     const fetchProjects = async () => {
-      console.log("1. Memulai fetchProjects..."); // Log Awal
       setLoading(true);
       setError(null);
 
       try {
         const backendUrl = import.meta.env.VITE_BACKEND_URL;
         const apiUrl = `${backendUrl}/public/projects`;
-        console.log("2. URL yang akan di-fetch:", apiUrl); // Log URL
-
+        
         const response = await fetch(apiUrl, {
-  headers: {
-    'ngrok-skip-browser-warning': 'true'
-  }
-});
-
-        // Mencetak info PENTING dari respons
-        console.log("3. Respons diterima dari server. Status:", response.status);
-        console.log("4. Content-Type Header:", response.headers.get('Content-Type'));
-
-        // Cek jika Content-Type BUKAN JSON, meskipun status OK
-        if (response.ok && !response.headers.get('Content-Type')?.includes('application/json')) {
-            const text = await response.text();
-            console.error("5a. Status OK, tapi Konten BUKAN JSON. Isinya:", text.substring(0, 500));
-            throw new Error('Server returned HTML instead of JSON, even with a 200 OK status.');
-        }
+          headers: {
+            'ngrok-skip-browser-warning': 'true'
+          }
+        });
 
         if (!response.ok) {
           const errorText = await response.text();
-          console.error("5b. Respons TIDAK OK. Isi teks:", errorText.substring(0, 500));
+          console.error("Server response error:", errorText.substring(0, 500));
           throw new Error(`Server error! Status: ${response.status}`);
         }
 
         const data = await response.json();
-        console.log("6. Data JSON berhasil di-parse."); // Log Sukses
         setProjectsAll(data);
 
       } catch (err) {
-        console.error("7. Terjadi ERROR di dalam blok try-catch:", err); // Log Error Fatal
+        console.error("Fetch error:", err);
         setError(err.message);
       } finally {
-        console.log("8. Proses fetch selesai (finally block)."); // Log Akhir
         setLoading(false);
       }
     };
 
     fetchProjects();
-}, []);
-  const parsePrice = useCallback((priceString) => {
-    if (!priceString) return 0;
-    const numStr = priceString.replace(/[^\d.,]/g, '').replace(',', '.');
-    const num = parseFloat(numStr);
-    if (priceString.includes('Miliar')) return num * 1000;
-    if (priceString.includes('Juta')) return num;
-    return num;
   }, []);
 
   const resetFilters = useCallback(() => {
@@ -94,22 +71,23 @@ const ProjectsPage = () => {
 
       const matchesLocation = selectedLocation === 'Semua Lokasi' ||
         project.location.includes(selectedLocation);
-
+      
+      // --- PERBAIKAN LOGIKA FILTER HARGA ---
       let matchesPrice = true;
       if (selectedPriceRange !== 'Semua Harga') {
-        const projectPrice = parsePrice(project.price);
+        const priceMin = project.priceMin || 0;
         switch (selectedPriceRange) {
           case '< Rp 1 Miliar':
-            matchesPrice = projectPrice < 1000;
+            matchesPrice = priceMin < 1000000000;
             break;
           case 'Rp 1 - 2 Miliar':
-            matchesPrice = projectPrice >= 1000 && projectPrice < 2000;
+            matchesPrice = priceMin >= 1000000000 && priceMin < 2000000000;
             break;
           case 'Rp 2 - 3 Miliar':
-            matchesPrice = projectPrice >= 2000 && projectPrice < 3000;
+            matchesPrice = priceMin >= 2000000000 && priceMin < 3000000000;
             break;
           case '> Rp 3 Miliar':
-            matchesPrice = projectPrice >= 3000;
+            matchesPrice = priceMin >= 3000000000;
             break;
           default:
             matchesPrice = true;
@@ -118,6 +96,7 @@ const ProjectsPage = () => {
       return matchesSearch && matchesCategory && matchesLocation && matchesPrice;
     });
 
+    // --- PERBAIKAN LOGIKA SORTING ---
     filtered.sort((a, b) => {
       switch (sortBy) {
         case 'newest':
@@ -125,9 +104,9 @@ const ProjectsPage = () => {
         case 'oldest':
           return (a.completionYear || 0) - (b.completionYear || 0);
         case 'price-low':
-          return parsePrice(a.price) - parsePrice(b.price);
+          return (a.priceMin || 0) - (b.priceMin || 0);
         case 'price-high':
-          return parsePrice(b.price) - parsePrice(a.price);
+          return (b.priceMin || 0) - (a.priceMin || 0);
         case 'name':
           return a.name.localeCompare(b.name);
         default:
@@ -136,7 +115,7 @@ const ProjectsPage = () => {
     });
 
     return filtered;
-  }, [projectsAll, searchTerm, selectedCategory, selectedLocation, selectedPriceRange, sortBy, parsePrice]);
+  }, [projectsAll, searchTerm, selectedCategory, selectedLocation, selectedPriceRange, sortBy]);
 
   const stats = useMemo(() => {
     if (loading || error) {
@@ -147,6 +126,12 @@ const ProjectsPage = () => {
         averagePrice: 'N/A',
       };
     }
+    
+    const parsePriceForStats = (price) => {
+      if (!price) return 0;
+      // Menggunakan priceMin yang sudah numerik
+      return price / 1000000; // Mengubah ke jutaan
+    };
 
     const uniqueLocations = new Set(projectsAll.map(p => p.location));
     const totalLocations = uniqueLocations.size;
@@ -155,7 +140,7 @@ const ProjectsPage = () => {
     let totalPrices = 0;
     let validProjectsForAvg = 0;
     projectsAll.forEach(p => {
-      const price = parsePrice(p.price);
+      const price = parsePriceForStats(p.priceMin);
       if (!isNaN(price) && price > 0) {
         totalPrices += price;
         validProjectsForAvg++;
@@ -179,7 +164,7 @@ const ProjectsPage = () => {
       completedProjects,
       averagePrice: averagePriceFormatted,
     };
-  }, [projectsAll, loading, error, parsePrice]);
+  }, [projectsAll, loading, error]);
 
   if (loading) {
     return <div className="text-center py-5 page-with-navbar-padding">Loading projects...</div>;

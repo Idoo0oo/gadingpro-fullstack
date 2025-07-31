@@ -39,7 +39,7 @@ const NavbarComponent = () => {
                         <img
                             src="https://agents-events-prod.storage.googleapis.com/wp-content/uploads/sites/20/2024/03/20035510/Gading-Pro-Logo.png"
                             alt="GadingPro Logo"
-                            height="50"
+                            className="navbar-logo"
                         />
                     </Navbar.Brand>
 
