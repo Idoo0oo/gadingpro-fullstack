@@ -118,3 +118,18 @@
     @apply bg-background text-foreground;
   }
 }
+
+.ProseMirror {
+    min-height: 250px; /* Kamu bisa sesuaikan tingginya di sini, misal 300px atau 400px */
+    border: 1px solid hsl(var(--border));
+    border-radius: var(--radius-md);
+    padding: 0.5rem 0.75rem;
+    transition: border-color 0.2s;
+}
+
+/* Tambahkan efek focus biar keren, menyesuaikan tema shadcn/ui */
+.ProseMirror:focus-within {
+    outline: none;
+    border-color: hsl(var(--ring));
+    box-shadow: 0 0 0 3px hsl(var(--ring) / 0.5);
+}

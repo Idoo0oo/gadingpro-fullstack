@@ -6,6 +6,8 @@ const cors = require('cors');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const { Op } = require('sequelize');
+const multer = require('multer');
+const path = require('path');
 
 const sequelize = require('./config/database');
 const User = require('./models/User');
@@ -33,6 +35,36 @@ UnitType.belongsTo(Project, { foreignKey: 'projectId' });
 
 const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
 const adminUrl = process.env.ADMIN_URL || 'http://localhost:3000';
+
+const fs = require('fs');
+const dir = './public/uploads';
+if (!fs.existsSync(dir)){
+    fs.mkdirSync(dir, { recursive: true });
+}
+
+const storage = multer.diskStorage({
+    destination: './public/uploads/',
+    filename: function(req, file, cb){
+        cb(null, 'article-' + Date.now() + path.extname(file.originalname));
+    }
+});
+
+const upload = multer({
+    storage: storage,
+    limits: { fileSize: 2000000 }, // Batas ukuran file 2MB
+    fileFilter: function(req, file, cb){
+        const filetypes = /jpeg|jpg|png|gif/;
+        const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+        const mimetype = filetypes.test(file.mimetype);
+        if (mimetype && extname) {
+            return cb(null, true);
+        } else {
+            cb(new Error('Error: Hanya file gambar (jpeg, jpg, png, gif) yang diizinkan!'));
+        }
+    }
+});
+
+app.use('/public/uploads', express.static(path.join(__dirname, 'public/uploads')));
 
 // Konfigurasi CORS Anda sudah bagus
 const allowedOrigins = [
@@ -182,17 +214,21 @@ app.get('/public/branches', async (req, res, next) => {
 });
 app.post('/public/inquiry', async (req, res, next) => {
     try {
-        const { name, email, phone, message, type } = req.body;
+        // 1. Ambil `unitType` dari req.body
+        const { name, email, phone, message, type, unitType } = req.body; 
+
         if (!name || !email || !phone || !type) {
             return res.status(400).json({ message: 'Name, email, phone, and type are required' });
         }
-        const newInquiry = await Inquiry.create({ name, email, phone, message, type });
+
+        // 2. Sertakan `unitType` saat membuat data baru
+        const newInquiry = await Inquiry.create({ name, email, phone, message, type, unitType });
+        
         res.status(201).json({ message: 'Inquiry submitted successfully!', data: newInquiry });
     } catch (err) {
         next(err);
     }
 });
-
 app.get('/public/projects/:id', async (req, res, next) => {
     try {
         const project = await Project.findByPk(req.params.id, {
@@ -440,6 +476,19 @@ app.get('/api/inquiries', authenticateToken, async (req, res, next) => {
         next(err);
     }
 });
+app.delete('/api/inquiries/:id', authenticateToken, async (req, res, next) => {
+    try {
+        const inquiry = await Inquiry.findByPk(req.params.id);
+        if (!inquiry) {
+            return res.status(404).json({ message: 'Inquiry not found' });
+        }
+        await inquiry.destroy();
+        // Kirim kembali data yang dihapus (cukup ID-nya) agar react-admin bisa konfirmasi
+        res.json({ id: req.params.id }); 
+    } catch (err) {
+        next(err);
+    }
+});
 // (Tambahkan rute GET by ID dan DELETE untuk inquiries seperti contoh projects)
 app.get('/api/inquiries/:id', authenticateToken, async (req, res, next) => {
     try {
@@ -660,6 +709,40 @@ app.get('/api/articles', async (req, res, next) => {
   const { count, rows } = await Article.findAndCountAll();
   res.header('Content-Range', `articles 0-${count}/${count}`);
   res.json(rows);
+});
+app.post('/api/articles', [authenticateToken, upload.single('imageUrl')], async (req, res, next) => {
+    try {
+        const { title, slug, category, author, content } = req.body;
+        // Dapatkan URL gambar dari file yang di-upload
+        const imageUrl = req.file ? `${req.protocol}://${req.get('host')}/public/uploads/${req.file.filename}` : null;
+
+        const newArticle = await Article.create({ title, slug, category, author, content, imageUrl });
+        res.status(201).json(newArticle);
+    } catch (err) {
+        next(err);
+    }
+});
+app.put('/api/articles/:id', [authenticateToken, upload.single('imageUrl')], async (req, res, next) => {
+    try {
+        const article = await Article.findByPk(req.params.id);
+        if (!article) {
+            return res.status(404).json({ message: 'Article not found' });
+        }
+
+        const { title, slug, category, author, content } = req.body;
+        let imageUrl = article.imageUrl; // Gunakan gambar lama sebagai default
+
+        // Jika ada file baru yang di-upload, perbarui imageUrl
+        if (req.file) {
+            imageUrl = `${req.protocol}://${req.get('host')}/public/uploads/${req.file.filename}`;
+            // (Opsional) Hapus file gambar lama jika ada
+        }
+
+        await article.update({ title, slug, category, author, content, imageUrl });
+        res.json(article);
+    } catch (err) {
+        next(err);
+    }
 });
 app.get('/api/users', async (req, res, next) => {
   const { count, rows } = await User.findAndCountAll();

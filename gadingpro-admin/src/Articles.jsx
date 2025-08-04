@@ -1,72 +1,69 @@
-// gadingpro-admin/src/articles.jsx
+// gadingpro-admin/src/Articles.jsx
+
+import React, { useEffect } from 'react';
 import {
-    List,
-    Datagrid,
-    TextField,
-    EditButton,
-    DeleteButton,
-    Create,
-    Edit,
-    SimpleForm,
-    TextInput,
-    required,
-    Filter,
-    SearchInput
+    List, Create, Edit, Datagrid, TextField, SimpleForm, TextInput, RichTextField,
+    required, ImageField, ImageInput
 } from 'react-admin';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { useFormContext } from 'react-hook-form';
+import { RichTextInput } from 'ra-input-rich-text';
+import slugify from 'slugify'; // <-- 1. Import slugify
 
-const ArticleFilter = (props) => (
-    <Filter {...props}>
-        <SearchInput source="q" alwaysOn placeholder="Cari judul artikel..."/>
-    </Filter>
-);
+// 2. Buat komponen Form terpisah untuk dipakai berulang
+const ArticleFormInputs = () => {
+    const { watch, setValue } = useFormContext();
+    const title = watch('title');
 
+    useEffect(() => {
+        if (title) {
+            const newSlug = slugify(title, {
+                lower: true,
+                strict: true,
+                remove: /[*+~.()'"!:@]/g
+            });
+            setValue('slug', newSlug);
+        }
+    }, [title, setValue]); // <-- Dependency array
+
+    return (
+        <>
+            <TextInput source="title" validate={required()} fullWidth />
+            <TextInput source="slug" validate={required()} fullWidth helperText="URL-friendly, akan ter-generate otomatis dari judul" />
+            <TextInput source="category" validate={required()} fullWidth />
+            <ImageInput source="imageUrl" label="Gambar Artikel" accept="image/*">
+                <ImageField source="src" title="title" />
+            </ImageInput>
+            <TextInput source="author" label="Nama Penulis" fullWidth />
+            <RichTextInput source="content" label="Konten Artikel" />
+        </>
+    );
+};
+
+// 3. Gunakan ArticleForm di halaman Create dan Edit
 export const ArticleList = (props) => (
-    <List {...props} filters={<ArticleFilter />}>
+    <List {...props}>
         <Datagrid rowClick="edit">
             <TextField source="id" />
-            <TextField source="title" label="Judul Artikel"/>
-            <TextField source="category" label="Kategori" />
+            <TextField source="title" label="Judul" />
+            <TextField source="slug" />
             <TextField source="author" label="Penulis" />
-            <EditButton />
-            <DeleteButton />
+            <RichTextField source="category" label="Kategori" />
         </Datagrid>
     </List>
 );
 
-const ArticleForm = () => (
-    <SimpleForm>
-        <Card className="w-full mb-6">
-            <CardHeader>
-                <CardTitle>Informasi Artikel</CardTitle>
-            </CardHeader>
-            <CardContent className="grid gap-4">
-                <TextInput source="title" validate={[required()]} fullWidth label="Judul Artikel"/>
-                <TextInput source="slug" validate={[required()]} fullWidth label="Slug (URL friendly)"/>
-                <TextInput source="category" validate={[required()]} fullWidth label="Kategori"/>
-                <TextInput source="imageUrl" validate={[required()]} fullWidth label="URL Gambar"/>
-                <TextInput source="author" fullWidth label="Nama Penulis"/>
-                <TextInput 
-                    source="content" 
-                    label="Konten Artikel" 
-                    multiline
-                    fullWidth 
-                    resettable 
-                />
-            </CardContent>
-        </Card>
-    </SimpleForm>
-);
-
-
 export const ArticleCreate = (props) => (
     <Create {...props}>
-        <ArticleForm />
+        <SimpleForm>
+            <ArticleFormInputs />
+        </SimpleForm>
     </Create>
 );
 
 export const ArticleEdit = (props) => (
     <Edit {...props}>
-        <ArticleForm />
+        <SimpleForm>
+            <ArticleFormInputs />
+        </SimpleForm>
     </Edit>
 );

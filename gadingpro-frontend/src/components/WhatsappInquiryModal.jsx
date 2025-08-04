@@ -1,16 +1,17 @@
 // gadingpro-frontend/src/components/WhatsappInquiryModal.jsx
 import React, { useState } from 'react';
 import { Modal, Form, Button, Alert } from 'react-bootstrap';
-import { Send, User, Home, MessageSquare, Loader2 } from 'lucide-react';
+import { Send, User, Mail, Home, MessageSquare, Loader2 } from 'lucide-react';
 import { FaWhatsapp } from 'react-icons/fa';
 
 const WhatsappInquiryModal = ({ show, handleClose, project }) => {
     const [formData, setFormData] = useState({
-        name: '',
-        unitType: '',
-        phone: '', // Menambahkan field nomor telepon
-        message: `Halo, saya tertarik dengan proyek ${project?.name}. Bisakah saya mendapatkan informasi lebih lanjut?`,
-    });
+    name: '',
+    email: '',
+    unitType: '',
+    phone: '',
+    message: `Halo, saya tertarik dengan proyek ${project?.name}. Bisakah saya mendapatkan informasi lebih lanjut?`,
+});
     const [submissionStatus, setSubmissionStatus] = useState(null); // 'submitting', 'success', 'error'
     const [error, setError] = useState('');
 
@@ -93,6 +94,19 @@ const WhatsappInquiryModal = ({ show, handleClose, project }) => {
                                     type="text" name="name"
                                     placeholder="Nama Lengkap Anda"
                                     value={formData.name} onChange={handleChange}
+                                    required disabled={submissionStatus === 'submitting'}
+                                />
+                            </div>
+                        </Form.Group>
+
+                        <Form.Group className="mb-3">
+                            <Form.Label className="fw-medium">Email</Form.Label>
+                            <div className="input-group">
+                                <span className="input-group-text"><Mail size={20} /></span>
+                                <Form.Control
+                                    type="email" name="email"
+                                    placeholder="email@anda.com"
+                                    value={formData.email} onChange={handleChange}
                                     required disabled={submissionStatus === 'submitting'}
                                 />
                             </div>
