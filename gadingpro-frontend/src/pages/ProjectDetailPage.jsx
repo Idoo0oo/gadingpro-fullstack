@@ -1,9 +1,9 @@
-// gadingpro-frontend/src/pages/ProjectDetailPage.jsx
+// gadingpro-frontend/src/pages/ProjectDetailPage.jsx (REVISED)
 import React, { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { Container, Row, Col, Carousel, Button, Card, Badge, Alert } from 'react-bootstrap';
-import { FaWhatsapp, FaMapMarkerAlt, FaBed, FaBath, FaCar } from 'react-icons/fa';
-import { MapPin, Building, Calendar, Star, Tag, Home, Bed, Bath, Car, ArrowLeft, Download, ExternalLink, Map, Building2, ShoppingCart, School, Hospital, Train, Plane } from 'lucide-react';
+import { Container, Row, Col, Button, Card, Badge, Alert, Breadcrumb } from 'react-bootstrap'; // Import Breadcrumb
+import { FaWhatsapp } from 'react-icons/fa';
+import { MapPin, Tag, Home, Bed, Bath, Car, Download, ExternalLink, Map, Building2, ShoppingCart, School, Hospital, Train, Plane } from 'lucide-react';
 import WhatsappInquiryModal from '../components/WhatsappInquiryModal';
 
 const ProjectDetailPage = () => {
@@ -15,16 +15,7 @@ const ProjectDetailPage = () => {
     const [showWhatsappModal, setShowWhatsappModal] = useState(false);
 
     useEffect(() => {
-        // Menambahkan kelas khusus ke body saat komponen dimuat
-        document.body.classList.add('project-detail-page-active');
-
-        // Fungsi cleanup untuk menghapus kelas saat komponen dilepas
-        return () => {
-            document.body.classList.remove('project-detail-page-active');
-        };
-    }, []);
-
-    useEffect(() => {
+        window.scrollTo(0, 0);
         const fetchProject = async () => {
             setLoading(true);
             setError('');
@@ -73,20 +64,20 @@ const ProjectDetailPage = () => {
             {/* --- Banner --- */}
             <section className="position-relative text-white text-center" style={{ height: '50vh', background: `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url(${project.image}) center/cover no-repeat` }}>
                 <Container className="d-flex flex-column justify-content-center h-100">
-                    <Button
-                        variant="danger"
-                        onClick={() => navigate('/projects')}
-                        className="position-fixed top-0 start-0 m-3 m-lg-4 fw-medium" // Diubah ke position-fixed
-                        style={{ zIndex: 100000 }}
-                    >
-                        <ArrowLeft size={16} className="me-2" />Kembali ke Proyek
-                    </Button>
+                    {/* TOMBOL MERAH SUDAH DIHAPUS DARI SINI */}
                     <h1 className="display-4 fw-bold">{project.name}</h1>
                     <p className="lead">{project.location}</p>
                 </Container>
             </section>
 
             <Container className="py-5">
+                {/* --- BREADCRUMB NAVIGASI BARU --- */}
+                <Breadcrumb className="mb-4">
+                    <Breadcrumb.Item linkAs={Link} linkProps={{ to: "/" }}>Home</Breadcrumb.Item>
+                    <Breadcrumb.Item linkAs={Link} linkProps={{ to: "/projects" }}>Projects</Breadcrumb.Item>
+                    <Breadcrumb.Item active>{project.name}</Breadcrumb.Item>
+                </Breadcrumb>
+
                 <Row className="g-4">
                     {/* --- Kolom Konten Utama --- */}
                     <Col lg={8}>
@@ -156,9 +147,11 @@ const ProjectDetailPage = () => {
                             <Card.Body className="p-4">
                                 <h4 className="fw-bold d-flex align-items-center"><MapPin className="me-2 text-orange" /> Lokasi Proyek</h4>
                                 <p className="text-muted">{project.location}</p>
-                                <Button as="a" href={project.googleMapsUrl} target="_blank" rel="noopener noreferrer" variant="dark" className="w-100">
-                                    Lihat di Google Maps
-                                </Button>
+                                {project.googleMapsUrl && (
+                                    <Button as="a" href={project.googleMapsUrl} target="_blank" rel="noopener noreferrer" variant="dark" className="w-100">
+                                        Lihat di Google Maps
+                                    </Button>
+                                )}
                             </Card.Body>
                         </Card>
 
@@ -169,11 +162,11 @@ const ProjectDetailPage = () => {
                                     <h4 className="fw-bold mb-3">Lokasi Terdekat</h4>
                                     <ul className="list-unstyled">
                                         {Object.entries(project.nearbyLocations).map(([key, value]) => (
-                                            <li key={key} className="d-flex mb-2">
-                                                <div className="me-2">{nearbyIconMapping[key.toLowerCase()] || <Building size={20} className="text-orange" />}</div>
+                                            <li key={key} className="d-flex align-items-center mb-2">
+                                                <div className="me-3">{nearbyIconMapping[key.toLowerCase()] || <Building2 size={20} className="text-orange" />}</div>
                                                 <div>
-                                                    <strong className="text-capitalize">{key}</strong>
-                                                    <p className="text-muted small mb-0">{value}</p>
+                                                    <strong className="text-capitalize d-block">{key}</strong>
+                                                    <span className="text-muted small">{value}</span>
                                                 </div>
                                             </li>
                                         ))}

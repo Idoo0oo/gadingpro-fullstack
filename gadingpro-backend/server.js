@@ -548,6 +548,114 @@ app.put('/api/users/:id', authenticateToken, async (req, res, next) => {
     }
 });
 
+app.get('/api/units', authenticateToken, async (req, res, next) => {
+    try {
+        const { _sort = 'id', _order = 'ASC', _start = 0, _end = 10, filter = '{}' } = req.query;
+        const start = parseInt(_start, 10);
+        const limit = parseInt(_end, 10) - start;
+        const filters = JSON.parse(filter);
+
+        // Ini bagian penting untuk memfilter unit berdasarkan projectId
+        const whereClause = {};
+        if (filters.projectId) {
+            whereClause.projectId = filters.projectId;
+        }
+
+        const { count, rows } = await UnitType.findAndCountAll({
+            where: whereClause,
+            order: [[_sort, _order]],
+            offset: start,
+            limit: limit,
+            include: [{ model: Project, attributes: ['name'] }] // Sertakan nama proyek
+        });
+
+        res.header('Content-Range', `items ${start}-${start + rows.length - 1}/${count}`);
+        res.json(formatForReactAdmin(rows));
+    } catch (err) {
+        next(err);
+    }
+});
+
+app.get('/api/units/:id', authenticateToken, async (req, res, next) => {
+    try {
+        const unit = await UnitType.findByPk(req.params.id);
+        if (!unit) return res.status(404).json({ message: 'Unit not found' });
+        res.json(formatForReactAdmin(unit));
+    } catch (err) {
+        next(err);
+    }
+});
+
+app.post('/api/units', authenticateToken, async (req, res, next) => {
+    try {
+        const newUnit = await UnitType.create(req.body);
+        res.status(201).json(formatForReactAdmin(newUnit));
+    } catch (err) {
+        next(err);
+    }
+});
+
+app.put('/api/units/:id', authenticateToken, async (req, res, next) => {
+    try {
+        const unit = await UnitType.findByPk(req.params.id);
+        if (!unit) {
+            return res.status(404).json({ message: 'Unit not found' });
+        }
+
+        // --- Proses Data dengan Aman ---
+        // 1. Ambil semua data dari body request
+        const receivedData = req.body;
+        const dataToUpdate = {};
+
+        // 2. Loop melalui semua key di data yang diterima
+        for (const key in receivedData) {
+            // Abaikan 'id' karena kita tidak ingin mengupdatenya
+            if (key === 'id') continue;
+
+            // 3. Logika khusus untuk field 'images' yang sering menyebabkan error
+            if (key === 'images' && receivedData[key]) {
+                if (Array.isArray(receivedData[key])) {
+                    // Jika 'images' adalah array, ubah menjadi array of strings (URL)
+                    // Ini menangani kasus dimana react-admin mengirim: [{ src: 'url1' }, { src: 'url2' }]
+                    dataToUpdate[key] = receivedData[key]
+                        .map(img => (typeof img === 'object' && img.src ? img.src : img))
+                        .filter(Boolean); // Filter nilai null atau undefined
+                } else if (typeof receivedData[key] === 'object' && receivedData[key].src) {
+                    // Jika 'images' adalah satu objek, ambil 'src'-nya
+                    dataToUpdate[key] = [receivedData[key].src];
+                } else {
+                    // Jika sudah dalam format yang benar (misal: array of strings), biarkan saja
+                    dataToUpdate[key] = receivedData[key];
+                }
+            } else {
+                // 4. Untuk semua field lain, langsung masukkan ke data yang akan diupdate
+                dataToUpdate[key] = receivedData[key];
+            }
+        }
+
+        // 5. Lakukan update ke database dengan data yang sudah bersih
+        await UnitType.update(dataToUpdate, {
+            where: { id: req.params.id }
+        });
+
+        const updatedUnit = await UnitType.findByPk(req.params.id);
+        res.json(formatForReactAdmin(updatedUnit));
+
+    } catch (err) {
+        console.error('Error updating unit:', err); // Log error untuk debug di masa depan
+        next(err);
+    }
+});
+
+app.delete('/api/units/:id', authenticateToken, async (req, res, next) => {
+    try {
+        await UnitType.destroy({ where: { id: req.params.id } });
+        res.status(204).send();
+    } catch (err) {
+        next(err);
+    }
+});
+
 app.get('/api/articles', async (req, res, next) => {
   const { count, rows } = await Article.findAndCountAll();
   res.header('Content-Range', `articles 0-${count}/${count}`);

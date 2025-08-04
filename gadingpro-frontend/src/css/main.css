@@ -1123,16 +1123,6 @@ html {
   font-size: 0.875rem;
 }
 
-/* Modal Animation */
-.modal.fade .modal-dialog {
-  transition: transform 0.3s ease-out;
-  transform: translate(0, -50px);
-}
-
-.modal.show .modal-dialog {
-  transform: none;
-}
-
 /* Custom Scrollbar for Modal */
 .modal-body {
   max-height: 65vh;
@@ -1545,5 +1535,10 @@ html {
   .navbar-logo {
     height: 40px; /* Ukuran logo yang lebih pas untuk mobile */
   }
+}
+
+.whatsapp-modal-dialog {
+  /* Anda bisa mengatur nilai ini sesuai selera */
+  margin-top: 10vh; 
 }
 /* COBA COBA */

@@ -62,7 +62,7 @@ const WhatsappInquiryModal = ({ show, handleClose, project }) => {
     };
 
     return (
-        <Modal show={show} onHide={handleClose} centered>
+        <Modal show={show} onHide={handleClose} centered dialogClassName="whatsapp-modal-dialog">
             <Modal.Header closeButton>
                 <Modal.Title className="fw-bold text-orange d-flex align-items-center">
                     <Send size={24} className="me-2" />
