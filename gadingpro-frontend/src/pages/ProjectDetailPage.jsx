@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { Container, Row, Col, Button, Card, Badge, Alert, Breadcrumb } from 'react-bootstrap'; // Import Breadcrumb
 import { FaWhatsapp } from 'react-icons/fa';
-import { MapPin, Tag, Home, Bed, Bath, Car, Download, ExternalLink, Map, Building2, ShoppingCart, School, Hospital, Train, Plane } from 'lucide-react';
+import { MapPin, Tag, Home, Bed, Bath, Car, Download, ExternalLink, Map, Building2, ShoppingCart, School, Hospital, Train, Plane, Ruler, Building } from 'lucide-react';
 import WhatsappInquiryModal from '../components/WhatsappInquiryModal';
 
 const ProjectDetailPage = () => {
@@ -118,6 +118,12 @@ const ProjectDetailPage = () => {
                                                     <span><Bed size={14} className="me-1" /> {unit.bedrooms}</span>
                                                     <span><Bath size={14} className="me-1" /> {unit.bathrooms}</span>
                                                     <span><Car size={14} className="me-1" /> {unit.garage}</span>
+                                                    {project.category !== 'Apartemen' && unit.landSize > 0 && (
+                                                      <span><Ruler size={14} className="me-1" /> LT: {unit.landSize}m²</span>
+                                                    )}
+                                                    {unit.buildingSize > 0 && (
+                                                      <span><Building size={14} className="me-1" /> LB: {unit.buildingSize}m²</span>
+                                                    )}
                                                 </div>
                                                 <Button as={Link} to={`/projects/${projectId}/units/${unit.id}`} variant="outline-orange" className="w-100 mt-3">
                                                     Lihat Detail Unit <ExternalLink size={16} className="ms-1"/>

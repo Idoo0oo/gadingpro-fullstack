@@ -31,38 +31,27 @@ const convertFileToBase64 = file =>
  * @param {Object} params
  */
 const addUploadCapabilities = async (params) => {
-    // Untuk gambar utama (image)
-    if (params.data.image && params.data.image.rawFile instanceof File) {
-        const base64 = await convertFileToBase64(params.data.image);
-        params.data.image = base64;
+    // Untuk gambar utama (image atau imageUrl atau profilePicture)
+    const singleImageFields = ['image', 'imageUrl', 'profilePicture'];
+    for (const field of singleImageFields) {
+        if (params.data[field] && params.data[field].rawFile instanceof File) {
+            const base64 = await convertFileToBase64(params.data[field]);
+            params.data[field] = base64;
+        }
     }
 
-    if (params.data.imageUrl && params.data.imageUrl.rawFile instanceof File) {
-        const base64 = await convertFileToBase64(params.data.imageUrl);
-        params.data.imageUrl = base64;
-    }
+    // Untuk galeri gambar (images)
+    if (params.data.images && Array.isArray(params.data.images)) {
+        const newImages = params.data.images.filter(p => p.rawFile instanceof File);
+        const formerImages = params.data.images.filter(p => !(p.rawFile instanceof File));
 
-    // Untuk gambar galeri (images) yang bisa lebih dari satu
-    if (params.data.images && params.data.images.length) {
-        // Filter hanya file baru yang perlu di-upload
-        const newImages = params.data.images.filter(
-            p => p.rawFile instanceof File
-        );
-        // Pertahankan gambar lama (yang sudah berupa URL/string)
-        const formerImages = params.data.images.filter(
-            p => !(p.rawFile instanceof File)
-        );
-
-        const base64NewImages = await Promise.all(
-            newImages.map(convertFileToBase64)
-        );
-
-        params.data.images = [...formerImages.map(p => p.src || p), ...base64NewImages];
-    }
-
-    if (params.data.profilePicture && params.data.profilePicture.rawFile instanceof File) {
-        const base64 = await convertFileToBase64(params.data.profilePicture);
-        params.data.profilePicture = base64;
+        const base64NewImages = await Promise.all(newImages.map(convertFileToBase64));
+        
+        // Gabungkan gambar lama (yang sudah berupa URL dari 'src') dan gambar baru (base64)
+        params.data.images = [
+            ...formerImages.map(p => p.src || p), // Ambil URL dari gambar lama
+            ...base64NewImages
+        ];
     }
     
     return params;
@@ -102,17 +91,32 @@ export const baseDataProvider = {
     },
 
     getOne: (resource, params) =>
-        httpClient(`${apiUrl}/api/${resource}/${params.id}`).then(({ json }) => ({
-            data: json,
-        })),
+        httpClient(`${apiUrl}/api/${resource}/${params.id}`).then(({ json }) => {
+            // Transformasi data gambar agar bisa ditampilkan di ImageInput
+            const transformedData = { ...json };
 
-    getMany: (resource, params) => {
-        const query = {
-            filter: JSON.stringify({ id: params.ids }),
-        };
-        const url = `${apiUrl}/api/${resource}?${new URLSearchParams(query).toString()}`;
-        return httpClient(url).then(({ json }) => ({ data: json }));
-    },
+            // Cek untuk gambar tunggal (image, imageUrl, profilePicture)
+            const singleImageFields = ['image', 'imageUrl', 'profilePicture'];
+            for (const field of singleImageFields) {
+                if (transformedData[field] && typeof transformedData[field] === 'string') {
+                    transformedData[field] = {
+                        src: transformedData[field],
+                        title: 'Existing Image' 
+                    };
+                }
+            }
+
+            // Cek untuk galeri gambar (images)
+            if (transformedData.images && Array.isArray(transformedData.images)) {
+                transformedData.images = transformedData.images.map(image => 
+                    typeof image === 'string' 
+                        ? { src: image, title: 'Existing Image' } 
+                        : image
+                );
+            }
+            
+            return { data: transformedData };
+        }),
 
     getManyReference: (resource, params) => {
         const { page, perPage } = params.pagination;

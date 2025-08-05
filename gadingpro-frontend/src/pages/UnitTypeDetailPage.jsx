@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { Container, Row, Col, Carousel, Button, Card, ListGroup, Breadcrumb } from 'react-bootstrap';
-import { Home, Bed, Bath, Car, ArrowLeft, Ruler } from 'lucide-react';
+import { Home, Bed, Bath, Car, ArrowLeft, Ruler, Building } from 'lucide-react';
 
 const UnitTypeDetailPage = () => {
     const { projectId, unitId } = useParams();
@@ -103,6 +103,12 @@ const UnitTypeDetailPage = () => {
                                         <span><Car size={16} className="me-2"/>Garasi</span>
                                         <strong>{unitType.garage} Mobil</strong>
                                     </ListGroup.Item>
+                                    {unitType.electricity && (
+                                        <ListGroup.Item className="d-flex justify-content-between">
+                                            <span><Zap size={16} className="me-2"/>Daya Listrik</span>
+                                            <strong>{unitType.electricity.toLocaleString('id-ID')} VA</strong>
+                                        </ListGroup.Item>
+                                    )}
                                 </ListGroup>
                             </Card.Body>
                         </Card>
@@ -143,6 +149,20 @@ const UnitTypeDetailPage = () => {
                                             <Card.Body>
                                                 <Card.Title className="fw-bold">{otherUnit.name}</Card.Title>
                                                 <p className="text-orange fw-medium">{formatPrice(otherUnit.price)}</p>
+                                                <div className="d-flex flex-wrap gap-3 text-muted small mt-2">
+                                                    <span><Bed size={14} className="me-1" /> {otherUnit.bedrooms}</span>
+                                                    <span><Bath size={14} className="me-1" /> {otherUnit.bathrooms}</span>
+                                                    
+                                                    {/* Kondisi untuk menampilkan Luas Tanah */}
+                                                    {unitData.unitType.Project?.category !== 'Apartemen' && otherUnit.landSize > 0 && (
+                                                      <span><Ruler size={14} className="me-1" /> LT: {otherUnit.landSize}m²</span>
+                                                    )}
+
+                                                    {/* Luas Bangunan selalu tampil */}
+                                                    {otherUnit.buildingSize > 0 && (
+                                                      <span><Building size={14} className="me-1" /> LB: {otherUnit.buildingSize}m²</span>
+                                                    )}
+                                                </div>
                                             </Card.Body>
                                         </Card>
                                     </Col>
