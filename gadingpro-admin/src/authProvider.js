@@ -49,9 +49,18 @@ export const authProvider = {
         return localStorage.getItem('token') ? Promise.resolve() : Promise.reject();
     },
 
+    getIdentity: () => {
+        try {
+            const user = JSON.parse(localStorage.getItem('user'));
+            return Promise.resolve(user);
+        } catch (error) {
+            return Promise.reject(error);
+        }
+    },
+
     // Fungsi untuk mendapatkan izin/hak akses (jika ada)
     getPermissions: () => {
-        return Promise.resolve(role); 
+        return Promise.resolve('admin'); 
     },
 };
 

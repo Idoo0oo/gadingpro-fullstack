@@ -1,8 +1,12 @@
-// gadingpro-frontend/src/pages/ArticleDetailPage.jsx
-import React, { useState, useEffect } from 'react';
+// gadingpro-frontend/src/pages/ArticleDetailPage.jsx (FIXED)
+
+import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { Container, Row, Col, Badge } from 'react-bootstrap';
-import { ArrowLeft } from 'lucide-react';
+import { Container, Row, Col, Card, Badge, Spinner, Alert } from 'react-bootstrap';
+import { FaArrowLeft } from 'react-icons/fa';
+import DOMPurify from 'dompurify';
+import 'aos/dist/aos.css';
+import AOS from 'aos';
 
 const ArticleDetailPage = () => {
     const { slug } = useParams();
@@ -11,15 +15,24 @@ const ArticleDetailPage = () => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
+        AOS.init({
+            duration: 1000,
+            once: true
+        });
+    }, []);
+
+    useEffect(() => {
         const fetchArticle = async () => {
             setLoading(true);
             try {
                 const backendUrl = import.meta.env.VITE_BACKEND_URL;
                 const response = await fetch(`${backendUrl}/public/articles/${slug}`, {
-                    headers: { 'ngrok-skip-browser-warning': 'true' }
+                    headers: {
+                        'ngrok-skip-browser-warning': 'true'
+                    }
                 });
                 if (!response.ok) {
-                    throw new Error('Artikel tidak ditemukan');
+                    throw new Error('Artikel tidak ditemukan atau terjadi kesalahan server.');
                 }
                 const data = await response.json();
                 setArticle(data);
@@ -34,42 +47,74 @@ const ArticleDetailPage = () => {
     }, [slug]);
 
     if (loading) {
-        return <div className="page-with-navbar-padding text-center py-5">Memuat artikel...</div>;
+        return (
+            <div className="page-with-navbar-padding text-center py-5">
+                <Spinner animation="border" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                </Spinner>
+            </div>
+        );
     }
 
     if (error) {
-        return <div className="page-with-navbar-padding text-center text-danger py-5">Error: {error}</div>;
+        return (
+            <div className="page-with-navbar-padding text-center py-5">
+                <Alert variant="danger">{error}</Alert>
+            </div>
+        );
     }
 
     if (!article) {
-        return null;
+        return (
+            <div className="page-with-navbar-padding text-center py-5">
+                <Alert variant="warning">Artikel tidak ditemukan.</Alert>
+            </div>
+        );
     }
+    
+    const backendUrl = import.meta.env.VITE_BACKEND_URL;
+    let displayImageUrl = article.imageUrl; // Default
+
+    if (article.imageUrl && !article.imageUrl.startsWith('http') && !article.imageUrl.startsWith('data:image')) {
+        displayImageUrl = `${backendUrl}${article.imageUrl}`;
+    }
+
+    const sanitizedContent = DOMPurify.sanitize(article.content);
 
     return (
         <div className="article-detail-page page-with-navbar-padding bg-light">
             <Container className="py-5">
                 <Row className="justify-content-center">
                     <Col lg={8}>
-                        <Link to="/articles" className="btn btn-link text-muted mb-4 d-inline-flex align-items-center px-0">
-                            <ArrowLeft size={16} className="me-2" />
-                            Kembali ke Semua Artikel
-                        </Link>
-                        
-                        <article>
-                            <header className="mb-4">
-                                <h1>{article.title}</h1>
-                                <div className="d-flex align-items-center text-muted mt-3">
-                                    <Badge pill bg="orange-light" text="orange" className="me-3">{article.category}</Badge>
-                                    <span>Oleh: {article.author}</span>
-                                    <span className="mx-2">•</span>
-                                    <span>{new Date(article.publishedDate).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
-                                </div>
-                            </header>
+                        <div data-aos="fade-up">
+                            <Link to="/articles" className="btn btn-outline-secondary mb-4">
+                                <FaArrowLeft className="me-2" /> Kembali ke Semua Artikel
+                            </Link>
+
+                            <h1 className="fw-bold mb-3">{article.title}</h1>
+
+                            <div className="d-flex align-items-center text-muted mb-3">
+                                <Badge pill bg="orange-light" text="orange" className="me-3">{article.category}</Badge>
+                                <span>Oleh: {article.author}</span>
+                                <span className="mx-2">|</span>
+                                <span>{new Date(article.publishedDate).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
+                            </div>
+
+                            {/* --- GUNAKAN URL YANG SUDAH DIPERBAIKI --- */}
+                            {article.imageUrl && (
+                                <Card.Img
+                                    src={displayImageUrl}
+                                    alt={article.title}
+                                    className="my-4 rounded shadow-sm"
+                                    style={{ maxHeight: '450px', objectFit: 'cover', width: '100%' }}
+                                />
+                            )}
                             
-                            <img src={article.imageUrl} alt={article.title} className="img-fluid rounded-3 mb-4 w-100" style={{maxHeight: '400px', objectFit: 'cover'}}/>
-                            
-                            <div className="article-content" dangerouslySetInnerHTML={{ __html: article.content.replace(/\n/g, '<br />') }} />
-                        </article>
+                            <div
+                                className="article-content mt-4"
+                                dangerouslySetInnerHTML={{ __html: sanitizedContent }}
+                            />
+                        </div>
                     </Col>
                 </Row>
             </Container>

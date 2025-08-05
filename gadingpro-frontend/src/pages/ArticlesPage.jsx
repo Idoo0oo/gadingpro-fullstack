@@ -1,6 +1,7 @@
-// gadingpro-frontend/src/pages/ArticlesPage.jsx
+// gadingpro-frontend/src/pages/ArticlesPage.jsx (FIXED)
+
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom'; 
+import { Link } from 'react-router-dom';
 import { Container, Row, Col, Card, Badge } from 'react-bootstrap';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
@@ -48,6 +49,16 @@ const ArticlesPage = () => {
     fetchArticles();
   }, []);
 
+  // --- PERBAIKAN 1: FUNGSI UNTUK MENGHAPUS TAG HTML ---
+  // Fungsi ini akan membersihkan deskripsi dari tag HTML agar tampil sebagai teks biasa.
+  const stripHtml = (html) => {
+    if (!html) return '';
+    // Cara modern untuk mengubah HTML menjadi teks biasa menggunakan browser API
+    const doc = new DOMParser().parseFromString(html, 'text/html');
+    return doc.body.textContent || "";
+  };
+
+
   if (loading) {
     return (
       <div className="page-with-navbar-padding text-center py-5">
@@ -79,34 +90,47 @@ const ArticlesPage = () => {
 
           <Row className="g-4">
             {articles.length > 0 ? (
-              articles.map((article, index) => (
-                <Col key={article.id} lg={4} md={6}>
-                  <Card className="shadow-sm border-0 h-100 article-card" data-aos="fade-up" data-aos-delay={index * 100}>
-                    <Card.Img
-                      variant="top"
-                      src={article.imageUrl}
-                      alt={article.title}
-                      style={{ height: '220px', objectFit: 'cover' }}
-                    />
-                    <Card.Body className="d-flex flex-column p-4">
-                      <div className="mb-2">
-                        <Badge pill bg="orange-light" text="orange">{article.category}</Badge>
-                      </div>
-                      <Card.Title className="fw-bold mb-3 flex-grow-1">{article.title}</Card.Title>
-                      <Card.Text className="text-muted small mb-3">
-                        {article.content.substring(0, 120)}...
-                      </Card.Text>
-                      <div className="d-flex justify-content-between align-items-center text-muted mt-auto">
-                         <small>Oleh: {article.author}</small>
-                         <small>{new Date(article.publishedDate).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</small>
-                      </div>
-                        <Link to={`/articles/${article.slug}`} className="btn btn-outline-orange mt-3">
-                            Baca Selengkapnya
-                        </Link>
-                    </Card.Body>
-                  </Card>
-                </Col>
-              ))
+              articles.map((article, index) => {
+
+                const backendUrl = import.meta.env.VITE_BACKEND_URL;
+                let displayImageUrl = article.imageUrl;
+
+                if (article.imageUrl && !article.imageUrl.startsWith('http') && !article.imageUrl.startsWith('data:image')) {
+                  displayImageUrl = `${backendUrl}${article.imageUrl}`;
+                }
+
+                return (
+                  <Col key={article.id} lg={4} md={6}>
+                    <Card className="shadow-sm border-0 h-100 article-card" data-aos="fade-up" data-aos-delay={index * 100}>
+                      <Card.Img
+                        variant="top"
+                        src={displayImageUrl} // <-- Gunakan URL yang sudah diperbaiki
+                        alt={article.title}
+                        style={{ height: '220px', objectFit: 'cover' }}
+                        // Tambahkan ini untuk handle jika gambar benar-benar tidak ada
+                        onError={(e) => { e.target.onerror = null; e.target.src='https://via.placeholder.com/400x220.png?text=Image+Not+Found' }}
+                      />
+                      <Card.Body className="d-flex flex-column p-4">
+                        <div className="mb-2">
+                          <Badge pill bg="orange-light" text="orange">{article.category}</Badge>
+                        </div>
+                        <Card.Title className="fw-bold mb-3 flex-grow-1">{article.title}</Card.Title>
+                        <Card.Text className="text-muted small mb-3">
+                          {/* Terapkan fungsi stripHtml di sini */}
+                          {stripHtml(article.content).substring(0, 120)}...
+                        </Card.Text>
+                        <div className="d-flex justify-content-between align-items-center text-muted mt-auto">
+                           <small>Oleh: {article.author}</small>
+                           <small>{new Date(article.publishedDate).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</small>
+                        </div>
+                          <Link to={`/articles/${article.slug}`} className="btn btn-outline-orange mt-3">
+                              Baca Selengkapnya
+                          </Link>
+                      </Card.Body>
+                    </Card>
+                  </Col>
+                )
+              })
             ) : (
               <Col className="text-center py-5">
                 <p className="text-muted">Belum ada artikel yang tersedia saat ini.</p>

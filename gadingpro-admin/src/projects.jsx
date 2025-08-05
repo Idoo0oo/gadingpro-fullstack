@@ -1,4 +1,4 @@
-// gadingpro-admin/src/projects.jsx (REVISED WITH AUTO-FORMAT PRICE)
+// gadingpro-admin/src/projects.jsx (FIXED WITH AUTO-FORMAT PRICE)
 import {
     List,
     Datagrid,
@@ -24,21 +24,21 @@ import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import AddIcon from '@mui/icons-material/Add';
 
-// --- Helper Functions untuk Format Harga ---
+// --- TAMBAHKAN DUA FUNGSI HELPER INI ---
 const formatPrice = (value) => {
     if (!value) return '';
-    const numberValue = Number(value);
-    if (isNaN(numberValue)) return '';
+    // Mengubah angka menjadi format mata uang Rupiah
     return new Intl.NumberFormat('id-ID', {
         style: 'currency',
         currency: 'IDR',
         minimumFractionDigits: 0,
         maximumFractionDigits: 0,
-    }).format(numberValue);
+    }).format(value);
 };
 
 const parsePrice = (value) => {
     if (!value) return null;
+    // Menghapus semua karakter non-digit dari string
     return String(value).replace(/[^\d]/g, '');
 };
 // -----------------------------------------
@@ -102,7 +102,6 @@ const ProjectForm = () => (
             </CardContent>
         </Card>
 
-        {/* ... Sisa komponen Card lainnya tetap sama ... */}
         <Card className="w-full mb-6">
              <CardHeader><CardTitle>Gambar, Brosur, dan Deskripsi</CardTitle></CardHeader>
              <CardContent>
@@ -135,7 +134,7 @@ const ProjectForm = () => (
     </SimpleForm>
 );
 
-// --- Komponen List, Create, dan Edit (Tidak ada perubahan di sini) ---
+// ... (Sisa kode untuk ProjectList, ProjectCreate, ProjectEdit tidak perlu diubah) ...
 export const ProjectList = (props) => (
     <List {...props} filters={<ProjectFilter />}>
         <Datagrid rowClick="edit">
@@ -156,36 +155,44 @@ export const ProjectCreate = (props) => (
     </Create>
 );
 
-export const ProjectEdit = (props) => (
-    <Edit {...props}>
-        <ProjectForm />
-        <Card className="w-full mt-6">
-            <CardHeader className="flex flex-row items-center justify-between">
-                <CardTitle>Tipe Unit Tersedia</CardTitle>
-                <Button asChild className="bg-green-500 hover:bg-green-600">
-                     <Link to="/units/create">
-                        <AddIcon className="mr-2" /> Tambah Tipe Unit Baru
-                    </Link>
-                </Button>
-            </CardHeader>
-            <CardContent>
-                <ReferenceManyField
-                    label={false}
-                    reference="units"
-                    target="projectId"
-                    perPage={10}
-                >
-                    <Datagrid>
-                        <TextField source="name" label="Nama Tipe Unit" />
-                        <NumberField source="price" label="Harga" options={{ style: 'currency', currency: 'IDR' }} />
-                        <TextField source="bedrooms" label="K. Tidur" />
-                        <TextField source="bathrooms" label="K. Mandi" />
-                        <TextField source="landSize" label="LT (m²)" />
-                        <TextField source="buildingSize" label="LB (m²)" />
-                        <EditButton />
-                    </Datagrid>
-                </ReferenceManyField>
-            </CardContent>
-        </Card>
-    </Edit>
-);
+export const ProjectEdit = (props) => {
+    // --- TAMBAHKAN DUA BARIS INI ---
+    const source = { projectId: props.id };
+    const to = `/units/create?source=${JSON.stringify(source)}`;
+
+    return (
+        <Edit {...props}>
+            <ProjectForm />
+            <Card className="w-full mt-6">
+                <CardHeader className="flex flex-row items-center justify-between">
+                    <CardTitle>Tipe Unit Tersedia</CardTitle>
+                    <Button asChild className="bg-green-500 hover:bg-green-600">
+                        {/* --- UBAH BARIS INI --- */}
+                        <Link to={to}>
+                            <AddIcon className="mr-2" /> Tambah Tipe Unit Baru
+                        </Link>
+                        {/* -------------------- */}
+                    </Button>
+                </CardHeader>
+                <CardContent>
+                    <ReferenceManyField
+                        label={false}
+                        reference="units"
+                        target="projectId"
+                        perPage={10}
+                    >
+                        <Datagrid>
+                            <TextField source="name" label="Nama Tipe Unit" />
+                            <NumberField source="price" label="Harga" options={{ style: 'currency', currency: 'IDR' }} />
+                            <TextField source="bedrooms" label="K. Tidur" />
+                            <TextField source="bathrooms" label="K. Mandi" />
+                            <TextField source="landSize" label="LT (m²)" />
+                            <TextField source="buildingSize" label="LB (m²)" />
+                            <EditButton />
+                        </Datagrid>
+                    </ReferenceManyField>
+                </CardContent>
+            </Card>
+        </Edit>
+    );
+};

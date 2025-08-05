@@ -37,6 +37,11 @@ const addUploadCapabilities = async (params) => {
         params.data.image = base64;
     }
 
+    if (params.data.imageUrl && params.data.imageUrl.rawFile instanceof File) {
+        const base64 = await convertFileToBase64(params.data.imageUrl);
+        params.data.imageUrl = base64;
+    }
+
     // Untuk gambar galeri (images) yang bisa lebih dari satu
     if (params.data.images && params.data.images.length) {
         // Filter hanya file baru yang perlu di-upload

@@ -31,7 +31,7 @@ export const MyMenu = () => (
         />
         <Menu.Item
             to="/users"
-            primaryText="Kelola Agent"
+            primaryText="Kelola Admin"
             leftIcon={<Users size={18} />}
         />
     </Menu>

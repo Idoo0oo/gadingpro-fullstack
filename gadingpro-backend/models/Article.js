@@ -27,8 +27,8 @@ const Article = sequelize.define('Article', {
     allowNull: false,
   },
   imageUrl: {
-    type: DataTypes.STRING,
-    allowNull: false,
+    type: DataTypes.TEXT('medium'),
+    allowNull: true,
   },
   author: {
     type: DataTypes.STRING,

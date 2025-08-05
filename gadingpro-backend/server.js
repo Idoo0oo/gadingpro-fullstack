@@ -710,35 +710,65 @@ app.get('/api/articles', async (req, res, next) => {
   res.header('Content-Range', `articles 0-${count}/${count}`);
   res.json(rows);
 });
-app.post('/api/articles', [authenticateToken, upload.single('imageUrl')], async (req, res, next) => {
+app.get('/api/articles/:id', authenticateToken, async (req, res, next) => {
     try {
-        const { title, slug, category, author, content } = req.body;
-        // Dapatkan URL gambar dari file yang di-upload
-        const imageUrl = req.file ? `${req.protocol}://${req.get('host')}/public/uploads/${req.file.filename}` : null;
+        const article = await Article.findByPk(req.params.id);
+        if (!article) {
+            return res.status(404).json({ message: 'Article not found' });
+        }
+        res.json(article); // Kirim data artikel yang ditemukan
+    } catch (err) {
+        next(err);
+    }
+});
+app.post('/api/articles', authenticateToken, async (req, res, next) => {
+    try {
+        // PERBAIKAN DI SINI: Ambil semua data dari body
+        const { title, slug, category, author, content, imageUrl } = req.body;
 
-        const newArticle = await Article.create({ title, slug, category, author, content, imageUrl });
+        // SEKARANG kita tidak lagi bergantung pada req.file
+        // dataProvider sudah mengirimkan 'imageUrl' dalam format base64 atau URL lama
+        const newArticle = await Article.create({
+            title,
+            slug,
+            category,
+            author,
+            content,
+            imageUrl // Langsung gunakan imageUrl dari req.body
+        });
         res.status(201).json(newArticle);
     } catch (err) {
         next(err);
     }
 });
-app.put('/api/articles/:id', [authenticateToken, upload.single('imageUrl')], async (req, res, next) => {
+app.put('/api/articles/:id', authenticateToken, async (req, res, next) => {
     try {
         const article = await Article.findByPk(req.params.id);
         if (!article) {
             return res.status(404).json({ message: 'Article not found' });
         }
 
-        const { title, slug, category, author, content } = req.body;
-        let imageUrl = article.imageUrl; // Gunakan gambar lama sebagai default
+        // --- FINAL FIX LOGIC HERE ---
+        const { title, slug, category, author, content, imageUrl } = req.body;
 
-        // Jika ada file baru yang di-upload, perbarui imageUrl
-        if (req.file) {
-            imageUrl = `${req.protocol}://${req.get('host')}/public/uploads/${req.file.filename}`;
-            // (Opsional) Hapus file gambar lama jika ada
+        const dataToUpdate = {
+            title,
+            slug,
+            category,
+            author,
+            content,
+        };
+
+        // Only update imageUrl if a new one is provided in the request body.
+        // If you edit the article without uploading a new image, 
+        // req.body.imageUrl will be undefined, and the existing image will be preserved.
+        if (imageUrl !== undefined) {
+            dataToUpdate.imageUrl = imageUrl;
         }
 
-        await article.update({ title, slug, category, author, content, imageUrl });
+        await article.update(dataToUpdate);
+        // --- END OF FIX ---
+
         res.json(article);
     } catch (err) {
         next(err);
