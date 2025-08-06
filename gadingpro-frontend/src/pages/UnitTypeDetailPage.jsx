@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { Container, Row, Col, Carousel, Button, Card, ListGroup, Breadcrumb } from 'react-bootstrap';
-import { Home, Bed, Bath, Car, ArrowLeft, Ruler, Building } from 'lucide-react';
+import { Home, Bed, Bath, Car, ArrowLeft, Ruler, Building, Zap } from 'lucide-react';
 
 const UnitTypeDetailPage = () => {
     const { projectId, unitId } = useParams();
@@ -53,9 +53,6 @@ const UnitTypeDetailPage = () => {
                     </Breadcrumb.Item>
                     <Breadcrumb.Item active>{unitType.name}</Breadcrumb.Item>
                 </Breadcrumb>
-                <Button variant="outline-secondary" size="sm" onClick={() => navigate(`/projects/${projectId}`)} className="mb-4">
-                    <ArrowLeft size={16} className="me-2" /> Kembali ke Proyek
-                </Button>
 
                 <Row className="g-4">
                     {/* --- Galeri & Info Utama --- */}

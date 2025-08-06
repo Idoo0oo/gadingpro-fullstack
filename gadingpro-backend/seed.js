@@ -39,9 +39,9 @@ async function seedDatabase() {
           creatorId: adminUser.id,
         },
         units: [
-          { name: "Tipe Canna", price: 850000000, bedrooms: 2, bathrooms: 2, garage: 1, landSize: 60, buildingSize: 55, images: ["https://images.pexels.com/photos/276724/pexels-photo-276724.jpeg"], specifications: { Pondasi: "Beton Bertulang", Dinding: "Bata Ringan", Plafon: "Gypsum", Lantai: "Keramik 40x40" } },
-          { name: "Tipe Belladonna", price: 1200000000, bedrooms: 3, bathrooms: 2, garage: 2, landSize: 72, buildingSize: 68, images: ["https://images.pexels.com/photos/1643383/pexels-photo-1643383.jpeg"], specifications: { Pondasi: "Beton Bertulang", Dinding: "Bata Merah", Plafon: "Gypsum & GRC", Lantai: "Granit 60x60" } },
-          { name: "Tipe Amaryllis", price: 1500000000, bedrooms: 4, bathrooms: 3, garage: 2, landSize: 90, buildingSize: 85, images: ["https://images.pexels.com/photos/2079246/pexels-photo-2079246.jpeg"], specifications: { Pondasi: "Tiang Pancang", Dinding: "Bata Merah Plester Aci", Plafon: "PVC Drop Ceiling", Lantai: "Marmer" } },
+          { name: "Tipe Canna", price: 850000000, bedrooms: 2, bathrooms: 2, garage: 1, landSize: 60, buildingSize: 55, electricity: 1300, images: ["https://images.pexels.com/photos/276724/pexels-photo-276724.jpeg"], specifications: { Pondasi: "Beton Bertulang", Dinding: "Bata Ringan", Plafon: "Gypsum", Lantai: "Keramik 40x40" } },
+          { name: "Tipe Belladonna", price: 1200000000, bedrooms: 3, bathrooms: 2, garage: 2, landSize: 72, buildingSize: 68, electricity: 2200, images: ["https://images.pexels.com/photos/1643383/pexels-photo-1643383.jpeg"], specifications: { Pondasi: "Beton Bertulang", Dinding: "Bata Merah", Plafon: "Gypsum & GRC", Lantai: "Granit 60x60" } },
+          { name: "Tipe Amaryllis", price: 1500000000, bedrooms: 4, bathrooms: 3, garage: 2, landSize: 90, buildingSize: 85, electricity: 3500, images: ["https://images.pexels.com/photos/2079246/pexels-photo-2079246.jpeg"], specifications: { Pondasi: "Tiang Pancang", Dinding: "Bata Merah Plester Aci", Plafon: "PVC Drop Ceiling", Lantai: "Marmer" } },
         ]
       },
       { // Proyek 2
@@ -56,8 +56,8 @@ async function seedDatabase() {
           creatorId: adminUser.id,
         },
         units: [
-          { name: "Tipe Amethyst", price: 1100000000, bedrooms: 3, bathrooms: 2, garage: 1, landSize: 84, buildingSize: 70, images: ["https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg"], specifications: { Dinding: "Bata Plester Aci", Atap: "Rangka Baja Ringan", Sanitasi: "TOTO" } },
-          { name: "Tipe Sapphire", price: 1600000000, bedrooms: 4, bathrooms: 3, garage: 2, landSize: 105, buildingSize: 90, images: ["https://images.pexels.com/photos/1457842/pexels-photo-1457842.jpeg"], specifications: { Dinding: "Bata Merah", Atap: "Rangka Baja Ringan", Sanitasi: "TOTO/Setara" } },
+          { name: "Tipe Amethyst", price: 1100000000, bedrooms: 3, bathrooms: 2, garage: 1, landSize: 84, buildingSize: 70, electricity: 2200, images: ["https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg"], specifications: { Dinding: "Bata Plester Aci", Atap: "Rangka Baja Ringan", Sanitasi: "TOTO" } },
+          { name: "Tipe Sapphire", price: 1600000000, bedrooms: 4, bathrooms: 3, garage: 2, landSize: 105, buildingSize: 90, electricity: 3500, images: ["https://images.pexels.com/photos/1457842/pexels-photo-1457842.jpeg"], specifications: { Dinding: "Bata Merah", Atap: "Rangka Baja Ringan", Sanitasi: "TOTO/Setara" } },
         ]
       },
       { // Proyek 3
@@ -72,8 +72,8 @@ async function seedDatabase() {
           creatorId: adminUser.id,
         },
         units: [
-          { name: "Tipe Crown (2BR)", price: 3200000000, bedrooms: 2, bathrooms: 2, garage: 1, landSize: 0, buildingSize: 98, images: ["https://images.pexels.com/photos/6585756/pexels-photo-6585756.jpeg"], specifications: { Lantai: "Marmer Italia", Dapur: "Full Set by Bosch", AC: "Central Daikin" } },
-          { name: "Tipe Imperial (3BR)", price: 4500000000, bedrooms: 3, bathrooms: 3, garage: 2, landSize: 0, buildingSize: 145, images: ["https://images.pexels.com/photos/6585767/pexels-photo-6585767.jpeg"], specifications: { Lantai: "Marmer Italia", Dapur: "Full Set by Miele", AC: "Central Daikin VRV" } },
+          { name: "Tipe Crown (2BR)", price: 3200000000, bedrooms: 2, bathrooms: 2, garage: 1, landSize: 0, buildingSize: 98, electricity: 4400, images: ["https://images.pexels.com/photos/6585756/pexels-photo-6585756.jpeg"], specifications: { Lantai: "Marmer Italia", Dapur: "Full Set by Bosch", AC: "Central Daikin" } },
+          { name: "Tipe Imperial (3BR)", price: 4500000000, bedrooms: 3, bathrooms: 3, garage: 2, landSize: 0, buildingSize: 145, electricity: 5500, images: ["https://images.pexels.com/photos/6585767/pexels-photo-6585767.jpeg"], specifications: { Lantai: "Marmer Italia", Dapur: "Full Set by Miele", AC: "Central Daikin VRV" } },
         ]
       },
       { // Proyek 4
@@ -88,8 +88,8 @@ async function seedDatabase() {
           creatorId: adminUser.id,
         },
         units: [
-          { name: "Tipe Edelweiss", price: 980000000, bedrooms: 2, bathrooms: 1, garage: 1, landSize: 72, buildingSize: 60, images: ["https://images.pexels.com/photos/2724749/pexels-photo-2724749.jpeg"], specifications: { Pondasi: "Batu Kali", Atap: "Genteng Beton", Kusen: "Aluminium" } },
-          { name: "Tipe Bougenville", price: 1350000000, bedrooms: 3, bathrooms: 2, garage: 2, landSize: 90, buildingSize: 80, images: ["https://images.pexels.com/photos/1454806/pexels-photo-1454806.jpeg"], specifications: { Pondasi: "Beton Bertulang", Atap: "Genteng Beton Flat", Kusen: "Aluminium" } },
+          { name: "Tipe Edelweiss", price: 980000000, bedrooms: 2, bathrooms: 1, garage: 1, landSize: 72, buildingSize: 60, electricity: 2200, images: ["https://images.pexels.com/photos/2724749/pexels-photo-2724749.jpeg"], specifications: { Pondasi: "Batu Kali", Atap: "Genteng Beton", Kusen: "Aluminium" } },
+          { name: "Tipe Bougenville", price: 1350000000, bedrooms: 3, bathrooms: 2, garage: 2, landSize: 90, buildingSize: 80, electricity: 2200, images: ["https://images.pexels.com/photos/1454806/pexels-photo-1454806.jpeg"], specifications: { Pondasi: "Beton Bertulang", Atap: "Genteng Beton Flat", Kusen: "Aluminium" } },
         ]
       },
        { // Proyek 5
@@ -104,8 +104,8 @@ async function seedDatabase() {
           creatorId: adminUser.id,
         },
         units: [
-          { name: "Tipe Azure", price: 780000000, bedrooms: 2, bathrooms: 1, garage: 1, landSize: 60, buildingSize: 45, images: ["https://images.pexels.com/photos/276724/pexels-photo-276724.jpeg"], specifications: { Dinding: "Hebel", Lantai: "Keramik 40x40", Sanitasi: "American Standard" } },
-          { name: "Tipe Emerald", price: 1050000000, bedrooms: 3, bathrooms: 2, garage: 1, landSize: 72, buildingSize: 62, images: ["https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg"], specifications: { Dinding: "Bata Merah", Lantai: "Granit 60x60", Sanitasi: "TOTO" } },
+          { name: "Tipe Azure", price: 780000000, bedrooms: 2, bathrooms: 1, garage: 1, landSize: 60, buildingSize: 45, electricity: 1300, images: ["https://images.pexels.com/photos/276724/pexels-photo-276724.jpeg"], specifications: { Dinding: "Hebel", Lantai: "Keramik 40x40", Sanitasi: "American Standard" } },
+          { name: "Tipe Emerald", price: 1050000000, bedrooms: 3, bathrooms: 2, garage: 1, landSize: 72, buildingSize: 62, electricity: 2200, images: ["https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg"], specifications: { Dinding: "Bata Merah", Lantai: "Granit 60x60", Sanitasi: "TOTO" } },
         ]
       },
       { // Proyek 6
@@ -120,9 +120,9 @@ async function seedDatabase() {
           creatorId: adminUser.id,
         },
         units: [
-          { name: "Tipe Studio", price: 600000000, bedrooms: 1, bathrooms: 1, garage: 0, landSize: 0, buildingSize: 26, images: ["https://images.pexels.com/photos/271816/pexels-photo-271816.jpeg"], specifications: { Lantai: "Homogeneous Tile", Dapur: "Kitchen Set by Vivere" } },
-          { name: "Tipe 2BR", price: 1250000000, bedrooms: 2, bathrooms: 1, garage: 0, landSize: 0, buildingSize: 49, images: ["https://images.pexels.com/photos/1457842/pexels-photo-1457842.jpeg"], specifications: { Lantai: "Marmer", Dapur: "Kitchen Set by Vivere" } },
-          { name: "Tipe 3BR", price: 1800000000, bedrooms: 3, bathrooms: 2, garage: 0, landSize: 0, buildingSize: 68, images: ["https://images.pexels.com/photos/1643383/pexels-photo-1643383.jpeg"], specifications: { Lantai: "Marmer & Parket", Dapur: "Kitchen Set by Vivere" } },
+          { name: "Tipe Studio", price: 600000000, bedrooms: 1, bathrooms: 1, garage: 0, landSize: 0, buildingSize: 26, electricity: 1300, images: ["https://images.pexels.com/photos/271816/pexels-photo-271816.jpeg"], specifications: { Lantai: "Homogeneous Tile", Dapur: "Kitchen Set by Vivere" } },
+          { name: "Tipe 2BR", price: 1250000000, bedrooms: 2, bathrooms: 1, garage: 0, landSize: 0, buildingSize: 49, electricity: 2200, images: ["https://images.pexels.com/photos/1457842/pexels-photo-1457842.jpeg"], specifications: { Lantai: "Marmer", Dapur: "Kitchen Set by Vivere" } },
+          { name: "Tipe 3BR", price: 1800000000, bedrooms: 3, bathrooms: 2, garage: 0, landSize: 0, buildingSize: 68, electricity: 3500, images: ["https://images.pexels.com/photos/1643383/pexels-photo-1643383.jpeg"], specifications: { Lantai: "Marmer & Parket", Dapur: "Kitchen Set by Vivere" } },
         ]
       },
       { // Proyek 7
@@ -137,8 +137,8 @@ async function seedDatabase() {
           creatorId: adminUser.id,
         },
         units: [
-          { name: "Tipe Alder", price: 6000000000, bedrooms: 4, bathrooms: 4, garage: 2, landSize: 200, buildingSize: 250, images: ["https://images.pexels.com/photos/2079246/pexels-photo-2079246.jpeg"], specifications: { Pondasi: "Tiang Pancang", Dinding: "Bata Merah", Atap: "Genteng Keramik" } },
-          { name: "Tipe Laurel", price: 8500000000, bedrooms: 5, bathrooms: 5, garage: 3, landSize: 250, buildingSize: 320, images: ["https://images.pexels.com/photos/208736/pexels-photo-208736.jpeg"], specifications: { Pondasi: "Tiang Pancang", Dinding: "Bata Merah", Atap: "Genteng Keramik Premium" } },
+          { name: "Tipe Alder", price: 6000000000, bedrooms: 4, bathrooms: 4, garage: 2, landSize: 200, buildingSize: 250, electricity: 5500, images: ["https://images.pexels.com/photos/2079246/pexels-photo-2079246.jpeg"], specifications: { Pondasi: "Tiang Pancang", Dinding: "Bata Merah", Atap: "Genteng Keramik" } },
+          { name: "Tipe Laurel", price: 8500000000, bedrooms: 5, bathrooms: 5, garage: 3, landSize: 250, buildingSize: 320, electricity: 7700, images: ["https://images.pexels.com/photos/208736/pexels-photo-208736.jpeg"], specifications: { Pondasi: "Tiang Pancang", Dinding: "Bata Merah", Atap: "Genteng Keramik Premium" } },
         ]
       },
        { // Proyek 8
@@ -153,8 +153,8 @@ async function seedDatabase() {
           creatorId: adminUser.id,
         },
         units: [
-          { name: "Tipe 1BR", price: 550000000, bedrooms: 1, bathrooms: 1, garage: 0, landSize: 0, buildingSize: 32, images: ["https://images.pexels.com/photos/2724749/pexels-photo-2724749.jpeg"], specifications: { Listrik: "1300 VA", Air: "PDAM" } },
-          { name: "Tipe 2BR", price: 820000000, bedrooms: 2, bathrooms: 1, garage: 0, landSize: 0, buildingSize: 45, images: ["https://images.pexels.com/photos/1454806/pexels-photo-1454806.jpeg"], specifications: { Listrik: "2200 VA", Air: "PDAM" } },
+          { name: "Tipe 1BR", price: 550000000, bedrooms: 1, bathrooms: 1, garage: 0, landSize: 0, buildingSize: 32, electricity: 1300, images: ["https://images.pexels.com/photos/2724749/pexels-photo-2724749.jpeg"], specifications: { Air: "PDAM" } },
+          { name: "Tipe 2BR", price: 820000000, bedrooms: 2, bathrooms: 1, garage: 0, landSize: 0, buildingSize: 45, electricity: 2200, images: ["https://images.pexels.com/photos/1454806/pexels-photo-1454806.jpeg"], specifications: { Air: "PDAM" } },
         ]
       },
        { // Proyek 9
@@ -169,8 +169,8 @@ async function seedDatabase() {
           creatorId: adminUser.id,
         },
         units: [
-          { name: "Tipe Sapphire", price: 1500000000, bedrooms: 1, bathrooms: 1, garage: 0, landSize: 0, buildingSize: 33, images: ["https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg"], specifications: { AC: "Split Duct", Keamanan: "Smart Lock" } },
-          { name: "Tipe Diamond", price: 2500000000, bedrooms: 2, bathrooms: 2, garage: 0, landSize: 0, buildingSize: 60, images: ["https://images.pexels.com/photos/1643383/pexels-photo-1643383.jpeg"], specifications: { AC: "Split Duct", Keamanan: "Smart Lock & Video Intercom" } },
+          { name: "Tipe Sapphire", price: 1500000000, bedrooms: 1, bathrooms: 1, garage: 0, landSize: 0, buildingSize: 33, electricity: 2200, images: ["https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg"], specifications: { AC: "Split Duct", Keamanan: "Smart Lock" } },
+          { name: "Tipe Diamond", price: 2500000000, bedrooms: 2, bathrooms: 2, garage: 0, landSize: 0, buildingSize: 60, electricity: 3500, images: ["https://images.pexels.com/photos/1643383/pexels-photo-1643383.jpeg"], specifications: { AC: "Split Duct", Keamanan: "Smart Lock & Video Intercom" } },
         ]
       },
        { // Proyek 10
@@ -185,8 +185,8 @@ async function seedDatabase() {
           creatorId: adminUser.id,
         },
         units: [
-          { name: "Tipe Amadeus", price: 2100000000, bedrooms: 3, bathrooms: 2, garage: 2, landSize: 200, buildingSize: 150, images: ["https://images.pexels.com/photos/2079246/pexels-photo-2079246.jpeg"], specifications: { Dinding: "Bata Merah", Lantai: "Marmer Lokal" } },
-          { name: "Tipe Salvador", price: 3500000000, bedrooms: 4, bathrooms: 3, garage: 2, landSize: 300, buildingSize: 220, images: ["https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg"], specifications: { Dinding: "Bata Merah", Lantai: "Marmer Import" } },
+          { name: "Tipe Amadeus", price: 2100000000, bedrooms: 3, bathrooms: 2, garage: 2, landSize: 200, buildingSize: 150, electricity: 3500, images: ["https://images.pexels.com/photos/2079246/pexels-photo-2079246.jpeg"], specifications: { Dinding: "Bata Merah", Lantai: "Marmer Lokal" } },
+          { name: "Tipe Salvador", price: 3500000000, bedrooms: 4, bathrooms: 3, garage: 2, landSize: 300, buildingSize: 220, electricity: 4400, images: ["https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg"], specifications: { Dinding: "Bata Merah", Lantai: "Marmer Import" } },
         ]
       },
       { // Proyek 11
@@ -201,8 +201,8 @@ async function seedDatabase() {
           creatorId: adminUser.id,
         },
         units: [
-          { name: "Tipe Kiyomi", price: 7000000000, bedrooms: 4, bathrooms: 4, garage: 2, landSize: 220, buildingSize: 300, images: ["https://images.pexels.com/photos/1457842/pexels-photo-1457842.jpeg"], specifications: { Teknologi: "Smart Home System", Sanitasi: "Grohe & TOTO" } },
-          { name: "Tipe Kazumi", price: 9000000000, bedrooms: 5, bathrooms: 5, garage: 3, landSize: 280, buildingSize: 380, images: ["https://images.pexels.com/photos/1643383/pexels-photo-1643383.jpeg"], specifications: { Teknologi: "Smart Home System & Lift", Sanitasi: "Grohe & TOTO" } },
+          { name: "Tipe Kiyomi", price: 7000000000, bedrooms: 4, bathrooms: 4, garage: 2, landSize: 220, buildingSize: 300, electricity: 7700, images: ["https://images.pexels.com/photos/1457842/pexels-photo-1457842.jpeg"], specifications: { Teknologi: "Smart Home System", Sanitasi: "Grohe & TOTO" } },
+          { name: "Tipe Kazumi", price: 9000000000, bedrooms: 5, bathrooms: 5, garage: 3, landSize: 280, buildingSize: 380, electricity: 11000, images: ["https://images.pexels.com/photos/1643383/pexels-photo-1643383.jpeg"], specifications: { Teknologi: "Smart Home System & Lift", Sanitasi: "Grohe & TOTO" } },
         ]
       },
       { // Proyek 12
@@ -217,8 +217,8 @@ async function seedDatabase() {
           creatorId: adminUser.id,
         },
         units: [
-          { name: "Tipe 2BR Sea View", price: 2800000000, bedrooms: 2, bathrooms: 2, garage: 0, landSize: 0, buildingSize: 90, images: ["https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg"], specifications: { Pemandangan: "Laut Lepas", Balkon: "Tersedia" } },
-          { name: "Tipe 3BR Ocean View", price: 4200000000, bedrooms: 3, bathrooms: 2, garage: 0, landSize: 0, buildingSize: 120, images: ["https://images.pexels.com/photos/1457842/pexels-photo-1457842.jpeg"], specifications: { Pemandangan: "Laut Lepas & Kota", Balkon: "Tersedia, Luas" } },
+          { name: "Tipe 2BR Sea View", price: 2800000000, bedrooms: 2, bathrooms: 2, garage: 0, landSize: 0, buildingSize: 90, electricity: 4400, images: ["https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg"], specifications: { Pemandangan: "Laut Lepas", Balkon: "Tersedia" } },
+          { name: "Tipe 3BR Ocean View", price: 4200000000, bedrooms: 3, bathrooms: 2, garage: 0, landSize: 0, buildingSize: 120, electricity: 5500, images: ["https://images.pexels.com/photos/1457842/pexels-photo-1457842.jpeg"], specifications: { Pemandangan: "Laut Lepas & Kota", Balkon: "Tersedia, Luas" } },
         ]
       }
     ];

@@ -31,6 +31,7 @@ const UnitType = sequelize.define('UnitType', {
   garage: DataTypes.INTEGER,
   landSize: DataTypes.INTEGER,
   buildingSize: DataTypes.INTEGER,
+  electricity: DataTypes.INTEGER,
   specifications: { // Untuk detail seperti pondasi, dinding, dll.
     type: DataTypes.TEXT,
     get() {

@@ -101,6 +101,7 @@ const UnitForm = () => (
                 <NumberInput source="garage" label="Kapasitas Garasi"/>
                 <NumberInput source="landSize" validate={[required()]} label="Luas Tanah (m²)"/>
                 <NumberInput source="buildingSize" validate={[required()]} label="Luas Bangunan (m²)"/>
+                <NumberInput source="electricity" label="Daya Listrik (VA)"/>
             </CardContent>
         </Card>
         
