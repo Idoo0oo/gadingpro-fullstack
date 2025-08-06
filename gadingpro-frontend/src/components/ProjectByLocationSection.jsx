@@ -1,106 +1,100 @@
-import React from "react";
-import { Container, Row, Col } from "react-bootstrap";
-import { projectByLocation } from "../data"; // Pastikan path data sudah benar
+// gadingpro-fullstack/gadingpro-frontend/src/components/ProjectByLocationSection.jsx
+import React, { useMemo } from 'react';
+import { Container, Row, Col } from 'react-bootstrap';
+import { MapPin, Building2 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
-const ProjectByLocationSection = () => {
+// Gambar fallback jika lokasi tidak punya gambar
+const locationImages = {
+  'Tangerang Selatan': 'https://images.pexels.com/photos/1396122/pexels-photo-1396122.jpeg',
+  'Bekasi': 'https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg',
+  'Jakarta Selatan': 'https://images.pexels.com/photos/280222/pexels-photo-280222.jpeg',
+  'Bogor': 'https://images.pexels.com/photos/2102587/pexels-photo-2102587.jpeg',
+  'Depok': 'https://images.pexels.com/photos/1475938/pexels-photo-1475938.jpeg',
+  'Jakarta Barat': 'https://images.pexels.com/photos/1571463/pexels-photo-1571463.jpeg',
+  'Tangerang': 'https://images.pexels.com/photos/209296/pexels-photo-209296.jpeg',
+  'Jakarta Pusat': 'https://images.pexels.com/photos/277667/pexels-photo-277667.jpeg',
+  'Jakarta Utara': 'https://images.pexels.com/photos/164558/pexels-photo-164558.jpeg',
+  'Default': 'https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg'
+};
+
+
+const ProjectByLocationSection = ({ projects, loading }) => {
+  const navigate = useNavigate();
+
+  const topLocations = useMemo(() => {
+    if (!projects || projects.length === 0) return [];
+
+    const locationCounts = projects.reduce((acc, project) => {
+      // Mengambil nama kota dari string lokasi, misal "Serpong, Tangerang Selatan" -> "Tangerang Selatan"
+      const city = project.location.split(',').pop().trim();
+      if (city) {
+        acc[city] = (acc[city] || 0) + 1;
+      }
+      return acc;
+    }, {});
+
+    return Object.entries(locationCounts)
+      .sort(([, a], [, b]) => b - a) // Urutkan berdasarkan jumlah proyek terbanyak
+      .slice(0, 6) // Ambil 6 lokasi teratas
+      .map(([name, count]) => ({
+        id: name,
+        name: name,
+        totalProjects: count,
+        image: locationImages[name] || locationImages['Default'],
+        description: `Temukan properti terbaik di kawasan ${name} yang strategis dan berkembang pesat.`
+      }));
+  }, [projects]);
+
+  if (loading) {
+    return (
+      <section className="py-5 bg-white text-center">
+        <p>Menyiapkan lokasi unggulan...</p>
+      </section>
+    );
+  }
+
+  if (topLocations.length === 0) {
+    return null; // Jangan tampilkan section jika tidak ada data
+  }
+
   return (
     <section className="project-by-location py-5 bg-white">
       <Container>
-        {/* Section Header */}
         <Row className="mb-5">
-          <Col>
-            <div className="text-center">
-              <h2 className="fw-bold mb-3">Project Berdasarkan Lokasi</h2>
-              <p className="text-muted mx-auto" style={{ maxWidth: "600px" }}>
-                Jelajahi berbagai pilihan properti di lokasi strategis dan
-                berkembang di seluruh Indonesia. Temukan hunian yang tepat
-                sesuai dengan preferensi lokasi Anda.
-              </p>
-            </div>
+          <Col className="text-center">
+            <h2 className="fw-bold mb-3">Jelajahi Lokasi Unggulan</h2>
+            <p className="text-muted mx-auto" style={{ maxWidth: "600px" }}>
+              Temukan properti impian Anda di kawasan-kawasan paling prospektif yang kami layani.
+            </p>
           </Col>
         </Row>
 
-        {/* Location Cards */}
         <Row className="g-4">
-          {projectByLocation.map((location) => (
-            <Col key={location.id} lg={4} md={6} className="mb-4">
-              <div className="location-card h-100 rounded-4 overflow-hidden shadow-sm position-relative">
-                {/* Background Image with Overlay */}
+          {topLocations.map((location) => (
+            <Col key={location.id} lg={4} md={6}>
+              <div
+                className="location-card h-100 rounded-4 overflow-hidden shadow-sm position-relative"
+                onClick={() => navigate(`/projects?location=${location.name}`)}
+              >
                 <div
                   className="location-bg position-absolute w-100 h-100"
                   style={{
-                    backgroundImage: `linear-gradient(135deg, rgba(0, 0, 0, 0.27), rgba(129, 36, 2, 0.6)), url('${location.image}')`,
+                    backgroundImage: `linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 60%), url('${location.image}')`,
                     backgroundSize: "cover",
                     backgroundPosition: "center",
-                    backgroundRepeat: "no-repeat",
-                    transition: "all 0.3s ease",
                   }}
                 ></div>
-
-                {/* Content */}
                 <div className="location-content position-relative h-100 p-4 d-flex flex-column justify-content-end text-white">
-                  {/* Location Badge */}
-                  <div className="position-absolute top-0 start-0 m-3">
-                    <span className="badge bg-primary text-orange fw-bold px-3 py-2 rounded-pill shadow-sm">
-                      <i className="fa-solid fa-map-marker-alt me-1"></i>
-                      {location.city}
-                    </span>
-                  </div>
-
-                  {/* Stats Badge */}
-                  <div className="position-absolute top-0 end-0 m-3">
-                    <span className="badge bg-dark bg-opacity-50 text-white px-3 py-2 rounded-pill">
-                      {location.totalProjects} Projects
-                    </span>
-                  </div>
-
-                  {/* Main Content - Added padding top to avoid overlap */}
-                  <div className="location-info" style={{ paddingTop: "60px" }}>
-                    <h4 className="fw-bold mb-2 text-shadow">
-                      {location.name}
-                    </h4>
-                    <p className="mb-3 text-shadow opacity-90">
-                      {location.description}
-                    </p>
-
-                    {/* Features */}
-                    <div className="location-features mb-3">
-                      <div className="d-flex flex-wrap gap-2">
-                        {location.features.map((feature, index) => (
-                          <span
-                            key={index}
-                            className="badge bg-white bg-opacity-20 text-black px-2 py-1 rounded-pill backdrop-blur"
-                          >
-                            <small>{feature}</small>
-                          </span>
-                        ))}
-                      </div>
+                    <MapPin size={24} className="mb-2" />
+                    <h4 className="fw-bold text-shadow">{location.name}</h4>
+                    <p className="small text-shadow opacity-75">{location.description}</p>
+                    <div className="mt-2">
+                        <span className="badge bg-white bg-opacity-25 text-white px-3 py-2 rounded-pill backdrop-blur">
+                           <Building2 size={14} className="me-2" /> {location.totalProjects} Proyek Tersedia
+                        </span>
                     </div>
-
-                    {/* Price Range */}
-                    <div className="d-flex justify-content-between align-items-center mb-3">
-                      <div>
-                        <small className="text-white opacity-75">
-                          Mulai dari
-                        </small>
-                        <div className="fw-bold h5 mb-0 text-shadow">
-                          {location.priceRange}
-                        </div>
-                      </div>
-                      <div className="text-end">
-                        <small className="text-white opacity-75">
-                          Area
-                        </small>
-                        <div className="fw-medium text-shadow">
-                          {location.area}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
                 </div>
-
-                {/* Hover Effect Overlay */}
-                <div className="location-hover-overlay position-absolute w-100 h-100 bg-dark bg-opacity-10 opacity-0 transition-all"></div>
               </div>
             </Col>
           ))}
