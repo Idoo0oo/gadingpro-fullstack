@@ -239,140 +239,140 @@ async function seedDatabase() {
     // 3. Data Cabang
     const branches = [
   {
-    city: "Jakarta",
-    name: "Head Office Jakarta",
-    address: "Jl. Sudirman No. 123, Jakarta Pusat",
+    city: "Kabupaten Tangerang",
+    name: "GadingPro Gading Serpong",
+    address: " Jl. Klp. Gading Sel Blok BH10 No.30, Pakulonan Bar., Kec. Klp. Dua, Kabupaten Tangerang, Banten 15810",
     phone: "+62 21 1234 5678",
-    instagram: "https://instagram.com/ourcompany_jakarta",
-    googleMaps: "https://maps.google.com/?q=Jl.+Sudirman+No.+123,+Jakarta+Pusat"
+    instagram: "https://www.instagram.com/gadingpro_gs?utm_source=ig_web_button_share_sheet&igsh=cHVubzNqaWNrNWRq",
+    googleMaps: "https://share.google/S0c1SrjalXCKi9GfH"
   },
   {
-    city: "Bandung",
-    name: "Branch Office Bandung",
-    address: "Jl. Dago No. 45, Bandung",
+    city: "Tangerang",
+    name: "GadungPro Tangerang",
+    address: "Ruko Cisadane, Jl. Teuku Umar No. 10 A, RT.001/RW.005, Babakan, Kec. Karawaci, Kota Tangerang, Banten 15118",
     phone: "+62 22 1234 5678",
-    instagram: "https://instagram.com/ourcompany_bandung",
-    googleMaps: "https://maps.google.com/?q=Jl.+Dago+No.+45,+Bandung"
+    instagram: "https://www.instagram.com/gadingpro_tangerang?utm_source=ig_web_button_share_sheet&igsh=MmZxMDgwZTdmMWt2",
+    googleMaps: "https://share.google/lAUH73Ji6GPAvEG5M"
   },
   {
-    city: "Surabaya",
-    name: "Branch Office Surabaya",
-    address: "Jl. Pemuda No. 67, Surabaya",
+    city: "Kabupaten Tangerang",
+    name: "GadingPro Prime",
+    address: " Ruko The Mozia, Blk. E7 No.9, PJ5G+MVXLengkong KulonKec, Kec. Pagedangan, Kabupaten Tangerang, Banten 15331",
     phone: "+62 31 1234 5678",
-    instagram: "https://instagram.com/ourcompany_surabaya",
-    googleMaps: "https://maps.google.com/?q=Jl.+Pemuda+No.+67,+Surabaya"
+    instagram: "https://www.instagram.com/gadingproprime?utm_source=ig_web_button_share_sheet&igsh=cmQycGYzY3JtbW5p",
+    googleMaps: "https://share.google/rsb2CCfVmua9nRAZ6"
   },
   {
-    city: "Yogyakarta",
-    name: "Branch Office Yogyakarta",
-    address: "Jl. Malioboro No. 89, Yogyakarta",
+    city: "Bekasi",
+    name: "GadingPro Galaxy",
+    address: "Ruko Grand Galaxy City, Jl. Boulevard Raya RGA No.32, RT.001/RW.002, Jaka Setia, Kec. Bekasi Sel., Kota Bks, Jawa Barat 17147",
     phone: "+62 274 1234 567",
-    instagram: "https://instagram.com/ourcompany_yogya",
-    googleMaps: "https://maps.google.com/?q=Jl.+Malioboro+No.+89,+Yogyakarta"
+    instagram: "https://www.instagram.com/gadingpro_galaxy?utm_source=ig_web_button_share_sheet&igsh=MWI2YmRyN2dkMnBzag==",
+    googleMaps: "https://share.google/8Xj5q42zjN9WjKqXg"
   },
   {
-    city: "Medan",
-    name: "Branch Office Medan",
-    address: "Jl. Gatot Subroto No. 12, Medan",
+    city: "Bali",
+    name: "GadingPro Bali",
+    address: "Jl. Gatot Subroto Barat No.371, Pemecutan Kaja, Kec. Denpasar Utara, Kota Denpasar, Bali 80118",
     phone: "+62 61 1234 5678",
-    instagram: "https://instagram.com/ourcompany_medan",
-    googleMaps: "https://maps.google.com/?q=Jl.+Gatot+Subroto+No.+12,+Medan"
+    instagram: "https://www.instagram.com/gadingpro.dewata?utm_source=ig_web_button_share_sheet&igsh=ZnJ4cDIxcXBkdGpx",
+    googleMaps: "https://share.google/CCoZcVyOHfqOw857e"
   },
   {
-    city: "Semarang",
-    name: "Branch Office Semarang",
-    address: "Jl. Pandanaran No. 56, Semarang",
+    city: "Cikarang",
+    name: "GadingPro Cikarang",
+    address: "CIKARANG",
     phone: "+62 24 1234 5678",
-    instagram: "https://instagram.com/ourcompany_semarang",
+    instagram: "https://www.instagram.com/gadingpro_cikarang?utm_source=ig_web_button_share_sheet&igsh=Ym1jaHZpMDA2eTI5",
     googleMaps: "https://maps.google.com/?q=Jl.+Pandanaran+No.+56,+Semarang"
   },
   {
-    city: "Palembang",
-    name: "Branch Office Palembang",
-    address: "Jl. Sudirman No. 78, Palembang",
+    city: "Jakarta Selatan",
+    name: "GadingPro Kemang",
+    address: "Kemang, Jakarta Selatan",
     phone: "+62 711 1234 567",
-    instagram: "https://instagram.com/ourcompany_palembang",
+    instagram: "https://www.instagram.com/gadingpro.kemang?utm_source=ig_web_button_share_sheet&igsh=bGx6enlhMTA3OXZo",
     googleMaps: "https://maps.google.com/?q=Jl.+Sudirman+No.+78,+Palembang"
   },
   {
-    city: "Balikpapan",
-    name: "Branch Office Balikpapan",
-    address: "Jl. Ahmad Yani No. 90, Balikpapan",
-    phone: "+62 542 1234 567",
-    instagram: "https://instagram.com/ourcompany_balikpapan",
-    googleMaps: "https://maps.google.com/?q=Jl.+Ahmad+Yani+No.+90,+Balikpapan"
+    city: "Jakarta",
+    name: "GadingPro KG",
+    address: "Jl. Boulevard Raya No.11 Blok CN3, RT.7/RW.12, Klp. Gading Tim., Kec. Klp. Gading, JAKARTA, Daerah Khusus Ibukota Jakarta 14240",
+    phone: "",
+    instagram: "https://www.instagram.com/gadingpro.kg?utm_source=ig_web_button_share_sheet&igsh=eWFpYXdybXFucDRx",
+    googleMaps: "https://share.google/5M6YpaJXjeariGKy7"
   },
   {
-    city: "Pontianak",
-    name: "Branch Office Pontianak",
-    address: "Jl. Gajah Mada No. 12, Pontianak",
+    city: "Tangerang Selatan",
+    name: "GadingPro Alam Sutera",
+    address: "Ruko jalur sutera 29D, no 41, Banten 15320",
     phone: "+62 561 1234 567",
-    instagram: "https://instagram.com/ourcompany_pontianak",
-    googleMaps: "https://maps.google.com/?q=Jl.+Gajah+Mada+No.+12,+Pontianak"
+    instagram: "https://www.instagram.com/gadingpro_alsut?utm_source=ig_web_button_share_sheet&igsh=MzZ5aWc1aHNnYXg=",
+    googleMaps: "https://share.google/mcLVXZD8nXC4RBK7Z"
   },
   {
-    city: "Banjarmasin",
-    name: "Branch Office Banjarmasin",
-    address: "Jl. Lambung Mangkurat No. 34, Banjarmasin",
+    city: "Jakarta Selatan",
+    name: "GadingPro Bintaro",
+    address: "Ps. Modern Bintaro Jaya, Ruko Jl. Bintaro Utama sektor 7 Blok RA09, Pondok Raya, Kec. Pd. Aren, Kota Tangerang Selatan, Banten 15229",
     phone: "+62 511 1234 567",
-    instagram: "https://instagram.com/ourcompany_banjarmasin",
-    googleMaps: "https://maps.google.com/?q=Jl.+Lambung+Mangkurat+No.+34,+Banjarmasin"
+    instagram: "https://www.instagram.com/gadingpro_bintaro?utm_source=ig_web_button_share_sheet&igsh=cnRqcTVvbm0waDk2",
+    googleMaps: "https://share.google/5NpuWkioFeln1jpQE"
   },
   {
-    city: "Pekanbaru",
-    name: "Branch Office Pekanbaru",
-    address: "Jl. Sudirman No. 56, Pekanbaru",
-    phone: "+62 761 1234 567",
-    instagram: "https://instagram.com/ourcompany_pekanbaru",
-    googleMaps: "https://maps.google.com/?q=Jl.+Sudirman+No.+56,+Pekanbaru"
+    city: "Jakarta Barat",
+    name: "GadingPro Citra 6",
+    address: " Jl. Citra Garden City 6 No.38 blok H06A, Tegal Alur, Kec. Kalideres, Kota Jakarta Barat, Daerah Khusus Ibukota Jakarta 11840",
+    phone: "0822 4646 5538",
+    instagram: "https://www.instagram.com/gadingpro_citra6?utm_source=ig_web_button_share_sheet&igsh=aWVydmJhNDRnMDMy",
+    googleMaps: "https://share.google/esu6KuF9J3FwXE0y3"
   },
   {
-    city: "Padang",
-    name: "Branch Office Padang",
-    address: "Jl. Proklamasi No. 78, Padang",
+    city: "KabupatenBogor",
+    name: "GadingPro Cibubur",
+    address: "Ruko Sentra Eropa blok D no.2 Kota Wisata Cibubur, Bogor, Indonesia",
     phone: "+62 751 1234 567",
-    instagram: "https://instagram.com/ourcompany_padang",
-    googleMaps: "https://maps.google.com/?q=Jl.+Proklamasi+No.+78,+Padang"
+    instagram: "https://www.instagram.com/gadingpro_cibubur?utm_source=ig_web_button_share_sheet&igsh=MXd5NzIwZ2VqbWJhZQ==",
+    googleMaps: "https://share.google/twZVeBERC1lIfRxAl"
   },
   {
-    city: "Jambi",
-    name: "Branch Office Jambi",
-    address: "Jl. Gatot Subroto No. 90, Jambi",
+    city: "Bekasi",
+    name: "GadingPro Harapan Indah",
+    address: " Ruko Cemara - Grand, Blk. U7 No.7, RT.10/RW.8, Pusaka Rakyat, Kec. Tarumajaya, Kabupaten Bekasi, Jawa Barat 17214",
     phone: "+62 741 1234 567",
-    instagram: "https://instagram.com/ourcompany_jambi",
-    googleMaps: "https://maps.google.com/?q=Jl.+Gatot+Subroto+No.+90,+Jambi"
+    instagram: "https://www.instagram.com/gadingpro_harapan.indah?utm_source=ig_web_button_share_sheet&igsh=MWZjZjJqdHZ2ZnptNg==",
+    googleMaps: "https://share.google/QxHdbaLJs9ROjprDA"
   },
   {
-    city: "Lampung",
-    name: "Branch Office Lampung",
-    address: "Jl. Zainal Abidin No. 12, Bandar Lampung",
+    city: "Kabupaten Tangerang",
+    name: "GadingPro BSD",
+    address: "Ruko West Park, Jl. Raya Pagedangan No.12, Pagedangan, Kec. Pagedangan, Kabupaten Tangerang, Banten 15339",
     phone: "+62 721 1234 567",
-    instagram: "https://instagram.com/ourcompany_lampung",
-    googleMaps: "https://maps.google.com/?q=Jl.+Zainal+Abidin+No.+12,+Bandar+Lampung"
+    instagram: "https://www.instagram.com/gadingprobsd?utm_source=ig_web_button_share_sheet&igsh=M3JsNXpkaHBxbGpz",
+    googleMaps: "https://share.google/EhkdicBUVe2NHOmpo"
   },
   {
-    city: "Bengkulu",
-    name: "Branch Office Bengkulu",
-    address: "Jl. Sudirman No. 34, Bengkulu",
+    city: "Surabaya",
+    name: "GadingPro Surabaya Timur",
+    address: "Ruko Bizhome RL6 no.5 Pakuwon City, Surabaya, Indonesia 60112",
     phone: "+62 736 1234 567",
-    instagram: "https://instagram.com/ourcompany_bengkulu",
-    googleMaps: "https://maps.google.com/?q=Jl.+Sudirman+No.+34,+Bengkulu"
+    instagram: "https://www.instagram.com/gadingpro_surabayatimur?utm_source=ig_web_button_share_sheet&igsh=MWc0am1pNGI1ZDMxdg==",
+    googleMaps: "https://share.google/bA6VuMAaZLRbUqkzt"
   },
   {
-    city: "Denpasar",
-    name: "Branch Office Denpasar",
-    address: "Jl. Gajah Mada No. 56, Denpasar",
+    city: "Kabupaten Tangerang",
+    name: "GadingPro Suvarna Sutera",
+    address: " Ruko Terrace 8, Jl. Suvarna Sutera Utama No.Kav. 29A blok A No. 91, Wanakerta, Kec. Sindang Jaya, Kabupaten Tangerang, Banten 15560",
     phone: "+62 361 1234 567",
-    instagram: "https://instagram.com/ourcompany_denpasar",
-    googleMaps: "https://maps.google.com/?q=Jl.+Gajah+Mada+No.+56,+Denpasar"
+    instagram: "https://www.instagram.com/gadingprosuvarna?utm_source=ig_web_button_share_sheet&igsh=MXd4bnJzNmRlaDVxNA==",
+    googleMaps: "https://share.google/buC4VAK8c0ZBsBSYy"
   },
   {
-    city: "Mataram",
-    name: "Branch Office Mataram",
-    address: "Jl. Pejanggik No. 78, Mataram",
+    city: "Jakarta",
+    name: "GadingPro PIK",
+    address: "Ruko Golf Island blok J-16, Pantai Indah Kapuk, Jakarta, Indonesia",
     phone: "+62 370 1234 567",
-    instagram: "https://instagram.com/ourcompany_mataram",
-    googleMaps: "https://maps.google.com/?q=Jl.+Pejanggik+No.+78,+Mataram"
+    instagram: "https://www.instagram.com/gadingpro_pik?utm_source=ig_web_button_share_sheet&igsh=MTR2enU0Y2p1M2s5ZQ==",
+    googleMaps: "https://share.google/WcHK28wPdYCWUuaZn"
   },
   {
     city: "Kupang",
