@@ -15,7 +15,7 @@ const MyLayout = (props) => (
             notification={MyNotification}
         />
         <Toaster richColors position="top-right" /> 
-        <ReactQueryDevtools initialIsOpen={false} />
+        {/* <ReactQueryDevtools initialIsOpen={false} /> */}
     </>
 );
 

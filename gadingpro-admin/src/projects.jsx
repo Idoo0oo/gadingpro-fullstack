@@ -2,8 +2,9 @@
 import {
     List, Datagrid, TextField, EditButton, DeleteButton, Create, Edit, SimpleForm,
     TextInput, NumberInput, SelectInput, ImageInput, ImageField, Filter, SearchInput,
-    required, ReferenceManyField, NumberField, useInput
+    required, ReferenceManyField, NumberField, useInput, SimpleList
 } from 'react-admin';
+import { useMediaQuery } from '@mui/material';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';

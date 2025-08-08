@@ -10,6 +10,7 @@ const httpClient = (url, options = {}) => {
     }
     const token = localStorage.getItem('token');
     options.headers.set('Authorization', `Bearer ${token}`);
+    options.headers.set('ngrok-skip-browser-warning', 'true'); 
     return fetchUtils.fetchJson(url, options);
 };
 
