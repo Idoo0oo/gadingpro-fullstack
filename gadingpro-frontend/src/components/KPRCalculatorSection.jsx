@@ -273,7 +273,7 @@ const KPRCalculatorSection = () => {
                       className="tip-icon bg-orange text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-2"
                       style={{ width: "50px", height: "50px" }}
                     >
-                      <i className="fa-solid fa-piggy-bank"></i>
+                      <i className="fa-solid fa-piggy-bank text-secondary"></i>
                     </div>
                     <h6 className="fw-bold">Siapkan Uang Muka</h6>
                     <small className="text-muted">
@@ -287,7 +287,7 @@ const KPRCalculatorSection = () => {
                       className="tip-icon bg-orange text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-2"
                       style={{ width: "50px", height: "50px" }}
                     >
-                      <i className="fa-solid fa-file-alt"></i>
+                      <i className="fa-solid fa-file-alt text-secondary"></i>
                     </div>
                     <h6 className="fw-bold">Lengkapi Dokumen</h6>
                     <small className="text-muted">
@@ -302,7 +302,7 @@ const KPRCalculatorSection = () => {
                       className="tip-icon bg-orange text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-2"
                       style={{ width: "50px", height: "50px" }}
                     >
-                      <i className="fa-solid fa-balance-scale"></i>
+                      <i className="fa-solid fa-balance-scale text-secondary"></i>
                     </div>
                     <h6 className="fw-bold">Sesuaikan Kemampuan</h6>
                     <small className="text-muted">
