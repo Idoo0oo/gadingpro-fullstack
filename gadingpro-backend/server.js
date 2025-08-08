@@ -305,7 +305,7 @@ app.get('/api/projects', authenticateToken, async (req, res, next) => {
     try {
         const { _sort = 'id', _order = 'ASC', _start = 0, _end = 9, filter = '{}' } = req.query;
         const start = parseInt(_start, 10);
-        const limit = parseInt(_end, 10) - start + 1;
+        const limit = parseInt(_end, 10) - start;
         const filters = JSON.parse(filter);
 
         let whereClause = {}; 
@@ -376,7 +376,7 @@ app.get('/api/branches', authenticateToken, async (req, res, next) => {
     try {
         const { _sort = 'id', _order = 'ASC', _start = 0, _end = 9, filter = '{}' } = req.query;
         const start = parseInt(_start, 10);
-        const limit = parseInt(_end, 10) - start + 1;
+        const limit = parseInt(_end, 10) - start;
         const filters = JSON.parse(filter);
 
         let whereClause = {};
@@ -447,7 +447,7 @@ app.get('/api/inquiries', authenticateToken, async (req, res, next) => {
     try {
         const { _sort = 'id', _order = 'DESC', _start = 0, _end = 9, filter = '{}' } = req.query;
         const start = parseInt(_start, 10);
-        const limit = parseInt(_end, 10) - start + 1;
+        const limit = parseInt(_end, 10) - start;
         const filters = JSON.parse(filter);
 
         let whereClause = {};
